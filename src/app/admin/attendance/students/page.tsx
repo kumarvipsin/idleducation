@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
+import { AttendanceMonthPicker } from '@/components/attendance/attendance-month-picker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -82,6 +83,10 @@ export default function StudentsDirectoryPage() {
     classes,
     batches,
     attendanceSessions,
+    selectedMonth,
+    selectedBranch,
+    setSelectedBranch,
+    isBranchLocked,
     currentRole,
     isDemoData,
     getDependencySummary,
@@ -101,8 +106,7 @@ export default function StudentsDirectoryPage() {
   const urlBatchId = searchParams.get('batchId') || 'all';
   const urlClassId = searchParams.get('classId') || 'all';
 
-  // Branch Selection (Upper section)
-  const [selectedBranch, setSelectedBranch] = useState<string>('all');
+  // Branch Selection (Shared across Attendance Dashboard)
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
 
   // Filter States
@@ -137,11 +141,12 @@ export default function StudentsDirectoryPage() {
       .map(id => ({ id, label: id, isCurrent: id === '2026-27' }));
   }, [classes]);
 
-  // Per-student attendance summary map from live sessions
+  // Per-student attendance summary map from live sessions (filtered by selected Month & Year)
   const studentAttendanceMap = useMemo(() => {
     const map: Record<string, { present: number; absent: number; leave: number; total: number; percent: number | null }> = {};
     for (const session of attendanceSessions) {
       if (!session.studentRecords) continue;
+      if (selectedMonth && session.date && !session.date.startsWith(selectedMonth)) continue;
       for (const rec of Object.values(session.studentRecords)) {
         if (!rec || rec.isVoided) continue;
         if (!map[rec.studentId]) {
@@ -164,7 +169,7 @@ export default function StudentsDirectoryPage() {
       m.percent = m.total > 0 ? Math.round((m.present / m.total) * 100) : null;
     }
     return map;
-  }, [attendanceSessions]);
+  }, [attendanceSessions, selectedMonth]);
 
   // Search State (Rightmost round expandable search bar)
   const [studentSearch, setStudentSearch] = useState('');
@@ -214,12 +219,27 @@ export default function StudentsDirectoryPage() {
   const [formParentName, setFormParentName] = useState('');
   const [formStudentPhone, setFormStudentPhone] = useState('');
   const [formParentPhone, setFormParentPhone] = useState('');
+  const [formMotherPhone, setFormMotherPhone] = useState('');
   const [formAddress, setFormAddress] = useState('');
   const [formBatch, setFormBatch] = useState('');
   const [formAdmissionDate, setFormAdmissionDate] = useState(
     new Date().toISOString().split('T')[0]
   );
+  const [formDueDate, setFormDueDate] = useState('');
   const [formNotes, setFormNotes] = useState('');
+
+  // Effective Due Date helper (exact match with Fee Dashboard due date display for selected month)
+  const getEffectiveDueDate = (st: TStudent) => {
+    if (st.dueDate) return st.dueDate;
+    const ym = selectedMonth || '2026-09';
+    let day = st.dueDayOfMonth || 5;
+    if (!st.dueDayOfMonth && st.admissionDate) {
+      const parts = st.admissionDate.split('-');
+      const admDay = parseInt(parts[2], 10);
+      if (!isNaN(admDay) && admDay >= 1 && admDay <= 28) day = admDay;
+    }
+    return `${ym}-${String(day).padStart(2, '0')}`;
+  };
 
   // Transfer Form States
   const [transferToBatch, setTransferToBatch] = useState('');
@@ -329,9 +349,11 @@ export default function StudentsDirectoryPage() {
     setFormParentName('');
     setFormStudentPhone('');
     setFormParentPhone('');
+    setFormMotherPhone('');
     setFormAddress('');
     setFormNotes('');
     setFormAdmissionDate(new Date().toISOString().split('T')[0]);
+    setFormDueDate('');
     if (availableBatchesForFilter.length > 0) {
       setFormBatch(availableBatchesForFilter[0].id);
     }
@@ -356,11 +378,13 @@ export default function StudentsDirectoryPage() {
       batchId: batchObj.id,
       batchName: batchObj.name,
       admissionDate: formAdmissionDate,
+      dueDate: formDueDate || undefined,
       dob: formDob,
       status: 'active',
       phone: formStudentPhone || '+91 98110 00000',
       parentName: formParentName || 'Parent / Guardian',
       parentPhone: formParentPhone || '+91 99110 00000',
+      motherPhone: formMotherPhone || undefined,
       address: formAddress || 'New Delhi',
       notes: formNotes,
       branchId: batchObj.branchId || (selectedBranch !== 'all' ? selectedBranch : 'budh-vihar'),
@@ -378,8 +402,10 @@ export default function StudentsDirectoryPage() {
     setFormParentName(st.parentName || '');
     setFormStudentPhone(st.phone || '');
     setFormParentPhone(st.parentPhone || '');
+    setFormMotherPhone(st.motherPhone || '');
     setFormAddress(st.address || '');
     setFormAdmissionDate(st.admissionDate || new Date().toISOString().split('T')[0]);
+    setFormDueDate(st.dueDate || '');
     setFormNotes(st.notes || '');
   };
 
@@ -393,8 +419,10 @@ export default function StudentsDirectoryPage() {
       parentName: formParentName,
       phone: formStudentPhone,
       parentPhone: formParentPhone,
+      motherPhone: formMotherPhone || undefined,
       address: formAddress,
       admissionDate: formAdmissionDate,
+      dueDate: formDueDate || undefined,
       notes: formNotes,
     });
 
@@ -442,14 +470,14 @@ export default function StudentsDirectoryPage() {
         aria-label="Attendance students toolbar"
         className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
       >
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* Branch Selector (Fee System Style — compact, borderless, icon + text + chevron + Popover) */}
-          <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+          <Popover open={isBranchLocked ? false : isBranchPickerOpen} onOpenChange={(open) => { if (!isBranchLocked) setIsBranchPickerOpen(open); }}>
             <PopoverTrigger asChild>
               <button
                 type="button"
                 aria-label="Select branch"
-                className="h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                className={`h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 inline-flex items-center gap-1.5 transition-colors shrink-0 ${isBranchLocked ? 'cursor-default' : 'hover:text-[#2864E8] dark:hover:text-blue-400 cursor-pointer'}`}
               >
                 <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                 <span className="whitespace-nowrap">
@@ -457,9 +485,11 @@ export default function StudentsDirectoryPage() {
                     ? 'All Branches'
                     : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'Select Branch'}
                 </span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
-                />
+                {!isBranchLocked && (
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                  />
+                )}
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -526,6 +556,9 @@ export default function StudentsDirectoryPage() {
               </div>
             </PopoverContent>
           </Popover>
+
+          {/* 2. Month & Year Calendar Selector (Exact Fee Dashboard UI) */}
+          <AttendanceMonthPicker />
         </div>
       </section>
 
@@ -906,7 +939,7 @@ export default function StudentsDirectoryPage() {
                             </div>
                           </td>
 
-                          {/* 2. Class / Batch */}
+                          {/* 2. Class / Batch (Exact Fee Dashboard: Class | Batch, Join Date, Due Date) */}
                           <td className="py-3 px-3.5 whitespace-nowrap align-middle">
                             <div className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-200 text-[13px] whitespace-nowrap tracking-tight leading-none h-[18px]">
                               <span>{st.className?.startsWith('Class') ? st.className : `Class ${st.className || '-'}`}</span>
@@ -921,28 +954,41 @@ export default function StudentsDirectoryPage() {
                             </div>
                             <div className="text-[11.5px] text-slate-400 dark:text-slate-500 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
                               <span className="inline-block w-[64px] shrink-0">Join Date :</span>
-                              <span className="font-mono font-medium text-slate-600 dark:text-slate-400 tabular-nums">
+                              <span className="font-mono font-medium text-slate-600 dark:text-slate-400 tabular-nums w-[72px] shrink-0">
                                 {formatAdmDate(st.admissionDate)}
                               </span>
                             </div>
-                            <div className="text-[11.5px] text-slate-400 dark:text-slate-500 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
-                              <span className="inline-block w-[64px] shrink-0">Branch :</span>
-                              <span className="font-medium text-slate-600 dark:text-slate-400 truncate max-w-[130px]">
-                                {branchName}
-                              </span>
-                            </div>
+                            {isArchived ? (
+                              <div className="text-[11.5px] font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center text-amber-600 dark:text-amber-400">
+                                <span className="inline-block w-[64px] shrink-0">Due Date :</span>
+                                <span className="font-medium tabular-nums w-[72px] shrink-0 text-amber-700 dark:text-amber-400">
+                                  — (Paused)
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="text-[11.5px] font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center text-slate-400 dark:text-slate-500">
+                                <span className="inline-block w-[64px] shrink-0">Due Date :</span>
+                                <span className="font-mono font-medium tabular-nums w-[72px] shrink-0 text-slate-600 dark:text-slate-400">
+                                  {formatAdmDate(getEffectiveDueDate(st))}
+                                </span>
+                              </div>
+                            )}
                           </td>
 
-                          {/* 3. Contact */}
+                          {/* 3. Contact (Exact Fee Dashboard: Father, Mother/Secondary, Student — all 3 numbers) */}
                           <td className="py-3 px-3.5 whitespace-nowrap align-middle">
-                            <div className="font-medium text-slate-700 dark:text-slate-300 text-[13px] font-mono tabular-nums whitespace-nowrap tracking-tight leading-none h-[18px] flex items-center" title="Parent Contact">
+                            {/* 1. Primary / Father Contact */}
+                            <div className="font-medium text-slate-700 dark:text-slate-300 text-[13px] font-mono tabular-nums whitespace-nowrap tracking-tight leading-none h-[18px] flex items-center" title="Father / Primary Contact">
                               {st.parentPhone || st.phone || '—'}
                             </div>
-                            {st.parentPhone && st.phone && st.parentPhone !== st.phone ? (
-                              <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono tabular-nums whitespace-nowrap mt-1 leading-none h-[16px] flex items-center" title="Student Contact">
-                                {st.phone}
-                              </div>
-                            ) : null}
+                            {/* 2. Secondary / Mother Contact */}
+                            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono tabular-nums whitespace-nowrap mt-1 leading-none h-[16px] flex items-center" title="Mother / Secondary Contact">
+                              {st.motherPhone || '—'}
+                            </div>
+                            {/* 3. Student Contact */}
+                            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono tabular-nums whitespace-nowrap mt-1 leading-none h-[16px] flex items-center" title="Student Contact">
+                              {st.phone || '—'}
+                            </div>
                           </td>
 
                           {/* 4. Attendance Summary */}
@@ -1088,8 +1134,33 @@ export default function StudentsDirectoryPage() {
               </div>
             </div>
 
-            {/* Row 3: Student Phone & Parent Phone */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+            {/* Row 3: Primary (Father), Secondary (Mother), Student Contact */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-3 gap-y-2">
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Father Phone <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                </Label>
+                <Input
+                  placeholder="+91 99110 00000"
+                  value={formParentPhone}
+                  onChange={e => setFormParentPhone(e.target.value)}
+                  required
+                  className={FORM_CARD_FIELD_CLS}
+                />
+              </div>
+
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Mother Phone
+                </Label>
+                <Input
+                  placeholder="+91 98110 00000"
+                  value={formMotherPhone}
+                  onChange={e => setFormMotherPhone(e.target.value)}
+                  className={FORM_CARD_FIELD_CLS}
+                />
+              </div>
+
               <div className="space-y-0.5">
                 <Label className={FORM_CARD_LABEL_CLS}>
                   Student Phone
@@ -1098,19 +1169,6 @@ export default function StudentsDirectoryPage() {
                   placeholder="+91 98110 00000"
                   value={formStudentPhone}
                   onChange={e => setFormStudentPhone(e.target.value)}
-                  className={FORM_CARD_FIELD_CLS}
-                />
-              </div>
-
-              <div className="space-y-0.5">
-                <Label className={FORM_CARD_LABEL_CLS}>
-                  Parent Phone <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                </Label>
-                <Input
-                  placeholder="+91 99110 00000"
-                  value={formParentPhone}
-                  onChange={e => setFormParentPhone(e.target.value)}
-                  required
                   className={FORM_CARD_FIELD_CLS}
                 />
               </div>
@@ -1222,8 +1280,32 @@ export default function StudentsDirectoryPage() {
               </div>
             </div>
 
-            {/* Row 2: Student Phone & Parent Phone */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+            {/* Row 2: Father Phone, Mother Phone & Student Phone */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-3 gap-y-2">
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Father Phone <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                </Label>
+                <Input
+                  value={formParentPhone}
+                  onChange={e => setFormParentPhone(e.target.value)}
+                  required
+                  className={FORM_CARD_FIELD_CLS}
+                />
+              </div>
+
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Mother Phone
+                </Label>
+                <Input
+                  placeholder="+91 98110 00000"
+                  value={formMotherPhone}
+                  onChange={e => setFormMotherPhone(e.target.value)}
+                  className={FORM_CARD_FIELD_CLS}
+                />
+              </div>
+
               <div className="space-y-0.5">
                 <Label className={FORM_CARD_LABEL_CLS}>
                   Student Phone
@@ -1231,18 +1313,6 @@ export default function StudentsDirectoryPage() {
                 <Input
                   value={formStudentPhone}
                   onChange={e => setFormStudentPhone(e.target.value)}
-                  className={FORM_CARD_FIELD_CLS}
-                />
-              </div>
-
-              <div className="space-y-0.5">
-                <Label className={FORM_CARD_LABEL_CLS}>
-                  Parent Phone <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                </Label>
-                <Input
-                  value={formParentPhone}
-                  onChange={e => setFormParentPhone(e.target.value)}
-                  required
                   className={FORM_CARD_FIELD_CLS}
                 />
               </div>
@@ -1260,17 +1330,31 @@ export default function StudentsDirectoryPage() {
               />
             </div>
 
-            {/* Row 4: Admission Date */}
-            <div className="space-y-0.5">
-              <Label className={FORM_CARD_LABEL_CLS}>
-                Admission Date
-              </Label>
-              <Input
-                type="date"
-                value={formAdmissionDate}
-                onChange={e => setFormAdmissionDate(e.target.value)}
-                className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
-              />
+            {/* Row 4: Admission Date & Due Date */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Admission Date
+                </Label>
+                <Input
+                  type="date"
+                  value={formAdmissionDate}
+                  onChange={e => setFormAdmissionDate(e.target.value)}
+                  className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                />
+              </div>
+
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Due Date
+                </Label>
+                <Input
+                  type="date"
+                  value={formDueDate}
+                  onChange={e => setFormDueDate(e.target.value)}
+                  className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                />
+              </div>
             </div>
 
             {/* Row 5: Address */}
@@ -1513,22 +1597,19 @@ export default function StudentsDirectoryPage() {
                         </span>
                       </span>
                       <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
-                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ATTENDANCE:</span>
-                        <span
-                          className={`font-semibold tabular-nums ${
-                            att.percent === null
-                              ? 'text-slate-500'
-                              : att.percent >= 85
-                                ? 'text-emerald-600 dark:text-emerald-400'
-                                : att.percent >= 75
-                                  ? 'text-[#2864E8] dark:text-blue-400'
-                                  : 'text-rose-600 dark:text-rose-400'
-                          }`}
-                        >
-                          {att.percent !== null ? `${att.percent}%` : '—'}
+                      {!isActive ? (
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                          <span className="text-[10px] uppercase tracking-wider font-medium text-amber-500">DUE:</span>
+                          <span className="font-medium text-amber-700 dark:text-amber-400">— (Paused)</span>
                         </span>
-                      </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                          <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">DUE:</span>
+                          <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
+                            {formatAdmDate(getEffectiveDueDate(activeProfileStudent))}
+                          </span>
+                        </span>
+                      )}
                     </div>
                   </div>
                 </DialogHeader>
@@ -1570,14 +1651,23 @@ export default function StudentsDirectoryPage() {
                       </div>
                     </div>
 
-                    {/* Row 2: Primary Contact, Secondary Contact, Session */}
+                    {/* Row 2: Primary Contact, Secondary Contact, Student Contact */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
                       <div>
                         <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
                           Primary Contact
                         </span>
                         <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
-                          {activeProfileStudent.parentPhone || activeProfileStudent.phone || '—'}
+                          {activeProfileStudent.parentPhone || '—'}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Secondary Contact
+                        </span>
+                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
+                          {activeProfileStudent.motherPhone || '—'}
                         </div>
                       </div>
 
@@ -1587,15 +1677,6 @@ export default function StudentsDirectoryPage() {
                         </span>
                         <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
                           {activeProfileStudent.phone || '—'}
-                        </div>
-                      </div>
-
-                      <div>
-                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
-                          Academic Session
-                        </span>
-                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
-                          {cls?.academicSession || '2026-27'}
                         </div>
                       </div>
                     </div>

@@ -604,7 +604,7 @@ export function calculateCourseFee(slugOrClass: string, mode: string = 'Offline 
 const BRANCHES = [
     { id: 'mukherjee-nagar', label: 'Mukherjee Nagar, Delhi', address: 'Commercial Complex, Mukherjee Nagar, Delhi-110009' },
     { id: 'mangol-puri', label: 'Mangol Puri, Delhi', address: 'Main Road, Mangol Puri, Delhi-110083' },
-    { id: 'budh-vihar', label: 'Budh Vihar, Delhi', address: 'Phase 1, Budh Vihar, Delhi-110086' },
+    { id: 'budh-vihar', label: 'Budh Vihar, Delhi', address: 'A-1/6 Budh Vihar, Phase -1, Delhi-110086' },
     { id: 'krishan-vihar', label: 'Krishan Vihar, Delhi', address: 'Main Kanjhawala Road, Krishan Vihar, Delhi-110086' },
 ];
 

@@ -27,6 +27,13 @@ const ATTENDANCE_TABS = [
     match: (pathname: string) => pathname.startsWith('/admin/attendance/classes'),
   },
   {
+    id: 'live',
+    label: 'LIVE ATTENDANCE',
+    href: '/admin/attendance/live',
+    icon: Radio,
+    match: (pathname: string) => pathname.startsWith('/admin/attendance/live'),
+  },
+  {
     id: 'students',
     label: 'STUDENTS',
     href: '/admin/attendance/students',
@@ -34,13 +41,6 @@ const ATTENDANCE_TABS = [
     match: (pathname: string) =>
       pathname.startsWith('/admin/attendance/students') ||
       pathname.startsWith('/admin/attendance/student/'),
-  },
-  {
-    id: 'live',
-    label: 'LIVE ATTENDANCE',
-    href: '/admin/attendance/live',
-    icon: Radio,
-    match: (pathname: string) => pathname.startsWith('/admin/attendance/live'),
   },
   {
     id: 'reports',

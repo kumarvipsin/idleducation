@@ -3,6 +3,7 @@
 import React from 'react';
 import { BranchInfo } from '@/data/branches-data';
 import MangolpuriBranchClient from './mangolpuri-branch-client';
+import BudhviharBranchClient from './budhvihar-branch-client';
 import GenericBranchClient from './generic-branch-client';
 
 interface BranchDetailClientProps {
@@ -11,9 +12,14 @@ interface BranchDetailClientProps {
 
 export default function BranchDetailClient({ branch }: BranchDetailClientProps) {
   const isMangolpuri = branch.id === 'mangolpuri' || branch.slug === 'mangolpuri';
+  const isBudhVihar = branch.id === 'budh-vihar' || branch.slug === 'budh-vihar';
 
   if (isMangolpuri) {
     return <MangolpuriBranchClient branch={branch} />;
+  }
+
+  if (isBudhVihar) {
+    return <BudhviharBranchClient branch={branch} />;
   }
 
   return <GenericBranchClient branch={branch} />;

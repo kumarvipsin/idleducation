@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
+import { AttendanceMonthPicker, getAcademicSessionForMonth } from '@/components/attendance/attendance-month-picker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -100,10 +101,12 @@ export default function ClassesAndBatchesPage() {
     getDependencySummary,
     currentRole,
     isDemoData,
+    selectedBranch,
+    setSelectedBranch,
+    isBranchLocked,
   } = useAttendance();
 
   // Branch Selection
-  const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
 
   // Academic Year / Session Architecture (matches Fee Dashboard)
@@ -522,14 +525,14 @@ export default function ClassesAndBatchesPage() {
         aria-label="Attendance classes toolbar"
         className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
       >
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* Branch Selector (Fee System Style — compact, borderless, icon + text + chevron + Popover) */}
-          <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+          <Popover open={isBranchLocked ? false : isBranchPickerOpen} onOpenChange={(open) => { if (!isBranchLocked) setIsBranchPickerOpen(open); }}>
             <PopoverTrigger asChild>
               <button
                 type="button"
                 aria-label="Select branch"
-                className="h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                className={`h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 inline-flex items-center gap-1.5 transition-colors shrink-0 ${isBranchLocked ? 'cursor-default' : 'hover:text-[#2864E8] dark:hover:text-blue-400 cursor-pointer'}`}
               >
                 <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                 <span className="whitespace-nowrap">
@@ -537,9 +540,11 @@ export default function ClassesAndBatchesPage() {
                     ? 'All Branches'
                     : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'Select Branch'}
                 </span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
-                />
+                {!isBranchLocked && (
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                  />
+                )}
               </button>
             </PopoverTrigger>
             <PopoverContent
@@ -606,6 +611,14 @@ export default function ClassesAndBatchesPage() {
               </div>
             </PopoverContent>
           </Popover>
+
+          {/* 2. Month & Year Calendar Selector (Exact Fee Dashboard UI) */}
+          <AttendanceMonthPicker
+            onMonthChange={(ym) => {
+              const sess = getAcademicSessionForMonth(ym);
+              setClassSessionFilter(sess);
+            }}
+          />
         </div>
       </section>
 

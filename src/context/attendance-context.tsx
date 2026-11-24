@@ -1,6 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from '@/context/auth-context';
+import { normalizeBranchId } from '@/lib/branch-utils';
 import {
   TStudent,
   TClass,
@@ -9,6 +11,7 @@ import {
   TSubject,
   TScheduleItem,
   TClassSession,
+  TStudentSessionRecord,
   TLeaveRequest,
   TAbsenceFollowUp,
   THoliday,
@@ -73,6 +76,20 @@ interface AttendanceContextType {
   auditLogs: TAuditLog[];
   selectedDate: string;
   setSelectedDate: (date: string) => void;
+  todayDateStr: string;
+  minDateStr: string;
+  selectedMonth: string;
+  setSelectedMonth: (month: string) => void;
+  selectedBranch: string;
+  setSelectedBranch: (branchId: string) => void;
+  isBranchLocked: boolean;
+  activeSundayDates: string[];
+  toggleSundayClass: (dateStr: string) => void;
+  dailyAttendanceByDate: Record<string, Record<string, { status: StudentStatus; checkInTime?: string; checkOutTime?: string }>>;
+  markDateStudentStatus: (dateStr: string, studentId: string, status: StudentStatus, customTime?: string, customOutTime?: string) => void;
+  bulkMarkDatePresent: (dateStr: string, studentIds: string[]) => void;
+  bulkMarkBatchOutTime: (dateStr: string, studentIds: string[], outTime: string, onlyIfEmpty?: boolean) => void;
+  resetDateAttendance: (dateStr: string, studentIds: string[]) => void;
   isDemoData: boolean;
   setIsDemoData: (value: boolean) => void;
 
@@ -202,7 +219,256 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   const [absentFollowUps, setAbsentFollowUps] = useState<TAbsenceFollowUp[]>(SEED_ABSENT_FOLLOWUPS);
   const [holidays, setHolidays] = useState<THoliday[]>(SEED_HOLIDAYS);
   const [auditLogs, setAuditLogs] = useState<TAuditLog[]>(SEED_AUDIT_LOGS);
-  const [selectedDate, setSelectedDate] = useState<string>('2026-09-11');
+  const getLocalTodayStr = () => {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  };
+
+  const SYSTEM_MIN_DATE = '2026-04-01';
+  const [todayDateStr, setTodayDateStr] = useState<string>(() => getLocalTodayStr());
+  const minDateStr = React.useMemo(() => {
+    let earliest: string | null = null;
+    for (const s of students) {
+      if (!s.admissionDate || typeof s.admissionDate !== 'string') continue;
+      const d = s.admissionDate.trim().slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) continue;
+      if (d < SYSTEM_MIN_DATE || d > todayDateStr) continue;
+      if (!earliest || d < earliest) earliest = d;
+    }
+    return earliest || SYSTEM_MIN_DATE;
+  }, [students, todayDateStr]);
+
+  const { user } = useAuth();
+  const normalizedUserBranchId = normalizeBranchId(user?.branchId);
+  const lockedBranchId =
+    normalizedUserBranchId && normalizedUserBranchId !== 'all' ? normalizedUserBranchId : null;
+
+  const [selectedDate, setSelectedDateState] = useState<string>(() => getLocalTodayStr());
+  const [selectedMonth, setSelectedMonthState] = useState<string>(() => getLocalTodayStr().slice(0, 7));
+  const [selectedBranchState, setSelectedBranchState] = useState<string>('all');
+  const selectedBranch = lockedBranchId || selectedBranchState;
+  const isBranchLocked = Boolean(lockedBranchId);
+
+  const setSelectedBranch = (branchId: string) => {
+    if (lockedBranchId) return;
+    setSelectedBranchState(branchId || 'all');
+  };
+
+  // Auto-advance todayDateStr, selectedDate, and selectedMonth daily at midnight
+  useEffect(() => {
+    const checkDateRollover = () => {
+      const latestToday = getLocalTodayStr();
+      setTodayDateStr(prevToday => {
+        if (prevToday !== latestToday) {
+          setSelectedDateState(prevSel => (prevSel === prevToday ? latestToday : prevSel));
+          setSelectedMonthState(prevMo => (prevMo === prevToday.slice(0, 7) ? latestToday.slice(0, 7) : prevMo));
+          return latestToday;
+        }
+        return prevToday;
+      });
+    };
+    const timer = setInterval(checkDateRollover, 60_000);
+    return () => clearInterval(timer);
+  }, []);
+  const [activeSundayDates, setActiveSundayDates] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const raw = localStorage.getItem('idl_att_active_sundays_v1');
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [dailyAttendanceByDate, setDailyAttendanceByDate] = useState<
+    Record<string, Record<string, { status: StudentStatus; checkInTime?: string; checkOutTime?: string }>>
+  >(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const raw = localStorage.getItem('idl_att_daily_by_date_v1');
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem('idl_att_active_sundays_v1', JSON.stringify(activeSundayDates));
+    } catch {}
+  }, [activeSundayDates]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem('idl_att_daily_by_date_v1', JSON.stringify(dailyAttendanceByDate));
+    } catch {}
+  }, [dailyAttendanceByDate]);
+
+  const toggleSundayClass = (dateStr: string) => {
+    setActiveSundayDates(prev => {
+      const exists = prev.includes(dateStr);
+      if (exists) {
+        showToast(`Sunday ${dateStr} marked as Weekly Off.`, 'info');
+        return prev.filter(d => d !== dateStr);
+      } else {
+        showToast(`Special Sunday Class enabled for ${dateStr}.`, 'success');
+        return [...prev, dateStr];
+      }
+    });
+  };
+
+  const markDateStudentStatus = (
+    dateStr: string,
+    studentId: string,
+    status: StudentStatus,
+    customTime?: string,
+    customOutTime?: string
+  ) => {
+    const isPres = status === 'present' || status === 'live';
+    const checkInTime = isPres ? customTime || getCurrentTimeFormatted() : undefined;
+    setDailyAttendanceByDate(prev => {
+      const prevRec = prev[dateStr]?.[studentId];
+      const resolvedOut = isPres
+        ? customOutTime !== undefined
+          ? customOutTime.trim() || undefined
+          : prevRec?.checkOutTime
+        : undefined;
+      return {
+        ...prev,
+        [dateStr]: {
+          ...(prev[dateStr] || {}),
+          [studentId]: { status, checkInTime, checkOutTime: resolvedOut },
+        },
+      };
+    });
+    // Mirror into liveSession ONLY when marking the exact liveSession date
+    if (liveSession && liveSession.date === dateStr) {
+      markStudentStatus(studentId, status, undefined, checkInTime);
+      if (isPres && customOutTime !== undefined) {
+        setLiveSession(prev => {
+          if (!prev || !prev.studentRecords?.[studentId]) return prev;
+          return {
+            ...prev,
+            studentRecords: {
+              ...prev.studentRecords,
+              [studentId]: {
+                ...prev.studentRecords[studentId],
+                checkOutTime: customOutTime.trim() || undefined,
+              },
+            },
+          };
+        });
+      }
+    }
+  };
+
+  const bulkMarkDatePresent = (dateStr: string, studentIds: string[]) => {
+    const nowTime = getCurrentTimeFormatted();
+    setDailyAttendanceByDate(prev => {
+      const dayMap = { ...(prev[dateStr] || {}) };
+      studentIds.forEach(id => {
+        dayMap[id] = { status: 'present', checkInTime: nowTime };
+      });
+      return { ...prev, [dateStr]: dayMap };
+    });
+    if (liveSession && liveSession.date === dateStr) {
+      bulkMarkPresent(studentIds);
+    } else {
+      showToast(`${studentIds.length} students marked present for ${dateStr}.`);
+    }
+  };
+
+  const bulkMarkBatchOutTime = (
+    dateStr: string,
+    studentIds: string[],
+    outTime: string,
+    onlyIfEmpty = true
+  ) => {
+    const cleanOut = outTime.trim() || getCurrentTimeFormatted();
+    if (studentIds.length === 0) return;
+
+    setDailyAttendanceByDate(prev => {
+      const dayMap = { ...(prev[dateStr] || {}) };
+      studentIds.forEach(id => {
+        const existing = dayMap[id];
+        if (onlyIfEmpty && existing?.checkOutTime) return;
+        const fallbackIn =
+          existing?.checkInTime ||
+          (liveSession?.date === dateStr ? liveSession.studentRecords?.[id]?.checkInTime : undefined);
+        dayMap[id] = {
+          status: existing?.status || 'present',
+          checkInTime: fallbackIn,
+          checkOutTime: cleanOut,
+        };
+      });
+      return { ...prev, [dateStr]: dayMap };
+    });
+
+    if (liveSession && liveSession.date === dateStr) {
+      setLiveSession(prev => {
+        if (!prev || !prev.studentRecords) return prev;
+        const updated = { ...prev.studentRecords };
+        studentIds.forEach(id => {
+          const rec = updated[id];
+          if (!rec) return;
+          if (onlyIfEmpty && rec.checkOutTime) return;
+          updated[id] = { ...rec, checkOutTime: cleanOut };
+        });
+        return { ...prev, studentRecords: updated };
+      });
+    }
+
+    showToast(`Out time (${cleanOut}) updated for ${studentIds.length} present student(s).`, 'success');
+  };
+
+  const resetDateAttendance = (dateStr: string, studentIds: string[]) => {
+    setDailyAttendanceByDate(prev => {
+      const dayMap = { ...(prev[dateStr] || {}) };
+      studentIds.forEach(id => {
+        dayMap[id] = { status: 'not_arrived', checkInTime: undefined };
+      });
+      return { ...prev, [dateStr]: dayMap };
+    });
+    if (liveSession && liveSession.date === dateStr) {
+      resetLiveAttendance();
+    } else {
+      showToast(`Attendance reset for ${dateStr}.`, 'info');
+    }
+  };
+
+  const setSelectedDate = (date: string) => {
+    if (!date) return;
+    let clamped = date;
+    if (clamped < minDateStr) clamped = minDateStr;
+    if (clamped > todayDateStr) clamped = todayDateStr;
+    setSelectedDateState(clamped);
+    if (clamped.length >= 7) {
+      setSelectedMonthState(clamped.slice(0, 7));
+    }
+  };
+
+  const setSelectedMonth = (month: string) => {
+    if (!month || !/^\d{4}-\d{2}$/.test(month)) return;
+    const minMonth = minDateStr.slice(0, 7);
+    const maxMonth = todayDateStr.slice(0, 7);
+    let clampedMonth = month;
+    if (clampedMonth < minMonth) clampedMonth = minMonth;
+    if (clampedMonth > maxMonth) clampedMonth = maxMonth;
+    setSelectedMonthState(clampedMonth);
+    const [yStr, mStr] = clampedMonth.split('-');
+    const y = parseInt(yStr, 10);
+    const m = parseInt(mStr, 10);
+    const currentDay = parseInt((selectedDate || todayDateStr).split('-')[2], 10) || 1;
+    const maxDay = new Date(y, m, 0).getDate();
+    let candidate = `${clampedMonth}-${String(Math.min(currentDay, maxDay)).padStart(2, '0')}`;
+    if (candidate < minDateStr) candidate = minDateStr;
+    if (candidate > todayDateStr) candidate = todayDateStr;
+    setSelectedDateState(candidate);
+  };
   const [isDemoData, setIsDemoData] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -2125,6 +2391,20 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         auditLogs,
         selectedDate,
         setSelectedDate,
+        todayDateStr,
+        minDateStr,
+        selectedMonth,
+        setSelectedMonth,
+        selectedBranch,
+        setSelectedBranch,
+        isBranchLocked,
+        activeSundayDates,
+        toggleSundayClass,
+        dailyAttendanceByDate,
+        markDateStudentStatus,
+        bulkMarkDatePresent,
+        bulkMarkBatchOutTime,
+        resetDateAttendance,
         isDemoData,
         setIsDemoData,
         getDependencySummary,

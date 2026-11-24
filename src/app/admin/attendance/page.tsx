@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
+import { AttendanceMonthPicker } from '@/components/attendance/attendance-month-picker';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -87,6 +88,9 @@ export default function AttendanceDashboard() {
     holidays,
     selectedDate,
     setSelectedDate,
+    selectedBranch,
+    setSelectedBranch,
+    isBranchLocked,
     logCallFollowUp,
     addScheduleItem,
     addStudent,
@@ -96,7 +100,6 @@ export default function AttendanceDashboard() {
   } = useAttendance();
 
   // Branch Selection Popover
-  const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
 
   // Date Selection Popover
@@ -268,24 +271,22 @@ export default function AttendanceDashboard() {
           {/* Left: Branch Selector + Date Selector */}
           <div className="flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
             {/* 1. Branch Selector */}
-            <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+            <Popover open={isBranchLocked ? false : isBranchPickerOpen} onOpenChange={(open) => { if (!isBranchLocked) setIsBranchPickerOpen(open); }}>
               <PopoverTrigger asChild>
                 <button
                   type="button"
                   aria-label="Select branch"
-                  className={toolbarControlClass}
+                  className={isBranchLocked ? `${toolbarControlClass} cursor-default hover:text-[#172033] dark:hover:text-slate-100` : toolbarControlClass}
                 >
-                  {selectedBranch === 'all' ? (
-                    <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                  ) : (
-                    <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                  )}
+                  <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   <span className="whitespace-nowrap">
                     {IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
                   </span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
-                  />
+                  {!isBranchLocked && (
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    />
+                  )}
                 </button>
               </PopoverTrigger>
               <PopoverContent
@@ -353,76 +354,8 @@ export default function AttendanceDashboard() {
               </PopoverContent>
             </Popover>
 
-            {/* 2. Date Selector */}
-            <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
-              <PopoverTrigger asChild>
-                <button
-                  type="button"
-                  aria-label="Select date"
-                  className={toolbarControlClass}
-                >
-                  <Calendar className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                  <span className="whitespace-nowrap">{formatDateDisplay(todayDate)}</span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isDatePickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
-                  />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent
-                align="start"
-                sideOffset={8}
-                className="w-[240px] p-3 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
-              >
-                <div className="space-y-2.5">
-                  <div className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center justify-between">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#2864E8]" />
-                      Select Date
-                    </span>
-                  </div>
-
-                  <Input
-                    type="date"
-                    value={todayDate}
-                    onChange={e => {
-                      if (e.target.value) {
-                        setSelectedDate(e.target.value);
-                        setIsDatePickerOpen(false);
-                      }
-                    }}
-                    className="h-8 text-xs font-mono"
-                  />
-
-                  <div className="pt-1.5 border-t border-slate-100 dark:border-slate-800">
-                    <span className="text-[10px] text-slate-400 block mb-1 font-medium">Quick Select:</span>
-                    <div className="flex flex-col gap-1">
-                      {[
-                        { label: 'Today (11 Sep 2026)', date: '2026-09-11' },
-                        { label: 'Yesterday (10 Sep 2026)', date: '2026-09-10' },
-                        { label: '09 Sep 2026', date: '2026-09-09' },
-                        { label: '08 Sep 2026', date: '2026-09-08' },
-                      ].map(preset => (
-                        <button
-                          key={preset.date}
-                          type="button"
-                          onClick={() => {
-                            setSelectedDate(preset.date);
-                            setIsDatePickerOpen(false);
-                          }}
-                          className={`text-[11px] text-left px-2 py-1 rounded transition-colors cursor-pointer ${
-                            todayDate === preset.date
-                              ? 'bg-blue-50 dark:bg-blue-950/60 text-[#2864E8] dark:text-blue-400 font-semibold'
-                              : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
-                          }`}
-                        >
-                          {preset.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+            {/* 2. Month & Year Calendar Selector (Exact Fee Dashboard UI) */}
+            <AttendanceMonthPicker />
           </div>
 
           {/* Right: Live Attendance Link */}

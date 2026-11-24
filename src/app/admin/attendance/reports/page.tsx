@@ -152,10 +152,12 @@ export default function UnifiedAttendanceReportsPage() {
     liveSession,
     leaveRequests,
     holidays,
+    selectedBranch,
+    setSelectedBranch,
+    isBranchLocked,
   } = useAttendance();
 
   // Top Filter States
-  const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
   const [isPeriodPickerOpen, setIsPeriodPickerOpen] = useState(false);
   const [isModePickerOpen, setIsModePickerOpen] = useState(false);
@@ -607,26 +609,24 @@ export default function UnifiedAttendanceReportsPage() {
           {/* Left: Branch Selector + Period Selector + Report Mode */}
           <div className="flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
             {/* 1. Branch Selector */}
-            <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+            <Popover open={isBranchLocked ? false : isBranchPickerOpen} onOpenChange={(open) => { if (!isBranchLocked) setIsBranchPickerOpen(open); }}>
               <PopoverTrigger asChild>
                 <button
                   type="button"
                   aria-label="Select branch"
-                  className={toolbarControlClass}
+                  className={isBranchLocked ? `${toolbarControlClass} cursor-default hover:text-[#172033] dark:hover:text-slate-100` : toolbarControlClass}
                 >
-                  {selectedBranch === 'all' ? (
-                    <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                  ) : (
-                    <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                  )}
+                  <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   <span className="whitespace-nowrap">
                     {selectedBranch === 'all'
                       ? 'All Branches'
                       : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
                   </span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
-                  />
+                  {!isBranchLocked && (
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    />
+                  )}
                 </button>
               </PopoverTrigger>
               <PopoverContent

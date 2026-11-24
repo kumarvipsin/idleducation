@@ -268,7 +268,7 @@ export interface FeeDashboardStats {
 
 export const IDL_BRANCHES: FeeBranch[] = [
   { id: 'all', name: 'All Branches', code: 'ALL', address: 'All Branches, Delhi-NCR', phone: '8860040010' },
-  { id: 'budh-vihar', name: 'Budh Vihar', code: 'BV', address: 'Budh Vihar Phase-1, Delhi-110086', phone: '8860040010' },
+  { id: 'budh-vihar', name: 'Budh Vihar', code: 'BV', address: 'A-1/6 Budh Vihar, Phase -1, Delhi-110086', phone: '8860040010' },
   { id: 'krishan-vihar', name: 'Krishan Vihar', code: 'KV', address: 'Krishan Vihar, Delhi-110086', phone: '8860040010' },
   { id: 'mangolpuri', name: 'Mangol Puri', code: 'MP', address: 'Mangol Puri, Delhi-110083', phone: '8860040010' },
   { id: 'mukherjee-nagar', name: 'Mukherjee Nagar', code: 'MN', address: 'Mukherjee Nagar, Delhi-110009', phone: '8860040010' },

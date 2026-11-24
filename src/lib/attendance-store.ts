@@ -51,6 +51,7 @@ export interface TStudent {
   phone: string;
   parentName: string;
   parentPhone: string;
+  motherPhone?: string;
   address?: string;
   avatar?: string;
   targetExam?: string;
@@ -119,6 +120,14 @@ export interface TSubject {
   code: string;
   classes: string[];
   teachers: string[];
+  classId?: string;
+  className?: string;
+  batchId?: string;
+  batchName?: string;
+  branchId?: string;
+  scheduleDays?: 'MWF' | 'TTS' | 'Mon-Sat' | 'Sunday';
+  startTime?: string;
+  endTime?: string;
   status: 'active' | 'archived';
   description?: string;
   avgAttendance?: string;

@@ -54,6 +54,7 @@ function AdminLayout({
 
   const branchAllowedPrefixes = [
     '/admin/dashboard',
+    '/admin/attendance',
     '/admin/fees',
     '/admin/enrollments',
     '/admin/admissions',
@@ -100,12 +101,14 @@ function AdminLayout({
   const [accordionValue, setAccordionValue] = React.useState<string>(
     isFeesPage ? 'fee-management' : isAttendancePage ? 'attendance' : 'user-management'
   );
+  const [branchAttendanceOpen, setBranchAttendanceOpen] = React.useState<boolean>(isAttendancePage);
 
   React.useEffect(() => {
     if (isFeesPage) {
       setAccordionValue('fee-management');
     } else if (isAttendancePage) {
       setAccordionValue('attendance');
+      setBranchAttendanceOpen(true);
     }
   }, [isFeesPage, isAttendancePage]);
 
@@ -197,9 +200,35 @@ function AdminLayout({
                 {isBranchAdmin ? (() => {
                   const branchNavLinkClass =
                     "h-auto rounded-lg px-3 py-2 text-[13.5px] font-medium text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0B1B43] data-[active=true]:bg-[#2864E8] data-[active=true]:text-white data-[active=true]:font-semibold data-[active=true]:shadow-sm";
+                  const branchSubNavLinkClass =
+                    "h-auto rounded-lg px-2.5 py-1.5 text-[12.5px] font-medium text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0B1B43] data-[active=true]:bg-[#2864E8] data-[active=true]:text-white data-[active=true]:font-semibold data-[active=true]:shadow-sm";
 
-                  const portalItems = [
-                    { href: '/admin/dashboard', label: 'Dashboard', icon: SlidersHorizontal, active: pathname === '/admin/dashboard' },
+                  const attendanceSubItems = [
+                    {
+                      href: '/admin/attendance',
+                      label: 'Attendance Dashboard',
+                      icon: SlidersHorizontal,
+                      active:
+                        pathname === '/admin/attendance' ||
+                        pathname.startsWith('/admin/attendance/classes') ||
+                        pathname.startsWith('/admin/attendance/students') ||
+                        pathname.startsWith('/admin/attendance/student/') ||
+                        pathname.startsWith('/admin/attendance/live') ||
+                        pathname.startsWith('/admin/attendance/reports') ||
+                        pathname.startsWith('/admin/attendance/weekly') ||
+                        pathname.startsWith('/admin/attendance/monthly'),
+                    },
+                    { href: '/admin/attendance/schedule', label: 'Class Schedule', icon: CalendarDays, active: pathname.startsWith('/admin/attendance/schedule') },
+                    { href: '/admin/attendance/subjects', label: 'Subjects', icon: BookOpen, active: pathname.startsWith('/admin/attendance/subjects') },
+                    { href: '/admin/attendance/teachers', label: 'Teachers', icon: Briefcase, active: pathname.startsWith('/admin/attendance/teachers') },
+                    { href: '/admin/attendance/mark', label: 'Mark Attendance', icon: ClipboardList, active: pathname.startsWith('/admin/attendance/mark') },
+                    { href: '/admin/attendance/leave', label: 'Leave Management', icon: CalendarCheck, active: pathname.startsWith('/admin/attendance/leave') },
+                    { href: '/admin/attendance/holidays', label: 'Holidays / Class Off', icon: Building2, active: pathname.startsWith('/admin/attendance/holidays') },
+                    { href: '/admin/attendance/audit-log', label: 'Admin Audit Log', icon: History, active: pathname.startsWith('/admin/attendance/audit-log') },
+                    { href: '/admin/attendance/settings', label: 'Settings & Demo Data', icon: Settings, active: pathname.startsWith('/admin/attendance/settings') },
+                  ];
+
+                  const portalItemsAfterAttendance = [
                     { href: '/admin/fees', label: 'Fee Management', icon: IndianRupee, active: pathname.startsWith('/admin/fees') },
                     { href: '/admin/enrollments', label: 'Course Enrollments', icon: GraduationCap, active: pathname.startsWith('/admin/enrollments') },
                     { href: '/admin/teachers', label: 'Teachers', icon: Briefcase, active: pathname.startsWith('/admin/teachers') },
@@ -213,41 +242,33 @@ function AdminLayout({
                     { href: '/admin/scholarship', label: 'Scholarship', icon: Award, active: pathname.startsWith('/admin/scholarship') },
                   ];
 
-                  const renderNavGroup = (title: string, items: Array<{ href: string; label: string; icon: any; active: boolean; badge?: number }>) => (
-                    <div>
-                      <p className="px-3 pb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-[#94A3B8]">
-                        {title}
-                      </p>
-                      <div className="space-y-1">
-                        {items.map((item) => {
-                          const Icon = item.icon;
-                          return (
-                            <SidebarMenuItem key={item.href}>
-                              <SidebarMenuButton asChild isActive={item.active} className={branchNavLinkClass}>
-                                <Link href={item.href} className="flex items-center justify-between w-full">
-                                  <span className="flex items-center gap-3 min-w-0">
-                                    <Icon className="h-4 w-4 shrink-0" />
-                                    <span className="truncate">{item.label}</span>
-                                  </span>
-                                  {typeof item.badge === 'number' && item.badge > 0 && (
-                                    <span
-                                      className={
-                                        item.active
-                                          ? "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-[11px] font-semibold text-white"
-                                          : "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2864E8]/15 px-1.5 text-[11px] font-semibold text-[#2864E8]"
-                                      }
-                                    >
-                                      {item.badge}
-                                    </span>
-                                  )}
-                                </Link>
-                              </SidebarMenuButton>
-                            </SidebarMenuItem>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
+                  const renderNavItems = (items: Array<{ href: string; label: string; icon: any; active: boolean; badge?: number }>) =>
+                    items.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <SidebarMenuItem key={item.href}>
+                          <SidebarMenuButton asChild isActive={item.active} className={branchNavLinkClass}>
+                            <Link href={item.href} className="flex items-center justify-between w-full">
+                              <span className="flex items-center gap-3 min-w-0">
+                                <Icon className="h-4 w-4 shrink-0" />
+                                <span className="truncate">{item.label}</span>
+                              </span>
+                              {typeof item.badge === 'number' && item.badge > 0 && (
+                                <span
+                                  className={
+                                    item.active
+                                      ? "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-[11px] font-semibold text-white"
+                                      : "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2864E8]/15 px-1.5 text-[11px] font-semibold text-[#2864E8]"
+                                  }
+                                >
+                                  {item.badge}
+                                </span>
+                              )}
+                            </Link>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    });
 
                   return (
                     <div className="space-y-4">
@@ -259,10 +280,77 @@ function AdminLayout({
                           <Building2 className="h-3.5 w-3.5 shrink-0 text-[#2864E8]" />
                           <span className="truncate">{sidebarBranchName}</span>
                         </div>
-                        {renderNavGroup('Branch Portal', portalItems)}
+                        <div>
+                          <p className="px-3 pb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-[#94A3B8]">
+                            Branch Portal
+                          </p>
+                          <div className="space-y-1">
+                            {/* Dashboard */}
+                            <SidebarMenuItem>
+                              <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'} className={branchNavLinkClass}>
+                                <Link href="/admin/dashboard" className="flex items-center justify-between w-full">
+                                  <span className="flex items-center gap-3 min-w-0">
+                                    <SlidersHorizontal className="h-4 w-4 shrink-0" />
+                                    <span className="truncate">Dashboard</span>
+                                  </span>
+                                </Link>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+
+                            {/* Attendance System (above Fee Management) */}
+                            <SidebarMenuItem>
+                              <SidebarMenuButton
+                                type="button"
+                                onClick={() => setBranchAttendanceOpen((prev) => !prev)}
+                                isActive={isAttendancePage && !branchAttendanceOpen}
+                                className={branchNavLinkClass}
+                              >
+                                <span className="flex items-center gap-3 min-w-0">
+                                  <ClipboardList className="h-4 w-4 shrink-0" />
+                                  <span className="truncate">Attendance System</span>
+                                </span>
+                                <ChevronDown
+                                  className={`ml-auto h-3.5 w-3.5 shrink-0 transition-transform duration-200 ${
+                                    branchAttendanceOpen ? 'rotate-180' : ''
+                                  }`}
+                                />
+                              </SidebarMenuButton>
+                              {branchAttendanceOpen && (
+                                <div className="mt-1 ml-3.5 space-y-0.5 border-l border-[#E5EAF2] pl-2.5">
+                                  {attendanceSubItems.map((sub) => {
+                                    const SubIcon = sub.icon;
+                                    return (
+                                      <SidebarMenuButton
+                                        key={sub.href}
+                                        asChild
+                                        isActive={sub.active}
+                                        className={branchSubNavLinkClass}
+                                      >
+                                        <Link href={sub.href} className="flex items-center gap-2.5 w-full min-w-0">
+                                          <SubIcon className="h-3.5 w-3.5 shrink-0" />
+                                          <span className="truncate">{sub.label}</span>
+                                        </Link>
+                                      </SidebarMenuButton>
+                                    );
+                                  })}
+                                </div>
+                              )}
+                            </SidebarMenuItem>
+
+                            {/* Fee Management & remaining Branch Portal links */}
+                            {renderNavItems(portalItemsAfterAttendance)}
+                          </div>
+                        </div>
                       </div>
                       <div className="border-t border-[#E5EAF2] pt-3">
-                        {renderNavGroup('Branch Records', directoryItems)}
+                        <div>
+                          <p className="px-3 pb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-[#94A3B8]">
+                            Branch Records
+                          </p>
+                          <div className="space-y-1">
+                            {renderNavItems(directoryItems)}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );
@@ -343,10 +431,10 @@ function AdminLayout({
                                 <span>Class Schedule</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/mark')}>
-                            <Link href="/admin/attendance/mark">
-                                <ClipboardList />
-                                <span>Mark Attendance</span>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/subjects')}>
+                            <Link href="/admin/attendance/subjects">
+                                <BookOpen />
+                                <span>Subjects</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/teachers')}>
@@ -355,10 +443,10 @@ function AdminLayout({
                                 <span>Teachers</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/subjects')}>
-                            <Link href="/admin/attendance/subjects">
-                                <BookOpen />
-                                <span>Subjects</span>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/mark')}>
+                            <Link href="/admin/attendance/mark">
+                                <ClipboardList />
+                                <span>Mark Attendance</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/leave')}>

@@ -366,6 +366,10 @@ export function FeesClient({
   const refreshSeqRef = useRef<number>(0);
   const lastSelfWriteRef = useRef<number>(0);
   const [syncState, setSyncState] = useState<'idle' | 'syncing' | 'saved' | 'failed'>('idle');
+  const [expandedReceiptBranchId, setExpandedReceiptBranchId] = useState<string | null>(null);
+  const [expandedClassBranchId, setExpandedClassBranchId] = useState<string | null>(null);
+  const [expandedOverdueBranchId, setExpandedOverdueBranchId] = useState<string | null>(null);
+  const [expandedClassBatchBranchId, setExpandedClassBatchBranchId] = useState<string | null>(null);
 
   // Refresh data function using consolidated single-request bundle
   const refreshAllData = (month = selectedMonth, branch = selectedBranch, options?: { forceFresh?: boolean }) => {
@@ -3978,9 +3982,7 @@ export function FeesClient({
     const defaultBranchId = isBranchAdmin && branchAdminBranchId
       ? branchAdminBranchId
       : (selectedBranch && selectedBranch !== 'all' && selectedBranch !== 'none' ? selectedBranch : '');
-    const sessionToUse = typeof targetSession === 'string'
-      ? targetSession
-      : (classSessionFilter !== 'all' ? classSessionFilter : '2026-27');
+    const sessionToUse = typeof targetSession === 'string' ? targetSession : '';
     setClassForm({
       ...EMPTY_CLASS_FORM,
       branchId: defaultBranchId,
@@ -4135,8 +4137,8 @@ export function FeesClient({
   const allSessionsList = React.useMemo(() => {
     const sessionMap = new Map<string, { id: string; label: string; durationText: string; isCurrent: boolean; classCount: number; studentCount: number }>();
 
-    // Baseline standard sessions
-    const baseline = ['2026-27', '2027-28', '2028-29'];
+    // Baseline current academic session (future sessions can be added via + New Session)
+    const baseline = ['2026-27'];
     for (const b of baseline) {
       sessionMap.set(b, {
         id: b,
@@ -4773,9 +4775,6 @@ export function FeesClient({
             <div className="h-7 inline-flex items-center gap-1.5 bg-transparent border-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 shrink-0">
               <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
               <span className="whitespace-nowrap">{user?.branchName || 'Mangol Puri Branch'}</span>
-              <span className="text-[11px] font-medium text-[#2864E8] dark:text-blue-400 whitespace-nowrap">
-                (Branch Admin)
-              </span>
             </div>
           ) : (
               <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
@@ -5277,215 +5276,426 @@ export function FeesClient({
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Class-wise Revenue Breakdown */}
               <div className="lg:col-span-2 space-y-4">
-                <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
-                  <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight uppercase">
+                <Card className="rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)] overflow-hidden">
+                  <CardHeader className="py-3.5 sm:py-4 px-5 sm:px-6 border-b border-slate-100/90 dark:border-slate-800/80">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <CardTitle className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-950 dark:text-white tracking-[-0.015em] uppercase leading-snug">
                           CLASS-WISE FEE OVERVIEW
                         </CardTitle>
-                        <CardDescription className="text-xs text-slate-400 font-normal mt-0.5">
-                          Class-wise student and fee overview for {stats.currentMonthLabel}
-                        </CardDescription>
                       </div>
-                      <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-wider whitespace-nowrap">
+                      <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-[0.06em] whitespace-nowrap shrink-0">
                         TOTAL CLASSES {hasBranchSelection ? filteredClasses.length : 0}
                       </span>
                     </div>
                   </CardHeader>
                   <CardContent className="p-0">
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs sm:text-sm">
-                        <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
-                          <tr>
-                            <th className="py-2.5 sm:py-3 px-3.5 pl-5 whitespace-nowrap">CLASS / COURSE</th>
-                            <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap">BRANCH</th>
-                            <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">STUDENTS</th>
-                            <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">EXPECTED</th>
-                            <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">RECEIVED</th>
-                            <th className="py-2.5 sm:py-3 px-3.5 text-right pr-5 whitespace-nowrap">PENDING</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                          {!hasBranchSelection ? (
-                            <tr>
-                              <td colSpan={6} className="py-10 text-center text-slate-400">
-                                <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view class-wise fee data.</p>
-                              </td>
-                            </tr>
-                          ) : stats.classBreakdown.length === 0 ? (
-                            <tr>
-                              <td colSpan={6} className="py-10 text-center text-slate-400">
-                                <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes for this branch.</p>
-                              </td>
-                            </tr>
-                          ) : (
-                            stats.classBreakdown.map(item => {
-                              const branch = IDL_BRANCHES.find(b => b.id === item.branchId);
-                              return (
-                                <tr key={item.classId} className="bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40 transition-colors duration-150">
-                                  <td className="py-3 px-3.5 pl-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
-                                    {item.className}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">
-                                    {branch ? branch.name.replace(' Branch', '') : item.branchId}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-center whitespace-nowrap">
-                                    <span className="inline-flex items-center justify-center min-w-[22px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tabular-nums">
-                                      {item.studentCount}
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right font-semibold text-slate-900 dark:text-slate-100 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{Number(item.expectedFee ?? 0).toLocaleString('en-IN')}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{Number(item.receivedFee ?? 0).toLocaleString('en-IN')}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right pr-5 font-bold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{Number(item.pendingFee ?? 0).toLocaleString('en-IN')}
-                                  </td>
-                                </tr>
-                              );
-                            })
-                          )}
-                        </tbody>
-                      </table>
+                    <div className="overflow-x-auto [scrollbar-width:thin]">
+                      <div className="min-w-[620px] w-full text-left text-xs sm:text-sm">
+                        {/* Table Header Row */}
+                        <div className="grid grid-cols-[minmax(140px,1.45fr)_minmax(100px,1fr)_78px_minmax(92px,1fr)_minmax(92px,1fr)_minmax(92px,1fr)_34px] items-center bg-slate-50/70 dark:bg-slate-900/60 text-slate-500/90 dark:text-slate-400 font-semibold uppercase tracking-[0.06em] text-[10.5px] border-b border-slate-100 dark:border-slate-800">
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 pl-5 sm:pl-6 whitespace-nowrap">CLASS / COURSE</div>
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 whitespace-nowrap">BRANCH</div>
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 text-center whitespace-nowrap">STUDENTS</div>
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 text-right whitespace-nowrap">EXPECTED</div>
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 text-right whitespace-nowrap">RECEIVED</div>
+                          <div className="py-2.5 sm:py-3 px-3.5 sm:px-4 text-right whitespace-nowrap">PENDING</div>
+                          <div className="py-2.5 sm:py-3 pr-4 sm:pr-5" />
+                        </div>
+
+                        {!hasBranchSelection ? (
+                          <div className="py-10 text-center text-slate-400">
+                            <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                            <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                            <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view class-wise fee data.</p>
+                          </div>
+                        ) : stats.classBreakdown.length === 0 ? (
+                          <div className="py-10 text-center text-slate-400">
+                            <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                            <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
+                            <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes for this branch.</p>
+                          </div>
+                        ) : (
+                          (() => {
+                            const getClassSortKey = (name: string) => {
+                              const m = (name || '').match(/(\d+)(?:\s*[-–]\s*(\d+))?/);
+                              if (!m) return { start: 9999, end: 9999, text: (name || '').toLowerCase() };
+                              const start = parseInt(m[1], 10);
+                              const end = m[2] ? parseInt(m[2], 10) : start;
+                              return { start, end, text: (name || '').toLowerCase() };
+                            };
+
+                            const branchOrderIndex = (branchId: string) => {
+                              const idx = IDL_BRANCHES.findIndex(b => b.id === branchId);
+                              return idx === -1 ? 999 : idx;
+                            };
+
+                            const groupedMap = new Map<string, typeof stats.classBreakdown>();
+                            stats.classBreakdown.forEach(item => {
+                              const key = item.branchId || 'unassigned';
+                              const list = groupedMap.get(key) || [];
+                              list.push(item);
+                              groupedMap.set(key, list);
+                            });
+
+                            const branchGroups = Array.from(groupedMap.entries())
+                              .sort(([aId], [bId]) => {
+                                const diff = branchOrderIndex(aId) - branchOrderIndex(bId);
+                                return diff !== 0 ? diff : aId.localeCompare(bId);
+                              })
+                              .map(([branchId, items]) => {
+                                const branchObj = IDL_BRANCHES.find(b => b.id === branchId);
+                                const branchLabel = branchObj
+                                  ? branchObj.name.replace(' Branch', '')
+                                  : branchId === 'unassigned'
+                                    ? 'Other Branch'
+                                    : branchId;
+                                const sortedItems = [...items].sort((a, b) => {
+                                  const ka = getClassSortKey(a.className);
+                                  const kb = getClassSortKey(b.className);
+                                  if (ka.start !== kb.start) return ka.start - kb.start;
+                                  if (ka.end !== kb.end) return ka.end - kb.end;
+                                  return ka.text.localeCompare(kb.text);
+                                });
+                                const totalStudents = sortedItems.reduce((sum, x) => sum + Number(x.studentCount ?? 0), 0);
+                                const totalExpected = sortedItems.reduce((sum, x) => sum + Number(x.expectedFee ?? 0), 0);
+                                const totalReceived = sortedItems.reduce((sum, x) => sum + Number(x.receivedFee ?? 0), 0);
+                                const totalPending = sortedItems.reduce((sum, x) => sum + Number(x.pendingFee ?? 0), 0);
+                                return {
+                                  branchId,
+                                  branchLabel,
+                                  items: sortedItems,
+                                  totalStudents,
+                                  totalExpected,
+                                  totalReceived,
+                                  totalPending,
+                                };
+                              });
+
+                            const activeClassBranchId =
+                              expandedClassBranchId === '__none__'
+                                ? null
+                                : expandedClassBranchId && branchGroups.some(g => g.branchId === expandedClassBranchId)
+                                  ? expandedClassBranchId
+                                  : branchGroups[0]?.branchId || null;
+
+                            return (
+                              <div>
+                                {branchGroups.map((group, gIdx) => {
+                                  const isOpen = activeClassBranchId === group.branchId;
+                                  return (
+                                    <div key={group.branchId}>
+                                      {/* Branch Accordion Divider Row */}
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          setExpandedClassBranchId(isOpen ? '__none__' : group.branchId)
+                                        }
+                                        aria-expanded={isOpen}
+                                        className={`w-full min-h-[42px] grid grid-cols-[minmax(140px,1.45fr)_minmax(100px,1fr)_78px_minmax(92px,1fr)_minmax(92px,1fr)_minmax(92px,1fr)_34px] items-center bg-[#F6F9FF] hover:bg-blue-50/80 dark:bg-blue-950/25 dark:hover:bg-blue-950/40 border-b border-[#E4ECFA] dark:border-blue-900/50 transition-colors cursor-pointer text-left ${
+                                          gIdx > 0 ? 'border-t' : ''
+                                        }`}
+                                      >
+                                        <div className="col-span-2 py-2.5 px-3.5 sm:px-4 pl-5 sm:pl-6 whitespace-nowrap">
+                                          <div className="inline-flex items-center gap-2">
+                                            <span className="w-5 h-5 rounded-md bg-blue-100/75 dark:bg-blue-900/40 inline-flex items-center justify-center shrink-0">
+                                              <Building2 className="w-3 h-3 text-[#2864E8] dark:text-blue-400" />
+                                            </span>
+                                            <span className="text-[11.5px] font-bold uppercase tracking-[0.055em] text-slate-900 dark:text-white leading-none">
+                                              {group.branchLabel}
+                                            </span>
+                                            <span className="text-[9.5px] font-semibold uppercase tracking-[0.045em] px-2 py-[3px] rounded-full bg-white/95 dark:bg-slate-900 border border-blue-200/75 dark:border-blue-800/60 text-[#2864E8] dark:text-blue-400 tabular-nums leading-none shrink-0">
+                                              {group.items.length} {group.items.length === 1 ? 'CLASS' : 'CLASSES'}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div className="py-2.5 px-3.5 sm:px-4 text-center whitespace-nowrap">
+                                          <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tabular-nums">
+                                            {group.totalStudents}
+                                          </span>
+                                        </div>
+                                        <div className="py-2.5 px-3.5 sm:px-4 text-right text-[13.5px] font-bold text-slate-900 dark:text-white tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                          ₹{group.totalExpected.toLocaleString('en-IN')}
+                                        </div>
+                                        <div className="py-2.5 px-3.5 sm:px-4 text-right text-[13.5px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                          ₹{group.totalReceived.toLocaleString('en-IN')}
+                                        </div>
+                                        <div className="py-2.5 px-3.5 sm:px-4 text-right text-[13.5px] font-bold text-amber-600 dark:text-amber-400 tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                          ₹{group.totalPending.toLocaleString('en-IN')}
+                                        </div>
+                                        <div className="py-2.5 pr-4 sm:pr-5 flex items-center justify-end">
+                                          <ChevronDown
+                                            className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
+                                              isOpen
+                                                ? 'rotate-180 text-[#2864E8] dark:text-blue-400'
+                                                : 'text-slate-400 dark:text-slate-500'
+                                            }`}
+                                          />
+                                        </div>
+                                      </button>
+
+                                      {/* Smooth Collapsible Class Rows */}
+                                      <div
+                                        className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+                                          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                        }`}
+                                      >
+                                        <div className="overflow-hidden">
+                                          <div className="divide-y divide-slate-100/90 dark:divide-slate-800/70">
+                                            {group.items.map(item => (
+                                              <div
+                                                key={item.classId}
+                                                className="grid grid-cols-[minmax(140px,1.45fr)_minmax(100px,1fr)_78px_minmax(92px,1fr)_minmax(92px,1fr)_minmax(92px,1fr)_34px] items-center bg-white hover:bg-slate-50/70 dark:bg-slate-900 dark:hover:bg-slate-800/40 transition-colors duration-150"
+                                              >
+                                                <div className="py-3 px-3.5 sm:px-4 pl-7 sm:pl-8 font-semibold text-slate-800 dark:text-slate-100 text-[13px] whitespace-nowrap tracking-[-0.01em] truncate">
+                                                  {item.className}
+                                                </div>
+                                                <div className="py-3 px-3.5 sm:px-4 text-slate-400 dark:text-slate-500 text-[11.5px] font-normal whitespace-nowrap truncate">
+                                                  {group.branchLabel}
+                                                </div>
+                                                <div className="py-3 px-3.5 sm:px-4 text-center whitespace-nowrap">
+                                                  <span className="text-[12.5px] font-medium text-slate-600 dark:text-slate-300 tabular-nums">
+                                                    {item.studentCount}
+                                                  </span>
+                                                </div>
+                                                <div className="py-3 px-3.5 sm:px-4 text-right font-semibold text-slate-800 dark:text-slate-100 text-[13px] tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                                  ₹{Number(item.expectedFee ?? 0).toLocaleString('en-IN')}
+                                                </div>
+                                                <div className="py-3 px-3.5 sm:px-4 text-right font-semibold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                                  ₹{Number(item.receivedFee ?? 0).toLocaleString('en-IN')}
+                                                </div>
+                                                <div className="py-3 px-3.5 sm:px-4 text-right font-semibold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap tracking-[-0.01em]">
+                                                  ₹{Number(item.pendingFee ?? 0).toLocaleString('en-IN')}
+                                                </div>
+                                                <div className="py-3 pr-4 sm:pr-5" />
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            );
+                          })()
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Overdue Alert Section */}
                 {hasBranchSelection && stats.overdueCount > 0 && (
-                  <Card className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-amber-50/20 dark:bg-amber-950/10 shadow-none">
-                    <CardHeader className="py-2 px-3.5 sm:px-4 border-b border-slate-200/60 dark:border-slate-800/60">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-amber-500" />
-                          <CardTitle className="text-xs sm:text-[13px] font-bold tracking-tight text-slate-800 dark:text-slate-100">
-                            Immediate Overdue Attention Required
-                          </CardTitle>
-                          <span className="ml-1 text-[11px] font-semibold text-rose-600 dark:text-rose-400 tabular-nums">
-                            {stats.overdueCount} {stats.overdueCount === 1 ? 'Student' : 'Students'}
-                          </span>
-                        </div>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            setLedgerStatusFilter('OVERDUE');
-                            setActiveTab('ledger');
-                          }}
-                          className="h-6 px-2.5 text-[11px] font-semibold rounded-[5px] border border-slate-200/90 dark:border-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 shadow-none transition-colors cursor-pointer"
-                        >
-                          View All
-                        </Button>
+                  <Card className="rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)] overflow-hidden">
+                    <CardHeader className="py-3.5 sm:py-4 px-5 sm:px-6 border-b border-slate-100/90 dark:border-slate-800/80">
+                      <div className="flex items-center justify-between gap-3">
+                        <CardTitle className="text-[14.5px] sm:text-[15.5px] font-bold tracking-[-0.015em] text-slate-950 dark:text-white inline-flex items-center gap-1.5 truncate leading-snug">
+                          <span>Overdue Fee Alerts</span>
+                          <AlertTriangle className="w-4 h-4 shrink-0 text-amber-500" />
+                        </CardTitle>
+                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-[0.06em] whitespace-nowrap shrink-0">
+                          TOTAL STUDENT {stats.overdueCount}
+                        </span>
                       </div>
                     </CardHeader>
-                    <CardContent className="p-2 sm:p-2.5 space-y-1.5">
+                    <CardContent className="p-0">
                       {(() => {
                         const overdueList = ledger.filter(l => l.isOverdue || l.status === 'OVERDUE');
+                        const branchOrderIndex = (branchId: string) => {
+                          const idx = IDL_BRANCHES.findIndex(b => b.id === branchId);
+                          return idx === -1 ? 999 : idx;
+                        };
+                        const groupedMap = new Map<string, typeof overdueList>();
+                        overdueList.forEach(item => {
+                          const clsObj = classes.find(c => c.id === item.student.classId);
+                          const resolvedBranchId = item.student.branchId || clsObj?.branchId || 'unassigned';
+                          const list = groupedMap.get(resolvedBranchId) || [];
+                          list.push(item);
+                          groupedMap.set(resolvedBranchId, list);
+                        });
+
+                        const overdueGroups = Array.from(groupedMap.entries())
+                          .sort(([aId], [bId]) => {
+                            const diff = branchOrderIndex(aId) - branchOrderIndex(bId);
+                            return diff !== 0 ? diff : aId.localeCompare(bId);
+                          })
+                          .map(([branchId, allItems]) => {
+                            const branchObj = IDL_BRANCHES.find(b => b.id === branchId);
+                            const branchLabel = branchObj
+                              ? branchObj.name.replace(' Branch', '')
+                              : branchId === 'unassigned'
+                                ? 'Other Branch'
+                                : branchId;
+                            const totalOverdueAmount = allItems.reduce((sum, x) => sum + Number(x.balanceAmount ?? 0), 0);
+                            return {
+                              branchId,
+                              branchLabel,
+                              items: allItems.slice(0, 5),
+                              totalCount: allItems.length,
+                              totalOverdueAmount,
+                            };
+                          });
+
+                        const activeOverdueBranchId =
+                          expandedOverdueBranchId === '__none__'
+                            ? null
+                            : expandedOverdueBranchId && overdueGroups.some(g => g.branchId === expandedOverdueBranchId)
+                              ? expandedOverdueBranchId
+                              : overdueGroups[0]?.branchId || null;
+
                         return (
-                          <>
-                            {overdueList.slice(0, 5).map(item => {
-                              const cls = classes.find(c => c.id === item.student.classId);
-                              const batch = batches.find(b => b.id === item.student.batchId);
-                              const effectiveDueDate = (item.student.feeType === 'yearly_package' || Boolean(item.student.yearlyPackage))
-                                ? (item.student.joiningDate || item.dueDate)
-                                : item.dueDate;
-                              const overdueDays = getOverdueDays(effectiveDueDate);
+                          <div>
+                            {overdueGroups.map((group, gIdx) => {
+                              const isOpen = activeOverdueBranchId === group.branchId;
                               return (
-                                <div
-                                  key={item.id}
-                                  onClick={() => openCollectFeeModal(item)}
-                                  className="group flex flex-col sm:flex-row sm:items-center justify-between p-2.5 sm:px-4 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-rose-100/80 dark:border-rose-950/50 hover:border-rose-200 dark:hover:border-rose-900/80 hover:bg-rose-50/20 dark:hover:bg-rose-950/20 transition-all cursor-pointer shadow-2xs"
-                                  title="Click to view details or collect fee"
-                                >
-                                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 items-center flex-1 min-w-0">
-                                    {/* 1. Student Name & Father Name */}
-                                    <div className="sm:col-span-3 min-w-0">
-                                      <div className="font-semibold text-slate-900 dark:text-white text-[12.5px] sm:text-[13px] flex items-center gap-1.5 tracking-tight truncate leading-tight group-hover:text-[#2864E8] dark:group-hover:text-blue-400 transition-colors">
-                                        <span className="truncate">{item.student.name}</span>
-                                        {(item.student.feeType === 'yearly_package' || Boolean(item.student.yearlyPackage)) && (
-                                          <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-0.5">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_6px_1px_rgba(139,92,246,0.7)] animate-pulse" />
-                                          </span>
-                                        )}
-                                      </div>
-                                      <div className="text-[11px] text-slate-400 dark:text-slate-500 font-normal truncate mt-0.5 leading-tight">
-                                        Father : <span className="text-slate-600 dark:text-slate-400 capitalize">{item.student.fatherName || '—'}</span>
-                                      </div>
+                                <div key={group.branchId}>
+                                  {/* Branch Accordion Header Bar */}
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setExpandedOverdueBranchId(isOpen ? '__none__' : group.branchId)
+                                    }
+                                    aria-expanded={isOpen}
+                                    className={`w-full min-h-[42px] px-5 sm:px-6 py-2.5 bg-[#F6F9FF] hover:bg-blue-50/80 dark:bg-blue-950/25 dark:hover:bg-blue-950/40 border-b border-[#E4ECFA] dark:border-blue-900/50 flex items-center justify-between gap-2 transition-colors cursor-pointer text-left ${
+                                      gIdx > 0 ? 'border-t' : ''
+                                    }`}
+                                  >
+                                    <div className="inline-flex items-center gap-2 min-w-0">
+                                      <span className="w-5 h-5 rounded-md bg-blue-100/75 dark:bg-blue-900/40 inline-flex items-center justify-center shrink-0">
+                                        <Building2 className="w-3 h-3 text-[#2864E8] dark:text-blue-400" />
+                                      </span>
+                                      <span className="text-[11.5px] font-bold uppercase tracking-[0.055em] text-slate-900 dark:text-white truncate leading-none">
+                                        {group.branchLabel}
+                                      </span>
+                                      <span className="text-[9.5px] font-semibold uppercase tracking-[0.045em] px-2 py-[3px] rounded-full bg-white/95 dark:bg-slate-900 border border-blue-200/75 dark:border-blue-800/60 text-[#2864E8] dark:text-blue-400 tabular-nums shrink-0 leading-none">
+                                        {group.totalCount} {group.totalCount === 1 ? 'STUDENT' : 'STUDENTS'}
+                                      </span>
                                     </div>
-
-                                    {/* 2. Class & Batch Typography */}
-                                    <div className="sm:col-span-2 min-w-0">
-                                      <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 tracking-tight truncate leading-tight">
-                                        {cls?.name || 'Class'}
-                                      </div>
-                                      <div className="text-[11.5px] font-medium text-slate-500 dark:text-slate-400 tracking-tight truncate mt-0.5 leading-tight">
-                                        {batch?.name || 'Batch'}
-                                      </div>
+                                    <div className="inline-flex items-center gap-2 shrink-0">
+                                      <span className="text-[13.5px] font-bold text-rose-600 dark:text-rose-400 tabular-nums tracking-[-0.01em] leading-none">
+                                        ₹{group.totalOverdueAmount.toLocaleString('en-IN')}
+                                      </span>
+                                      <ChevronDown
+                                        className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
+                                          isOpen
+                                            ? 'rotate-180 text-[#2864E8] dark:text-blue-400'
+                                            : 'text-slate-400 dark:text-slate-500'
+                                        }`}
+                                      />
                                     </div>
+                                  </button>
 
-                                    {/* 3. Join Date, Due Date & Overdue Indicator */}
-                                    <div className="sm:col-span-5 min-w-0 flex flex-col justify-center space-y-1">
-                                      <div className="text-[11.5px] font-normal text-slate-400 dark:text-slate-500 tracking-tight flex items-center leading-none">
-                                        <span className="inline-block w-[64px] shrink-0 text-slate-400 dark:text-slate-500">Join Date :</span>
-                                        <span className="font-mono font-medium text-slate-600 dark:text-slate-300 tabular-nums">
-                                          {formatAdmDate(item.student.joiningDate) !== '—' ? formatAdmDate(item.student.joiningDate) : '01-11-2026'}
-                                        </span>
-                                      </div>
-                                      <div className="text-[11.5px] font-normal tracking-tight flex items-center leading-none">
-                                        <span className="inline-block w-[64px] shrink-0 text-rose-600 dark:text-rose-400 font-normal">Due Date :</span>
-                                        <span className="font-mono font-medium text-rose-600 dark:text-rose-400 tabular-nums">
-                                          {formatAdmDate(effectiveDueDate)}
-                                        </span>
-                                        {overdueDays > 0 && (
-                                          <div className="inline-flex flex-col items-start justify-center leading-none text-rose-600 dark:text-rose-400 shrink-0 ml-2.5">
-                                            <span className="flex items-baseline gap-0.5 leading-none">
-                                              <strong className="font-bold text-[10.5px] tabular-nums leading-none">{overdueDays}</strong>
-                                              <span className="text-[8.5px] font-medium leading-none">{overdueDays === 1 ? 'day' : 'days'}</span>
-                                            </span>
-                                            <span className="text-[8.5px] font-semibold leading-none mt-0.5">
-                                              Overdue
-                                            </span>
+                                  {/* Smooth Collapsible Overdue Rows */}
+                                  <div
+                                    className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+                                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                    }`}
+                                  >
+                                    <div className="overflow-hidden">
+                                      <div className="divide-y divide-slate-100/90 dark:divide-slate-800/70">
+                                        {group.items.map(item => {
+                                          const cls = classes.find(c => c.id === item.student.classId);
+                                          const batch = batches.find(b => b.id === item.student.batchId);
+                                          const effectiveDueDate = (item.student.feeType === 'yearly_package' || Boolean(item.student.yearlyPackage))
+                                            ? (item.student.joiningDate || item.dueDate)
+                                            : item.dueDate;
+                                          const overdueDays = getOverdueDays(effectiveDueDate);
+                                          return (
+                                            <div
+                                              key={item.id}
+                                              onClick={() => openCollectFeeModal(item)}
+                                              className="group px-5 sm:px-6 py-3 bg-white dark:bg-slate-900 hover:bg-rose-50/25 dark:hover:bg-rose-950/20 transition-colors duration-150 cursor-pointer"
+                                              title="Click to view details or collect fee"
+                                            >
+                                              <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 sm:gap-4 items-center">
+                                                {/* 1. Student Name & Father Name */}
+                                                <div className="sm:col-span-3 min-w-0">
+                                                  <div className="font-semibold text-slate-900 dark:text-white text-[13px] flex items-center gap-1.5 tracking-[-0.01em] truncate leading-snug group-hover:text-[#2864E8] dark:group-hover:text-blue-400 transition-colors">
+                                                    <span className="truncate">{item.student.name}</span>
+                                                    {(item.student.feeType === 'yearly_package' || Boolean(item.student.yearlyPackage)) && (
+                                                      <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-0.5">
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_6px_1px_rgba(139,92,246,0.7)] animate-pulse" />
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  <div className="text-[11px] text-slate-400 dark:text-slate-500 font-normal truncate mt-0.5 leading-snug">
+                                                    Father : <span className="text-slate-600 dark:text-slate-300 font-medium capitalize">{item.student.fatherName || '—'}</span>
+                                                  </div>
+                                                </div>
+
+                                                {/* 2. Class & Batch Typography */}
+                                                <div className="sm:col-span-2 min-w-0">
+                                                  <div className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-100 tracking-[-0.01em] truncate leading-snug">
+                                                    {cls?.name || 'Class'}
+                                                  </div>
+                                                  <div className="text-[11px] font-medium text-slate-500 dark:text-slate-400 tracking-tight truncate mt-0.5 leading-snug">
+                                                    {batch?.name || 'Batch'}
+                                                  </div>
+                                                </div>
+
+                                                {/* 3. Join Date, Due Date & Overdue Indicator */}
+                                                <div className="sm:col-span-5 min-w-0 flex flex-col justify-center gap-1.5">
+                                                  <div className="text-[11.5px] font-normal text-slate-400 dark:text-slate-500 tracking-tight flex items-center leading-none">
+                                                    <span className="inline-block w-[66px] shrink-0 text-slate-400 dark:text-slate-500">Join Date :</span>
+                                                    <span className="font-mono text-[11.5px] font-medium text-slate-600 dark:text-slate-300 tabular-nums whitespace-nowrap">
+                                                      {formatAdmDate(item.student.joiningDate) !== '—' ? formatAdmDate(item.student.joiningDate) : '01-11-2026'}
+                                                    </span>
+                                                  </div>
+                                                  <div className="text-[11.5px] font-normal tracking-tight flex items-center flex-wrap sm:flex-nowrap gap-y-1 leading-none">
+                                                    <span className="inline-block w-[66px] shrink-0 text-rose-600/90 dark:text-rose-400 font-medium">Due Date :</span>
+                                                    <span className="font-mono text-[11.5px] font-medium text-rose-600 dark:text-rose-400 tabular-nums whitespace-nowrap">
+                                                      {formatAdmDate(effectiveDueDate)}
+                                                    </span>
+                                                    {overdueDays > 0 && (
+                                                      <div className="inline-flex flex-col items-start justify-center leading-none text-rose-600 dark:text-rose-400 shrink-0 ml-2.5 whitespace-nowrap">
+                                                        <span className="flex items-baseline gap-0.5 leading-none">
+                                                          <strong className="font-bold text-[11px] tabular-nums leading-none">{overdueDays}</strong>
+                                                          <span className="text-[9px] font-medium leading-none">{overdueDays === 1 ? 'day' : 'days'}</span>
+                                                        </span>
+                                                        <span className="text-[9px] font-semibold leading-none mt-0.5">
+                                                          Overdue
+                                                        </span>
+                                                      </div>
+                                                    )}
+                                                  </div>
+                                                </div>
+
+                                                {/* 4. Overdue Amount */}
+                                                <div className="sm:col-span-2 min-w-0 sm:text-right flex sm:flex-col items-center sm:items-end justify-between sm:justify-center pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100/90 dark:border-slate-800">
+                                                  <div className="font-bold text-rose-600 dark:text-rose-400 text-[14.5px] sm:text-[15px] tabular-nums tracking-[-0.015em] leading-snug whitespace-nowrap">
+                                                    ₹{item.balanceAmount.toLocaleString('en-IN')}
+                                                  </div>
+                                                  <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-tight leading-none mt-1 whitespace-nowrap">
+                                                    Overdue Amount
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          );
+                                        })}
+
+                                        {group.totalCount > 5 && (
+                                          <div className="px-5 sm:px-6 py-2.5 bg-slate-50/60 dark:bg-slate-900/70 border-t border-slate-100/90 dark:border-slate-800/70 flex items-center justify-center">
+                                            <button
+                                              type="button"
+                                              onClick={() => {
+                                                setLedgerStatusFilter('OVERDUE');
+                                                setActiveTab('ledger');
+                                              }}
+                                              className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-[#2864E8] dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer"
+                                            >
+                                              View All Overdue →
+                                            </button>
                                           </div>
                                         )}
-                                      </div>
-                                    </div>
-
-                                    {/* 4. Overdue Amount */}
-                                    <div className="sm:col-span-2 min-w-0 sm:text-right flex sm:flex-col items-center sm:items-end justify-between sm:justify-center pt-1.5 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
-                                      <div className="font-bold text-rose-600 dark:text-rose-400 text-[15px] sm:text-[16px] font-mono tabular-nums tracking-tight leading-tight">
-                                        ₹{item.balanceAmount.toLocaleString('en-IN')}
-                                      </div>
-                                      <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium tracking-tight leading-tight mt-0.5">
-                                        Overdue Amount
                                       </div>
                                     </div>
                                   </div>
                                 </div>
                               );
                             })}
-
-                            {overdueList.length > 5 && (
-                              <div className="pt-1 text-center">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setLedgerStatusFilter('OVERDUE');
-                                    setActiveTab('ledger');
-                                  }}
-                                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:underline cursor-pointer py-1"
-                                >
-                                  View All ({overdueList.length} Overdue {overdueList.length === 1 ? 'Student' : 'Students'}) →
-                                </button>
-                              </div>
-                            )}
-                          </>
+                          </div>
                         );
                       })()}
                     </CardContent>
@@ -5495,84 +5705,201 @@ export function FeesClient({
 
               {/* Right 1 Col: Recent Payments & Receipts */}
               <div className="space-y-4">
-                <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.02)]">
-                  <CardHeader className="py-2 px-3.5 sm:px-4 border-b border-slate-100 dark:border-slate-800/80">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-[14px] sm:text-[14.5px] font-bold text-slate-900 dark:text-white flex items-center gap-1.5 tracking-tight leading-none">
-                        <Receipt className="w-3.5 h-3.5 text-[#2864E8] shrink-0" />
-                        <span>Recent Receipts</span>
+                <Card className="rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)] overflow-hidden">
+                  <CardHeader className="py-3.5 sm:py-4 px-4 sm:px-5 border-b border-slate-100/90 dark:border-slate-800/80">
+                    <div className="flex items-center justify-between gap-2.5">
+                      <CardTitle className="text-[15px] font-bold text-slate-950 dark:text-white tracking-[-0.015em] leading-none">
+                        Recent Receipts
                       </CardTitle>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/40 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-400 text-[9px] font-semibold uppercase tracking-wider leading-none">
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/50 text-emerald-700 dark:text-emerald-400 text-[9.5px] font-semibold uppercase tracking-[0.06em] leading-none shrink-0">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                         Live
                       </span>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-2.5 sm:p-3 space-y-1.5">
+                  <CardContent className="p-0">
                     {!hasBranchSelection ? (
-                      <div className="py-6 text-center text-slate-400 px-2">
+                      <div className="py-8 text-center text-slate-400 px-4">
                         <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
                         <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
                         <p className="text-[11px] text-slate-400 mt-0.5">Select a branch to view recent receipts.</p>
                       </div>
                     ) : stats.recentPayments.length === 0 ? (
-                      <div className="py-6 text-center text-slate-400 px-2">
+                      <div className="py-8 text-center text-slate-400 px-4">
                         <Receipt className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
                         <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No recent receipts</p>
                         <p className="text-[11px] text-slate-400 mt-0.5">Recent fee payments will appear here.</p>
                       </div>
                     ) : (
-                      stats.recentPayments.slice(0, 6).map(pay => (
-                        <div
-                          key={pay.id}
-                          className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 shadow-[0_1px_2px_rgba(15,23,42,0.02)] space-y-1"
-                        >
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12.5px] font-semibold text-slate-900 dark:text-white tracking-tight truncate leading-tight">
-                              {pay.studentName}
-                            </span>
-                            <span className="text-[13px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums shrink-0 tracking-tight leading-tight">
-                              +₹{pay.amount.toLocaleString('en-IN')}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500">
-                            <span className="font-mono text-[10px] tabular-nums tracking-tight leading-none">{pay.receiptNumber}</span>
-                            <span className="text-[8.5px] uppercase font-semibold py-[1px] px-1.5 rounded bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 text-slate-600 dark:text-slate-300 leading-tight">
-                              {pay.paymentMode}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 pt-0.5">
-                            <span className="tabular-nums leading-none">Date: {formatAdmDate(pay.paymentDate)}</span>
-                            <div className="flex items-center gap-0.5 -mr-1 -my-0.5">
-                              {/* 1. Print Icon -> Opens Receipt View Popup Modal */}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleViewReceipt(pay);
-                                }}
-                                title="Print / View Fee Receipt"
-                                className="p-1 rounded-md text-slate-400 dark:text-slate-500 hover:text-[#2864E8] dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
-                              >
-                                <Printer className="w-3.5 h-3.5" />
-                              </button>
+                      (() => {
+                        const allPaymentsSource =
+                          monthPayments.length > 0 ? monthPayments : (stats.recentPayments || []);
+                        const branchOrderIndex = (branchId: string) => {
+                          const idx = IDL_BRANCHES.findIndex(b => b.id === branchId);
+                          return idx === -1 ? 999 : idx;
+                        };
+                        const groupedMap = new Map<string, typeof allPaymentsSource>();
+                        allPaymentsSource.forEach(pay => {
+                          const resolvedBranchId =
+                            pay.branchId ||
+                            students.find(s => s.id === pay.studentId)?.branchId ||
+                            'unassigned';
+                          const arr = groupedMap.get(resolvedBranchId) || [];
+                          arr.push(pay);
+                          groupedMap.set(resolvedBranchId, arr);
+                        });
 
-                              {/* 2. Share Icon -> Direct Native Share Options (WhatsApp & Apps) */}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleDirectWhatsAppShare(pay);
-                                }}
-                                title="Share Receipt (Direct Share Options)"
-                                className="p-1 rounded-md text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/80 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
-                              >
-                                <Share2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
+                        const receiptGroups = Array.from(groupedMap.entries())
+                          .sort(([aId], [bId]) => {
+                            const diff = branchOrderIndex(aId) - branchOrderIndex(bId);
+                            return diff !== 0 ? diff : aId.localeCompare(bId);
+                          })
+                          .map(([branchId, allItems]) => {
+                            const branchObj = IDL_BRANCHES.find(b => b.id === branchId);
+                            const branchLabel = branchObj
+                              ? branchObj.name.replace(' Branch', '')
+                              : branchId === 'unassigned'
+                                ? 'Other Branch'
+                                : branchId;
+                            const sortedItems = [...allItems].sort((a, b) => {
+                              const dateCmp = String(b.paymentDate || '').localeCompare(String(a.paymentDate || ''));
+                              if (dateCmp !== 0) return dateCmp;
+                              const createdCmp = String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+                              if (createdCmp !== 0) return createdCmp;
+                              return String(b.receiptNumber || '').localeCompare(String(a.receiptNumber || ''));
+                            });
+                            const totalCount = allItems.length;
+                            const totalAmount = allItems.reduce((sum, p) => sum + Number(p.amount ?? 0), 0);
+                            return {
+                              branchId,
+                              branchLabel,
+                              items: sortedItems.slice(0, 3),
+                              totalCount,
+                              totalAmount,
+                            };
+                          });
+
+                        const activeReceiptBranchId =
+                          expandedReceiptBranchId === '__none__'
+                            ? null
+                            : expandedReceiptBranchId && receiptGroups.some(g => g.branchId === expandedReceiptBranchId)
+                              ? expandedReceiptBranchId
+                              : receiptGroups[0]?.branchId || null;
+
+                        return (
+                          <div>
+                            {receiptGroups.map((group, gIdx) => {
+                              const isOpen = activeReceiptBranchId === group.branchId;
+                              return (
+                                <div key={group.branchId}>
+                                  {/* Branch Accordion Header Bar */}
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      setExpandedReceiptBranchId(isOpen ? '__none__' : group.branchId)
+                                    }
+                                    aria-expanded={isOpen}
+                                    className={`w-full min-h-[42px] px-4 sm:px-5 py-2.5 bg-[#F6F9FF] hover:bg-blue-50/80 dark:bg-blue-950/25 dark:hover:bg-blue-950/40 border-b border-[#E4ECFA] dark:border-blue-900/50 flex items-center justify-between gap-2 transition-colors cursor-pointer text-left ${
+                                      gIdx > 0 ? 'border-t' : ''
+                                    }`}
+                                  >
+                                    <div className="inline-flex items-center gap-2 min-w-0">
+                                      <span className="w-5 h-5 rounded-md bg-blue-100/75 dark:bg-blue-900/40 inline-flex items-center justify-center shrink-0">
+                                        <Building2 className="w-3 h-3 text-[#2864E8] dark:text-blue-400" />
+                                      </span>
+                                      <span className="text-[11.5px] font-bold uppercase tracking-[0.055em] text-slate-900 dark:text-white truncate leading-none">
+                                        {group.branchLabel}
+                                      </span>
+                                      <span className="text-[9.5px] font-semibold uppercase tracking-[0.045em] px-2 py-[3px] rounded-full bg-white/95 dark:bg-slate-900 border border-blue-200/75 dark:border-blue-800/60 text-[#2864E8] dark:text-blue-400 tabular-nums shrink-0 leading-none">
+                                        {group.totalCount} {group.totalCount === 1 ? 'RECEIPT' : 'RECEIPTS'}
+                                      </span>
+                                    </div>
+                                    <div className="inline-flex items-center gap-2 shrink-0">
+                                      <span className="text-[13px] font-bold text-emerald-600 dark:text-emerald-400 tabular-nums tracking-[-0.01em] leading-none">
+                                        +₹{group.totalAmount.toLocaleString('en-IN')}
+                                      </span>
+                                      <ChevronDown
+                                        className={`w-3.5 h-3.5 transition-transform duration-200 shrink-0 ${
+                                          isOpen
+                                            ? 'rotate-180 text-[#2864E8] dark:text-blue-400'
+                                            : 'text-slate-400 dark:text-slate-500'
+                                        }`}
+                                      />
+                                    </div>
+                                  </button>
+
+                                  {/* Smooth Collapsible Receipt Rows */}
+                                  <div
+                                    className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+                                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                    }`}
+                                  >
+                                    <div className="overflow-hidden">
+                                      <div className="divide-y divide-slate-100/90 dark:divide-slate-800/70">
+                                        {group.items.map(pay => (
+                                          <div
+                                            key={pay.id}
+                                            className="px-4 sm:px-5 py-3 bg-white hover:bg-slate-50/75 dark:bg-slate-900 dark:hover:bg-slate-800/40 transition-colors duration-150 space-y-1.5"
+                                          >
+                                            <div className="flex items-center justify-between gap-3">
+                                              <span className="text-[13px] font-semibold text-slate-900 dark:text-white tracking-[-0.01em] truncate leading-snug">
+                                                {pay.studentName}
+                                              </span>
+                                              <span className="text-[13px] font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums shrink-0 tracking-[-0.01em] leading-snug">
+                                                +₹{pay.amount.toLocaleString('en-IN')}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-center justify-between gap-2">
+                                              <span className="font-mono text-[11px] font-medium text-slate-500 dark:text-slate-400 tabular-nums tracking-tight leading-none truncate">
+                                                {pay.receiptNumber}
+                                              </span>
+                                              <span className="text-[9.5px] uppercase font-semibold tracking-[0.04em] px-1.5 py-[3px] rounded-md bg-slate-50/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 text-slate-600 dark:text-slate-300 leading-none shrink-0">
+                                                {pay.paymentMode}
+                                              </span>
+                                            </div>
+                                            <div className="flex items-center justify-between gap-2 pt-0.5">
+                                              <span className="text-[11px] font-normal text-slate-500 dark:text-slate-400 tabular-nums leading-none">
+                                                Date: {formatAdmDate(pay.paymentDate)}
+                                              </span>
+                                              <div className="flex items-center gap-1 -mr-1.5 -my-1 shrink-0">
+                                                {/* 1. Print Icon -> Opens Receipt View Popup Modal */}
+                                                <button
+                                                  type="button"
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleViewReceipt(pay);
+                                                  }}
+                                                  title="Print / View Fee Receipt"
+                                                  className="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#2864E8] dark:hover:text-blue-400 hover:bg-blue-50/90 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+                                                >
+                                                  <Printer className="w-3.5 h-3.5" />
+                                                </button>
+
+                                                {/* 2. Share Icon -> Direct Native Share Options (WhatsApp & Apps) */}
+                                                <button
+                                                  type="button"
+                                                  onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDirectWhatsAppShare(pay);
+                                                  }}
+                                                  title="Share Receipt (Direct Share Options)"
+                                                  className="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/90 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer"
+                                                >
+                                                  <Share2 className="w-3.5 h-3.5" />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                        </div>
-                      ))
+                        );
+                      })()
                     )}
                   </CardContent>
                 </Card>
@@ -6076,24 +6403,24 @@ export function FeesClient({
                 return (
                   <Card
                     key={cls.id}
-                    className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-md hover:border-slate-300/80 transition-all overflow-hidden flex flex-col justify-between"
+                    className="rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)] hover:shadow-[0_4px_14px_-4px_rgba(15,23,42,0.08)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all duration-200 overflow-hidden flex flex-col justify-between"
                   >
                     <div>
                       {/* 1. Header: Branch Name primary, Edit & Delete top-right, Compact metadata row, Subtle stats */}
-                      <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1">
+                      <div className="px-4 sm:px-5 py-3.5 border-b border-slate-100/90 dark:border-slate-800/80 bg-slate-50/55 dark:bg-slate-800/40 space-y-1.5">
                         <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                            <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <Building2 className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
+                            <h3 className="text-[15.5px] sm:text-[16px] font-bold text-slate-950 dark:text-white tracking-[-0.015em] truncate leading-snug">
                               {branch?.name.replace(' Branch', '') || cls.branchId}
                             </h3>
                           </div>
 
-                          <div className="flex items-center gap-1 shrink-0">
+                          <div className="flex items-center gap-0.5 -mr-1 shrink-0">
                             <button
                               type="button"
                               onClick={() => openEditClassModal(cls)}
-                              className="h-7 w-7 rounded-lg text-slate-400 hover:text-[#2864E8] hover:bg-blue-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                              className="h-7 w-7 rounded-lg text-slate-400/90 hover:text-[#2864E8] hover:bg-blue-50/90 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
                               title="Edit Class Details"
                             >
                               <Edit className="w-3.5 h-3.5" />
@@ -6101,7 +6428,7 @@ export function FeesClient({
                             <button
                               type="button"
                               onClick={() => setDeleteTarget({ type: 'class', id: cls.id, name: cls.name })}
-                              className="h-7 w-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                              className="h-7 w-7 rounded-lg text-slate-400/90 hover:text-rose-600 hover:bg-rose-50/90 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
                               title="Delete Class"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -6110,42 +6437,46 @@ export function FeesClient({
                         </div>
 
                         {/* Metadata Row: Class Name • Course/Stream • Academic Year */}
-                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium flex-wrap">
-                          <span className="font-semibold text-slate-800 dark:text-slate-200">{cls.name}</span>
+                        <div className="flex items-center gap-2 text-[12px] text-slate-500 dark:text-slate-400 font-medium flex-wrap">
+                          <span className="text-[12.5px] font-semibold text-slate-800 dark:text-slate-100 tracking-[-0.01em]">{cls.name}</span>
                           {cls.division && !cls.name.toLowerCase().includes(cls.division.toLowerCase()) && (
                             <>
                               <span className="text-slate-300 dark:text-slate-600">•</span>
-                              <span className="uppercase text-slate-600 dark:text-slate-300 font-semibold">{cls.division}</span>
+                              <span className="uppercase text-[11px] tracking-[0.03em] text-slate-600 dark:text-slate-300 font-semibold">{cls.division}</span>
                             </>
                           )}
                           <span className="text-slate-300 dark:text-slate-600">•</span>
-                          <span className="tabular-nums font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded text-[11px]">
+                          <span className="tabular-nums font-semibold text-[#2864E8] dark:text-blue-400 bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-800/50 px-2 py-0.5 rounded-full text-[10.5px] leading-none">
                             Session {cls.academicSession || '2026-27'}
                           </span>
                         </div>
 
                         {/* 2. Compact Statistics */}
-                        <div className="flex items-center gap-3 pt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                        <div className="flex items-center gap-3.5 pt-1 text-[11.5px] text-slate-500 dark:text-slate-400">
                           <div className="flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8]" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8] shrink-0" />
                             <span>Batches:</span>
-                            <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{clsBatches.length}</span>
+                            <span className={`font-semibold tabular-nums ${clsBatches.length > 0 ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>
+                              {clsBatches.length}
+                            </span>
                           </div>
                           <span className="text-slate-300 dark:text-slate-700">•</span>
                           <div className="flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${(cls.studentCount || 0) > 0 ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
                             <span>Enrolled Students:</span>
-                            <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{cls.studentCount || 0}</span>
+                            <span className={`font-semibold tabular-nums ${(cls.studentCount || 0) > 0 ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>
+                              {cls.studentCount || 0}
+                            </span>
                           </div>
                         </div>
                       </div>
 
                       {/* 3. Batches Content Area */}
-                      <div className="p-3.5 sm:p-4 space-y-3">
+                      <div className="px-4 sm:px-5 py-3.5 space-y-3">
                         {/* Batch Navigation Header */}
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center shrink-0">
-                            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                            <span className="text-[10.5px] font-bold uppercase tracking-[0.06em] text-slate-400 dark:text-slate-500">
                               Batches
                             </span>
                           </div>
@@ -6153,7 +6484,7 @@ export function FeesClient({
                           {/* Batch text tabs */}
                           {clsBatches.length > 0 && (
                             <div className="flex-1 flex items-center overflow-x-auto no-scrollbar mx-2 py-0.5">
-                              <div className="inline-flex items-center gap-3">
+                              <div className="inline-flex items-center gap-1.5">
                                 {clsBatches.map(b => {
                                   const isActive = b.id === activeBatch?.id;
                                   return (
@@ -6161,9 +6492,9 @@ export function FeesClient({
                                       key={b.id}
                                       type="button"
                                       onClick={() => setSelectedBatchPerClass(prev => ({ ...prev, [cls.id]: b.id }))}
-                                      className={`text-[12px] transition-colors cursor-pointer shrink-0 whitespace-nowrap bg-transparent p-0 ${isActive
-                                        ? "font-bold text-[#2864E8] dark:text-[#4B82F6]"
-                                        : "font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                                      className={`text-[11.5px] px-2 py-0.5 rounded-md transition-colors cursor-pointer shrink-0 whitespace-nowrap ${isActive
+                                        ? "font-semibold bg-blue-50/90 dark:bg-blue-950/60 text-[#2864E8] dark:text-[#4B82F6]"
+                                        : "font-medium bg-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100/70 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800/70"
                                         }`}
                                     >
                                       {b.name}
@@ -6178,78 +6509,78 @@ export function FeesClient({
                           <button
                             type="button"
                             onClick={() => openCreateBatchModal(cls.id)}
-                            className="h-7 w-7 rounded-lg text-[#2864E8] hover:text-[#1E4ED8] hover:bg-blue-50 dark:hover:bg-blue-950/40 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                            className="h-7 w-7 rounded-lg border border-blue-200/70 dark:border-blue-800/60 bg-blue-50/50 dark:bg-blue-950/30 text-[#2864E8] hover:text-[#1E4ED8] hover:bg-blue-100/80 dark:hover:bg-blue-950/60 flex items-center justify-center transition-colors cursor-pointer shrink-0"
                             title="Add Batch"
                             aria-label="Add Batch"
                           >
-                            <Plus className="w-4 h-4" />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
                         </div>
 
                         {clsBatches.length === 0 ? (
                           <div
                             onClick={() => openCreateBatchModal(cls.id)}
-                            className="py-5 px-3 rounded-xl text-center cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80"
+                            className="py-5 px-4 rounded-xl text-center cursor-pointer transition-colors bg-slate-50/50 hover:bg-slate-50 dark:bg-slate-800/20 dark:hover:bg-slate-800/40 border border-dashed border-slate-200/90 dark:border-slate-800"
                           >
-                            <Layers className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-700 mb-1.5" />
+                            <Layers className="w-6 h-6 mx-auto text-slate-300 dark:text-slate-600 mb-1.5" />
                             <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No batches added yet</p>
                             <p className="text-[11px] text-slate-400 mt-0.5">Click + above to create a batch for this class.</p>
                           </div>
                         ) : activeBatch ? (
-                          <div className="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 space-y-2">
+                          <div className="border-t border-slate-100/90 dark:border-slate-800/80 pt-3 space-y-2.5">
                             {/* 4. Selected Batch Top Row: Batch Name & Students Count on left, Fee & Actions on right */}
                             <div className="flex items-center justify-between gap-2">
-                              <div className="flex items-center gap-1.5 min-w-0">
-                                <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tracking-[-0.01em] truncate">
                                   {activeBatch.name}
                                 </span>
                                 <span className="text-slate-300 dark:text-slate-600">•</span>
-                                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-normal tabular-nums whitespace-nowrap">
+                                <span className={`text-[11.5px] font-medium tabular-nums whitespace-nowrap ${students.filter(s => s.batchId === activeBatch.id).length > 0 ? 'text-slate-500 dark:text-slate-400' : 'text-slate-400 dark:text-slate-500'}`}>
                                   {students.filter(s => s.batchId === activeBatch.id).length} students
                                 </span>
                               </div>
 
                               <div className="flex items-center gap-2 shrink-0">
-                                <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums tracking-tight">
-                                  ₹{Number(activeBatch.monthlyFee || 0).toLocaleString('en-IN')}<span className="text-[10.5px] text-slate-400 font-normal ml-0.5">/mo</span>
+                                <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[13.5px] tabular-nums tracking-[-0.01em]">
+                                  ₹{Number(activeBatch.monthlyFee || 0).toLocaleString('en-IN')}<span className="text-[10.5px] text-slate-400 font-medium ml-0.5">/mo</span>
                                 </span>
-                                <div className="flex items-center gap-0.5 border-l border-slate-200/80 dark:border-slate-700/60 pl-1.5">
+                                <div className="flex items-center gap-0.5 border-l border-slate-200/80 dark:border-slate-700/60 pl-1.5 -mr-1">
                                   <button
                                     type="button"
                                     onClick={() => openEditBatchModal(activeBatch)}
-                                    className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-[#2864E8] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                                    className="h-7 w-7 rounded-lg text-slate-400/90 hover:text-[#2864E8] hover:bg-blue-50/90 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
                                     title="Edit Batch"
                                   >
-                                    <Edit className="w-3 h-3" />
+                                    <Edit className="w-3.5 h-3.5" />
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => setDeleteTarget({ type: 'batch', id: activeBatch.id, name: activeBatch.name })}
-                                    className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                                    className="h-7 w-7 rounded-lg text-slate-400/90 hover:text-rose-600 hover:bg-rose-50/90 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
                                     title="Delete Batch"
                                   >
-                                    <Trash2 className="w-3 h-3" />
+                                    <Trash2 className="w-3.5 h-3.5" />
                                   </button>
                                 </div>
                               </div>
                             </div>
 
                             {/* Second Section: Timing, Dates, Subjects */}
-                            <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+                            <div className="pt-2.5 border-t border-slate-100/80 dark:border-slate-800/60 space-y-1.5 text-[11.5px] text-slate-500 dark:text-slate-400">
                               {/* Schedule Row */}
                               {(activeBatch.classTime || activeBatch.duration) && (
-                                <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
+                                <div className="flex items-center gap-1.5 text-slate-700 dark:text-slate-200 font-medium">
                                   <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                                  <span>{activeBatch.classTime || ''}</span>
+                                  <span className="tabular-nums">{activeBatch.classTime || ''}</span>
                                   {activeBatch.duration && <span className="text-slate-400 font-normal">• {activeBatch.duration}</span>}
                                 </div>
                               )}
 
                               {/* Subjects */}
                               {activeBatch.subjects && activeBatch.subjects.length > 0 && (
-                                <div className="flex items-center gap-1.5 text-[11px] pt-0.5">
+                                <div className="flex items-center gap-1.5 text-[11.5px] pt-0.5">
                                   <span className="text-slate-400 font-normal shrink-0">Subjects:</span>
-                                  <span className="text-slate-700 dark:text-slate-300 font-medium truncate" title={activeBatch.subjects.join(', ')}>
+                                  <span className="text-slate-700 dark:text-slate-200 font-medium truncate" title={activeBatch.subjects.join(', ')}>
                                     {activeBatch.subjects.join(', ')}
                                   </span>
                                 </div>
@@ -6267,107 +6598,199 @@ export function FeesClient({
                 ? filteredClasses
                 : filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === classSessionFilter);
 
+              const renderBranchGroupedClasses = (classList: FeeClass[], scopePrefix = 'single') => {
+                const getClassSortKey = (name: string) => {
+                  const m = (name || '').match(/(\d+)(?:\s*[-–]\s*(\d+))?/);
+                  if (!m) return { start: 9999, end: 9999, text: (name || '').toLowerCase() };
+                  const start = parseInt(m[1], 10);
+                  const end = m[2] ? parseInt(m[2], 10) : start;
+                  return { start, end, text: (name || '').toLowerCase() };
+                };
+
+                const branchOrderIndex = (branchId: string) => {
+                  const idx = IDL_BRANCHES.findIndex(b => b.id === branchId);
+                  return idx === -1 ? 999 : idx;
+                };
+
+                const groupedMap = new Map<string, FeeClass[]>();
+                classList.forEach(cls => {
+                  const key = cls.branchId || 'unassigned';
+                  const list = groupedMap.get(key) || [];
+                  list.push(cls);
+                  groupedMap.set(key, list);
+                });
+
+                const branchGroups = Array.from(groupedMap.entries())
+                  .sort(([aId], [bId]) => {
+                    const diff = branchOrderIndex(aId) - branchOrderIndex(bId);
+                    return diff !== 0 ? diff : aId.localeCompare(bId);
+                  })
+                  .map(([branchId, items]) => {
+                    const branchObj = IDL_BRANCHES.find(b => b.id === branchId);
+                    const branchLabel = branchObj
+                      ? branchObj.name.replace(' Branch', '')
+                      : branchId === 'unassigned'
+                        ? 'Other Branch'
+                        : branchId;
+                    const sortedItems = [...items].sort((a, b) => {
+                      const ka = getClassSortKey(a.name);
+                      const kb = getClassSortKey(b.name);
+                      if (ka.start !== kb.start) return ka.start - kb.start;
+                      if (ka.end !== kb.end) return ka.end - kb.end;
+                      return ka.text.localeCompare(kb.text);
+                    });
+                    const totalBatches = sortedItems.reduce(
+                      (sum, c) => sum + batches.filter(b => b.classId === c.id).length,
+                      0
+                    );
+                    const totalStudents = sortedItems.reduce(
+                      (sum, c) => sum + Number(c.studentCount || 0),
+                      0
+                    );
+                    return {
+                      groupKey: `${scopePrefix}:${branchId}`,
+                      branchId,
+                      branchLabel,
+                      items: sortedItems,
+                      totalBatches,
+                      totalStudents,
+                    };
+                  });
+
+                const activeGroupKey =
+                  expandedClassBatchBranchId === `__none__:${scopePrefix}`
+                    ? null
+                    : expandedClassBatchBranchId && branchGroups.some(g => g.groupKey === expandedClassBatchBranchId)
+                      ? expandedClassBatchBranchId
+                      : branchGroups[0]?.groupKey || null;
+
+                return (
+                  <div className="rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)] overflow-hidden">
+                    {branchGroups.map((group, gIdx) => {
+                      const isOpen = activeGroupKey === group.groupKey;
+                      return (
+                        <div key={group.groupKey}>
+                          {/* Branch Accordion Header Bar */}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setExpandedClassBatchBranchId(isOpen ? `__none__:${scopePrefix}` : group.groupKey)
+                            }
+                            aria-expanded={isOpen}
+                            className={`w-full min-h-[46px] px-4 sm:px-5 py-3 bg-[#F6F9FF] hover:bg-blue-50/80 dark:bg-blue-950/25 dark:hover:bg-blue-950/40 border-b border-[#E4ECFA] dark:border-blue-900/50 flex items-center justify-between gap-3 transition-colors cursor-pointer text-left ${
+                              gIdx > 0 ? 'border-t' : ''
+                            }`}
+                          >
+                            <div className="inline-flex items-center gap-2 min-w-0 flex-wrap">
+                              <span className="w-5 h-5 rounded-md bg-blue-100/75 dark:bg-blue-900/40 inline-flex items-center justify-center shrink-0">
+                                <Building2 className="w-3 h-3 text-[#2864E8] dark:text-blue-400" />
+                              </span>
+                              <span className="text-[12px] font-bold uppercase tracking-[0.055em] text-slate-900 dark:text-white truncate leading-none">
+                                {group.branchLabel}
+                              </span>
+                              <span className="text-[9.5px] font-semibold uppercase tracking-[0.045em] px-2 py-[3px] rounded-full bg-white/95 dark:bg-slate-900 border border-blue-200/75 dark:border-blue-800/60 text-[#2864E8] dark:text-blue-400 tabular-nums shrink-0 leading-none">
+                                {group.items.length} {group.items.length === 1 ? 'CLASS' : 'CLASSES'}
+                              </span>
+                            </div>
+
+                            <div className="inline-flex items-center gap-3 shrink-0">
+                              <div className="hidden sm:inline-flex items-center gap-2.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-[0.045em]">
+                                <span>
+                                  <strong className="font-bold text-slate-800 dark:text-slate-100">{group.totalBatches}</strong>{' '}
+                                  {group.totalBatches === 1 ? 'BATCH' : 'BATCHES'}
+                                </span>
+                                <span className="text-slate-300 dark:text-slate-700">•</span>
+                                <span>
+                                  <strong className={`font-bold ${group.totalStudents > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`}>
+                                    {group.totalStudents}
+                                  </strong>{' '}
+                                  {group.totalStudents === 1 ? 'STUDENT' : 'STUDENTS'}
+                                </span>
+                              </div>
+                              <ChevronDown
+                                className={`w-4 h-4 transition-transform duration-200 shrink-0 ${
+                                  isOpen
+                                    ? 'rotate-180 text-[#2864E8] dark:text-blue-400'
+                                    : 'text-slate-400 dark:text-slate-500'
+                                }`}
+                              />
+                            </div>
+                          </button>
+
+                          {/* Smooth Collapsible Class Cards Grid */}
+                          <div
+                            className={`grid transition-[grid-template-rows,opacity] duration-200 ease-out ${
+                              isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                            }`}
+                          >
+                            <div className="overflow-hidden">
+                              <div className="p-4 sm:p-5 bg-slate-50/35 dark:bg-slate-950/30">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                                  {group.items.map(cls => renderClassCard(cls))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              };
+
               return (
                 <div className="space-y-4">
                   {/* Academic Session Selector Bar */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider pr-1 sm:border-r border-slate-200 dark:border-slate-800">
-                        <GraduationCap className="w-4 h-4 text-[#2864E8]" />
-                        <span>Session:</span>
+                  <div className="flex items-center justify-between gap-3 flex-wrap px-4 sm:px-5 pt-2.5 pb-0 rounded-2xl border border-[#E6ECF4] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_2px_rgba(15,23,42,0.03)]">
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.06em] pb-2.5">
+                        Session:
+                      </span>
+
+                      <div className="flex items-center gap-4 flex-wrap">
+                        {allSessionsList.map(s => {
+                          const isSelected = classSessionFilter === s.id;
+                          return (
+                            <button
+                              key={s.id}
+                              type="button"
+                              onClick={() => setClassSessionFilter(s.id)}
+                              className={`relative pb-2.5 px-0.5 text-[13px] transition-colors cursor-pointer inline-flex items-center gap-1.5 bg-transparent ${
+                                isSelected
+                                  ? 'text-[#2864E8] dark:text-blue-400 font-bold'
+                                  : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 font-medium'
+                              }`}
+                            >
+                              <span className="tabular-nums">{s.label}</span>
+                              {s.isCurrent && (
+                                <span className="text-[9px] px-1.5 py-[2px] rounded-full font-semibold uppercase tracking-[0.05em] bg-blue-50/90 text-[#2864E8] border border-blue-200/70 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-800/50 leading-none">
+                                  Current
+                                </span>
+                              )}
+                              {s.classCount > 0 && (
+                                <span className="text-[11px] tabular-nums font-semibold text-slate-400 dark:text-slate-500 leading-none">
+                                  ({s.classCount})
+                                </span>
+                              )}
+                              {isSelected && (
+                                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#2864E8] dark:bg-blue-400 rounded-full" />
+                              )}
+                            </button>
+                          );
+                        })}
                       </div>
-
-                      {allSessionsList.map(s => {
-                        const isSelected = classSessionFilter === s.id;
-                        return (
-                          <button
-                            key={s.id}
-                            type="button"
-                            onClick={() => setClassSessionFilter(s.id)}
-                            className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
-                              isSelected
-                                ? 'bg-[#2864E8] text-white font-semibold shadow-sm'
-                                : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
-                            }`}
-                          >
-                            <span>{s.label}</span>
-                            {s.isCurrent && (
-                              <span
-                                className={`text-[9.5px] px-1 py-0.2 rounded font-bold uppercase tracking-wider ${
-                                  isSelected
-                                    ? 'bg-white/20 text-white'
-                                    : 'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300'
-                                }`}
-                              >
-                                Current
-                              </span>
-                            )}
-                            {s.classCount > 0 && (
-                              <span
-                                className={`text-[10px] tabular-nums font-semibold px-1 rounded-full ${
-                                  isSelected ? 'bg-white/20 text-white' : 'bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
-                                }`}
-                              >
-                                {s.classCount}
-                              </span>
-                            )}
-                          </button>
-                        );
-                      })}
-
-                      {/* All Sessions button */}
-                      <button
-                        type="button"
-                        onClick={() => setClassSessionFilter('all')}
-                        className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
-                          classSessionFilter === 'all'
-                            ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold shadow-sm'
-                            : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
-                        }`}
-                      >
-                        <span>All Sessions</span>
-                      </button>
-
-                      {/* + New Session button */}
-                      <button
-                        type="button"
-                        onClick={() => setIsAddSessionDialogOpen(true)}
-                        className="h-7 px-2.5 rounded-lg text-xs border border-dashed border-slate-300 dark:border-slate-700 hover:border-[#2864E8] text-slate-500 hover:text-[#2864E8] dark:hover:text-[#4B82F6] font-medium transition-colors flex items-center gap-1"
-                        title="Add New Academic Year/Session"
-                      >
-                        <Plus className="w-3 h-3" />
-                        <span>New Session</span>
-                      </button>
                     </div>
 
-                    {/* Active Session Info & Quick Action */}
-                    <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 self-end sm:self-auto">
-                      {classSessionFilter !== 'all' ? (
-                        <>
-                          <div className="hidden md:flex items-center gap-1 text-[11px] text-slate-500">
-                            <Clock className="w-3.5 h-3.5 text-slate-400" />
-                            <span>{getSessionDurationText(classSessionFilter)}</span>
-                          </div>
-                          <Button
-                            size="sm"
-                            onClick={() => openCreateClassModal(classSessionFilter)}
-                            className="h-7 px-2.5 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer"
-                          >
-                            <Plus className="w-3 h-3" />
-                            <span>Add Class</span>
-                          </Button>
-                        </>
-                      ) : (
-                        <Button
-                          size="sm"
-                          onClick={() => openCreateClassModal()}
-                          className="h-7 px-2.5 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer"
-                        >
-                          <Plus className="w-3 h-3" />
-                          <span>Add Class</span>
-                        </Button>
-                      )}
-                    </div>
+                    {/* + New Session button */}
+                    <button
+                      type="button"
+                      onClick={() => setIsAddSessionDialogOpen(true)}
+                      className="mb-2 h-7 px-3 rounded-lg text-[11.5px] border border-dashed border-slate-300/90 dark:border-slate-700 hover:border-[#2864E8] hover:bg-blue-50/40 text-slate-500 hover:text-[#2864E8] dark:hover:text-[#4B82F6] font-semibold transition-colors inline-flex items-center gap-1 cursor-pointer shrink-0"
+                      title="Add New Academic Year/Session"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>New Session</span>
+                    </button>
                   </div>
 
                   {/* Mode 1: Grouped view when 'all' is selected */}
@@ -6419,9 +6842,7 @@ export function FeesClient({
                                 </button>
                               </div>
                             ) : (
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                                {sessClasses.map(cls => renderClassCard(cls))}
-                              </div>
+                              renderBranchGroupedClasses(sessClasses, `sess-${sess.id}`)
                             )}
                           </div>
                         );
@@ -6449,10 +6870,8 @@ export function FeesClient({
                       </Button>
                     </div>
                   ) : (
-                    /* Mode 3: Grid of cards for selected single session */
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                      {sessionFilteredClasses.map(cls => renderClassCard(cls))}
-                    </div>
+                    /* Mode 3: Branch-grouped accordion cards for selected single session */
+                    renderBranchGroupedClasses(sessionFilteredClasses, `single-${classSessionFilter}`)
                   )}
                 </div>
               );
@@ -6467,9 +6886,6 @@ export function FeesClient({
                   <DialogTitle className={FORM_CARD_TITLE_CLS}>
                     Add New Academic Session
                   </DialogTitle>
-                  <DialogDescription className={FORM_CARD_DESC_CLS}>
-                    Define a new yearly cycle (e.g. 2027-28 for April 2027 to March 2028).
-                  </DialogDescription>
                 </div>
               </DialogHeader>
 
@@ -6482,11 +6898,6 @@ export function FeesClient({
                     onChange={e => setNewSessionInput(e.target.value.trim())}
                     className={FORM_CARD_FIELD_CLS}
                   />
-                  {newSessionInput && (
-                    <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium pt-1">
-                      Cycle: {getSessionDurationText(newSessionInput)}
-                    </p>
-                  )}
                 </div>
 
                 <div className="space-y-1">
@@ -6511,17 +6922,6 @@ export function FeesClient({
               </div>
 
               <DialogFooter className="pt-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => {
-                    setIsAddSessionDialogOpen(false);
-                    setNewSessionInput('');
-                  }}
-                  className="text-xs"
-                >
-                  Cancel
-                </Button>
                 <Button
                   type="button"
                   disabled={!newSessionInput.trim()}
@@ -8062,9 +8462,6 @@ export function FeesClient({
                 <DialogTitle className={FORM_CARD_TITLE_CLS}>
                   Create Academic Class
                 </DialogTitle>
-                <DialogDescription className={FORM_CARD_DESC_CLS}>
-                  Define a new academic class and assign it to a branch.
-                </DialogDescription>
               </div>
             </DialogHeader>
 
@@ -8124,39 +8521,16 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Academic Session
-                    </Label>
-                    {classForm.academicSession && (
-                      <span className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium">
-                        {getSessionDurationText(classForm.academicSession)}
-                      </span>
-                    )}
-                  </div>
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Academic Session
+                  </Label>
                   <Input
                     placeholder="e.g. 2026-27"
                     value={classForm.academicSession}
                     onChange={e => setClassForm({ ...classForm, academicSession: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
                   />
-                  <div className="flex items-center gap-1.5 pt-0.5 flex-wrap">
-                    {allSessionsList.map(s => (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => setClassForm({ ...classForm, academicSession: s.id })}
-                        className={`px-2 py-0.5 text-[11px] rounded border transition-colors cursor-pointer ${
-                          classForm.academicSession === s.id
-                            ? 'bg-blue-50 border-blue-300 text-blue-700 font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
-                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
-                        }`}
-                      >
-                        {s.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               </div>
 
@@ -8981,39 +9355,16 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Academic Session
-                    </Label>
-                    {editClassForm.academicSession && (
-                      <span className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium">
-                        {getSessionDurationText(editClassForm.academicSession)}
-                      </span>
-                    )}
-                  </div>
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Academic Session
+                  </Label>
                   <Input
                     placeholder="e.g. 2026-27"
                     value={editClassForm.academicSession}
                     onChange={e => setEditClassForm({ ...editClassForm, academicSession: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
                   />
-                  <div className="flex items-center gap-1.5 pt-0.5 flex-wrap">
-                    {allSessionsList.map(s => (
-                      <button
-                        key={s.id}
-                        type="button"
-                        onClick={() => setEditClassForm({ ...editClassForm, academicSession: s.id })}
-                        className={`px-2 py-0.5 text-[11px] rounded border transition-colors cursor-pointer ${
-                          editClassForm.academicSession === s.id
-                            ? 'bg-blue-50 border-blue-300 text-blue-700 font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
-                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
-                        }`}
-                      >
-                        {s.label}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               </div>
 

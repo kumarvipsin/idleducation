@@ -149,8 +149,8 @@ export const normalizeBranchSelection = (branchStr?: string) => {
  * Determines whether a specific branch offers the given program / course / class.
  * 
  * Rules:
- * 1. JEE / NEET: Available at Mukherjee Nagar and Mangolpuri only. (Budh Vihar & Krishan Vihar are disabled).
- * 2. Classes 4–8 (Junior Foundation): Available at Mangolpuri only.
+ * 1. JEE / NEET: Available at Mukherjee Nagar, Mangolpuri, and Budh Vihar. (Krishan Vihar is disabled).
+ * 2. Classes 4–8 (Junior Foundation): Available at Mangolpuri and Budh Vihar.
  * 3. Classes 9–10 (Secondary Board): Available at all 4 branches.
  * 4. Classes 11–12 (Commerce Foundation): Available at all 4 branches.
  * 5. If availableBranches prop is provided, strictly follow it.
@@ -188,7 +188,7 @@ export const isBranchAvailableForCourse = ({
     (allowedCourses && allowedCourses.some(c => c.toLowerCase().includes('jee') || c.toLowerCase().includes('neet')));
 
   if (isJeeNeet) {
-    return branchId === 'mukherjee-nagar' || branchId === 'mangolpuri';
+    return branchId === 'mukherjee-nagar' || branchId === 'mangolpuri' || branchId === 'budh-vihar';
   }
 
   // Check if it's Junior Foundation (Classes 4 to 8)
@@ -198,7 +198,7 @@ export const isBranchAvailableForCourse = ({
     (allowedClasses && allowedClasses.some(c => ['4th', '5th', '6th', '7th', '8th'].some(j => c.includes(j))));
 
   if (isJunior) {
-    return branchId === 'mangolpuri';
+    return branchId === 'mangolpuri' || branchId === 'budh-vihar';
   }
 
   // All other CBSE Board (Class 9, 10, 11, 12) & Commerce are available across all 4 branches

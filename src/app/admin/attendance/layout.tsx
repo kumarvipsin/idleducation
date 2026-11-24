@@ -67,7 +67,9 @@ function MainAttendanceShell({ children }: { children: React.ReactNode }) {
     pathname?.startsWith('/admin/attendance/reports') ||
     pathname?.startsWith('/admin/attendance/live') ||
     pathname?.startsWith('/admin/attendance/classes') ||
-    pathname?.startsWith('/admin/attendance/students');
+    pathname?.startsWith('/admin/attendance/students') ||
+    pathname?.startsWith('/admin/attendance/schedule') ||
+    pathname?.startsWith('/admin/attendance/subjects');
 
   return (
     <div
