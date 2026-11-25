@@ -876,8 +876,8 @@ export function Header() {
                         : "border-slate-100 dark:border-slate-800/80"
                 )}
             >
-                <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                    <Link href="/" className="flex items-center justify-center -ml-2 py-0 h-full">
+                <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-6 flex justify-between items-center h-full">
+                    <Link href="/" className="flex items-center justify-center -ml-1 md:-ml-2 py-0 h-full">
                         <Image src="/idllogo.png" alt="IDL Education Logo" width={180} height={80} className="h-[62px] sm:h-[64px] md:h-[65px] max-h-[62px] sm:max-h-[64px] md:max-h-[65px] w-auto object-contain object-left" priority />
                     </Link>
 

@@ -9,9 +9,9 @@ export function GetAppSection() {
     <section 
       id="idl-learning-app"
       aria-label="IDL Learning App"
-      className="w-full py-6 sm:py-8 md:py-9 lg:py-8 bg-white dark:bg-background relative z-10"
+      className="w-full pt-6 sm:pt-7 md:pt-8 lg:pt-9 pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-white dark:bg-background relative z-10"
     >
-      <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl">
+      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-6 max-w-7xl">
         
         {/* Main Section Card: Clean, Calm & Minimal Showcase */}
         <div className="relative rounded-[20px] min-[380px]:rounded-[22px] sm:rounded-[30px] lg:rounded-[32px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 px-4 pt-4 pb-2 min-[380px]:px-5 min-[380px]:pt-4.5 min-[380px]:pb-2.5 sm:px-8 sm:pt-8 sm:pb-9 lg:px-10 lg:py-7 xl:px-12 xl:py-8 overflow-hidden shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] sm:shadow-[0_4px_30px_-6px_rgba(6,43,103,0.04)]">

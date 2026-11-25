@@ -543,7 +543,7 @@ export function AcademicExcellence() {
     <section 
       id="academic-results" 
       aria-label="Academic Results"
-      className="w-full pt-7 pb-9 sm:pt-9 sm:pb-12 md:pt-11 md:pb-14 bg-white dark:bg-slate-950 overflow-hidden relative"
+      className="w-full idl-section-y bg-white dark:bg-slate-950 overflow-hidden relative"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* Container aligned with Courses We Offer width (max-w-[1360px]) */}
@@ -807,7 +807,7 @@ export function AcademicExcellence() {
                       {/* Student Card: Clean, balanced card with subtle soft border (not harsh or prominently visible) */}
                       <div 
                         onClick={() => setSelectedCardId(student.id)}
-                        className="bg-white rounded-[20px] sm:rounded-[22px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_rgba(10,30,74,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(10,30,74,0.08)] hover:border-[#BFDBFE]/70 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none p-3 sm:p-2.5"
+                        className="bg-white rounded-[20px] sm:rounded-[22px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_rgba(10,30,74,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(10,30,74,0.08)] hover:border-[#BFDBFE]/70 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-none mx-auto outline-none focus:outline-none focus:ring-0 active:outline-none p-3 sm:p-2.5"
                       >
                         
                         {/* Student image: IDL Star style with outer margin/padding and rounded-[15px] corners */}

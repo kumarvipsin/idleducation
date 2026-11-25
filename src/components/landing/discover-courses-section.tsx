@@ -858,7 +858,7 @@ export function DiscoverCoursesSection() {
             <section 
                 suppressHydrationWarning 
                 aria-label="Courses We Offer"
-                className="relative w-full z-30 -mt-6 min-[390px]:-mt-8 sm:-mt-8 md:-mt-10 lg:-mt-12 px-3 sm:px-4 md:px-6 pointer-events-auto pb-2 sm:pb-3"
+                className="relative w-full z-30 -mt-6 min-[390px]:-mt-8 sm:-mt-8 md:-mt-10 lg:-mt-12 px-3 sm:px-4 md:px-6 pointer-events-auto pb-4 sm:pb-5 md:pb-6 lg:pb-7"
             >
                 <style dangerouslySetInnerHTML={{ __html: `
                     @keyframes fadeInUp {
@@ -878,7 +878,7 @@ export function DiscoverCoursesSection() {
                 ` }} />
                 
                 {/* Clean Centered Container with Generous Margins */}
-                <div className="container mx-auto px-0 max-w-[1360px] relative z-10">
+                <div className="w-full md:container mx-auto px-0 max-w-[1360px] relative z-10">
                     <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/70 dark:border-slate-800/80 rounded-[18px] md:rounded-2xl shadow-[0_4px_20px_-4px_rgba(11,40,88,0.05),0_1px_3px_rgba(11,40,88,0.02)] md:shadow-[0_10px_30px_-6px_rgba(11,40,88,0.06),0_2px_6px_rgba(11,40,88,0.02)] p-3 min-[390px]:p-3.5 sm:p-4 md:p-5 overflow-hidden">
                         
                         {/* Section Header / Eyebrow */}

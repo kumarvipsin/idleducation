@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Lock, GraduationCap, Briefcase, User, Send } from "lucide-react";
+import { Mail, Lock, User, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +26,6 @@ type SignupValues = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [userRole, setUserRole] = useState<'student' | 'teacher'>('student');
 
   const emailForm = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -36,9 +33,9 @@ export default function SignupPage() {
   });
 
   const handleEmailSignup: SubmitHandler<SignupValues> = async (data) => {
-    const result = await signUpUser({ ...data, role: userRole });
+    const result = await signUpUser({ ...data, role: 'student' });
     if (result.success) {
-      toast({ title: "Account Created", description: "Please sign in with your new credentials." });
+      toast({ title: "Account Created", description: result.message || "Please sign in with your new credentials." });
       router.push('/login');
     } else {
       toast({ variant: "destructive", title: "Signup Failed", description: result.message });
@@ -76,7 +73,7 @@ export default function SignupPage() {
             Start Your Journey
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
           </h1>
-          <p className="text-xs text-muted-foreground font-semibold mt-1">Create a new student or teacher account with email.</p>
+          <p className="text-xs text-muted-foreground font-semibold mt-1">Create a new student account with email.</p>
         </div>
 
         {/* Contact-style Card */}
@@ -84,26 +81,6 @@ export default function SignupPage() {
           <CardContent className="p-0">
             <Form {...emailForm}>
               <form noValidate onSubmit={emailForm.handleSubmit(handleEmailSignup)} className="flex flex-col overflow-hidden">
-                {/* Role Tabs */}
-                <div className="border-b border-slate-100 dark:border-slate-800">
-                  <Tabs value={userRole} onValueChange={(val) => setUserRole(val as 'student' | 'teacher')}>
-                    <TabsList className="grid w-full grid-cols-2 p-0 bg-transparent h-12 rounded-none">
-                      <TabsTrigger
-                        value="student"
-                        className="rounded-none bg-transparent data-[state=active]:bg-primary/5 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary text-xs font-bold uppercase tracking-wider text-slate-400 h-full cursor-pointer border-b-2 border-transparent transition-all"
-                      >
-                        <GraduationCap className="w-3.5 h-3.5 mr-1.5" /> Student
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="teacher"
-                        className="rounded-none bg-transparent data-[state=active]:bg-primary/5 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary text-xs font-bold uppercase tracking-wider text-slate-400 h-full cursor-pointer border-b-2 border-transparent transition-all"
-                      >
-                        <Briefcase className="w-3.5 h-3.5 mr-1.5" /> Teacher
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </div>
-
                 {/* Email signup fields */}
                 <div className="grid grid-cols-1 divide-y divide-slate-100">
                   <FormField

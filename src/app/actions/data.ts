@@ -17,7 +17,18 @@ export async function getSessionBookings(narrowBranchId?: string) {
     }
     const bookingsQuery = query(collection(db, "sessionBookings"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(bookingsQuery);
-    const bookings = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    const bookings = querySnapshot.docs.map(doc => {
+      const data = serializeFirestoreData(doc.data());
+      const rawMode = String(data.sessionMode || data.mode || '').trim();
+      const normalizedMode = rawMode
+        ? rawMode.charAt(0).toUpperCase() + rawMode.slice(1).toLowerCase()
+        : '';
+      return {
+        id: doc.id,
+        ...data,
+        ...(normalizedMode ? { mode: normalizedMode, sessionMode: normalizedMode.toLowerCase() } : {}),
+      };
+    });
     return { success: true, data: scopeRecordsToBranchAdmin(bookings, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching session bookings:", error);

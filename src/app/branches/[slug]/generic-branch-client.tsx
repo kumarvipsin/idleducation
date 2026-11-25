@@ -249,7 +249,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── 4-CARD ESSENTIAL DETAILS GRID ──────────────────────────── */}
-      <section className="py-10 sm:py-14 bg-slate-50/60 dark:bg-slate-950/30 border-b border-slate-100 dark:border-slate-800/80">
+      <section className="idl-section-band-y bg-slate-50/60 dark:bg-slate-950/30 border-b border-slate-100 dark:border-slate-800/80">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#102A68] dark:text-white tracking-tight">
@@ -372,7 +372,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── ABOUT THIS BRANCH & FACILITIES ─────────────────────────── */}
-      <section className="py-12 sm:py-16">
+      <section className="idl-section-band-y">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: Branch Story & Mission */}
@@ -442,7 +442,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── COURSES OFFERED AT THIS BRANCH ─────────────────────────── */}
-      <section className="py-12 sm:py-16 bg-slate-50/60 dark:bg-slate-950/40 border-y border-slate-100 dark:border-slate-800/80">
+      <section className="idl-section-band-y bg-slate-50/60 dark:bg-slate-950/40 border-y border-slate-100 dark:border-slate-800/80">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider">OFFLINE BATCHES</span>
@@ -507,7 +507,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── QUICK DEMO BOOKING FORM + MAP SECTION ──────────────────── */}
-      <section className="py-12 sm:py-16">
+      <section className="idl-section-band-y">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
             {/* Left: Interactive Quick Demo Form */}
@@ -663,7 +663,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── FREQUENTLY ASKED QUESTIONS (FAQS) ──────────────────────── */}
-      <section className="py-12 sm:py-16 bg-slate-50/60 dark:bg-slate-950/40 border-t border-slate-100 dark:border-slate-800/80">
+      <section className="idl-section-band-y bg-slate-50/60 dark:bg-slate-950/40 border-t border-slate-100 dark:border-slate-800/80">
         <div className="max-w-[960px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-10">
             <span className="text-xs font-bold text-[#FF6B00] uppercase tracking-wider">HAVE QUESTIONS?</span>
@@ -703,7 +703,7 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── EXPLORE OTHER IDL BRANCHES IN DELHI ────────────────────── */}
-      <section className="py-12 sm:py-16 border-t border-slate-100 dark:border-slate-800/80">
+      <section className="idl-section-band-y border-t border-slate-100 dark:border-slate-800/80">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
             <div>

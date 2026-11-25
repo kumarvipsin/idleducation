@@ -19,6 +19,7 @@ const freeSessionSchema = z.object({
   branch: z.string().optional(),
   nearestBranch: z.string().optional().or(z.literal('')),
   mode: z.string().optional(),
+  sessionMode: z.string().optional(),
   subjects: z.string().optional(),
 });
 type FreeSessionValues = z.infer<typeof freeSessionSchema>;
@@ -30,8 +31,16 @@ export async function bookFreeSession(data: FreeSessionValues) {
   }
   
   try {
+    const rawMode = (validation.data.mode || validation.data.sessionMode || '').trim();
+    const normalizedMode = rawMode
+      ? rawMode.charAt(0).toUpperCase() + rawMode.slice(1).toLowerCase()
+      : undefined;
+    const normalizedBranchId = normalizeBranchId(validation.data.branch || validation.data.nearestBranch);
+
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
+      ...(normalizedMode ? { mode: normalizedMode, sessionMode: normalizedMode.toLowerCase() } : {}),
+      ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
       country: 'India',
       status: 'new',
       createdAt: serverTimestamp(),

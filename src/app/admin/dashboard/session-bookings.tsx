@@ -20,7 +20,8 @@ interface Booking {
   email: string;
   countryCode?: string;
   mobile: string;
-  sessionMode: 'online' | 'offline';
+  sessionMode?: string;
+  mode?: string;
   state: string;
   createdAt: string;
   status?: 'new' | 'seen';
@@ -100,7 +101,13 @@ export function SessionBookings() {
               </TableHeader>
               <TableBody>
                 {bookings.length > 0 ? (
-                  bookings.map((booking) => (
+                  bookings.map((booking) => {
+                    const rawMode = (booking.sessionMode || booking.mode || '').trim();
+                    const displayMode = rawMode
+                      ? rawMode.charAt(0).toUpperCase() + rawMode.slice(1).toLowerCase()
+                      : 'N/A';
+                    const isOnline = rawMode.toLowerCase() === 'online';
+                    return (
                     <TableRow key={booking.id} className={booking.status === 'new' ? 'bg-primary/5' : ''}>
                       <TableCell className="font-medium">{booking.studentName}</TableCell>
                       <TableCell>{booking.classCourse}</TableCell>
@@ -109,14 +116,15 @@ export function SessionBookings() {
                         <div>{booking.countryCode?.split('-')[0]} {booking.mobile}</div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={booking.sessionMode === 'online' ? 'default' : 'secondary'}>
-                          {booking.sessionMode}
+                        <Badge variant={isOnline ? 'default' : 'secondary'}>
+                          {displayMode}
                         </Badge>
                       </TableCell>
                        <TableCell>{booking.state}</TableCell>
                       <TableCell>{booking.createdAt ? format(new Date(booking.createdAt), 'PPp') : 'N/A'}</TableCell>
                     </TableRow>
-                  ))
+                    );
+                  })
                 ) : (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center text-muted-foreground">

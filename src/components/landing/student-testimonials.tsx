@@ -665,8 +665,8 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
   }, [desktopApi]);
 
   return (
-    <section id="testimonials" className="relative w-full pt-6 min-[390px]:pt-7 sm:pt-10 md:pt-12 pb-5 min-[390px]:pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}>
-      <div className="container relative z-10 mx-auto px-3.5 min-[390px]:px-4 sm:px-6 max-w-7xl">
+    <section id="testimonials" className="relative w-full pt-6 sm:pt-10 md:pt-12 lg:pt-14 pb-6 sm:pb-7 md:pb-8 lg:pb-9 bg-white dark:bg-background overflow-hidden" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}>
+      <div className="w-full md:container relative z-10 mx-auto px-3 sm:px-4 md:px-6 max-w-7xl">
 
         {/* ── 1. Section Header ── */}
         <div className="flex flex-col items-center justify-center text-center mb-3.5 min-[390px]:mb-4 sm:mb-8 md:mb-10">
@@ -776,7 +776,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 3. MOBILE LAYOUT — Main Card at top, then 3-Card Carousel, then Pagination Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="lg:hidden relative w-full max-w-[340px] min-[390px]:max-w-[360px] mx-auto px-0"
+              className="lg:hidden relative w-full max-w-none md:max-w-[360px] mx-auto px-0"
               onTouchStart={handleMobileTouchStart}
               onTouchEnd={handleMobileTouchEnd}
             >

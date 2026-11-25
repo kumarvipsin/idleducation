@@ -58,8 +58,8 @@ export function IdlAiAssistant() {
                 // Position: On landing page and free courses (where WhatsApp is removed), sit at primary corner (bottom: 20-24px, right: 16-24px).
                 // On pages with WhatsApp, float centered right above WhatsApp.
                 isPrimaryCorner
-                  ? 'fixed bottom-6 right-6 z-50'
-                  : 'fixed bottom-[88px] right-[33px] sm:bottom-[98px] sm:right-[38px] z-50',
+                  ? 'fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-50'
+                  : 'fixed bottom-[76px] right-[24px] sm:bottom-[98px] sm:right-[38px] z-50',
                 // Dimensions: scaled down to approximately 25% of existing overall size (~30px desktop / ~28px mobile)
                 'w-[28px] h-[28px] sm:w-[30px] sm:h-[30px] rounded-full',
                 'bg-[#1D4ED8] hover:bg-[#1A44BD]',

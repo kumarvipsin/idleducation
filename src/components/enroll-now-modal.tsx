@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, ArrowRight, Check, MapPin, Building2, User, Phone, Mail, BookOpen, Sparkles, GraduationCap, Laptop, Users } from "lucide-react";
+import { CheckCircle2, ArrowRight, Check, X, MapPin, Building2, User, Phone, Mail, BookOpen, Sparkles, GraduationCap, Laptop, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -82,10 +83,23 @@ export const SENIOR_COURSES = [
 ];
 
 export const SENIOR_COMMERCE_SUBJECTS = [
+  "Mathematics",
   "Accounts",
   "Economics",
-  "Mathematics",
-  "Others"
+  "Business Studies"
+];
+
+export const SENIOR_SCIENCE_SUBJECTS = [
+  "PCM",
+  "PCB",
+  "PCMB"
+];
+
+export const SENIOR_HUMANITIES_SUBJECTS = [
+  "Economics",
+  "Political Science",
+  "History",
+  "Geography"
 ];
 
 export const JEE_NEET_CLASSES = [
@@ -109,12 +123,20 @@ export const JEE_NEET_SUBJECTS = [
   "JEE Main+Advance"
 ];
 
+const JEE_NEET_SHORT_LABELS: Record<string, string> = {
+  "NEET": "NEET",
+  "JEE Main": "JEE Main",
+  "JEE Advance": "JEE Adv",
+  "JEE Main+Advance": "JEE Main+Adv",
+};
+
 export { GENERAL_CLASSES as CLASS_OPTIONS, GENERAL_COURSES as COURSE_OPTIONS };
 
 interface EnrollNowModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   defaultBranch?: string;
+  hideBranchField?: boolean;
   defaultClass?: string;
   defaultCourse?: string;
   programTitle?: string;
@@ -209,6 +231,7 @@ export function EnrollNowModal({
   isOpen, 
   onOpenChange,
   defaultBranch,
+  hideBranchField,
   defaultClass,
   defaultCourse,
   programTitle,
@@ -223,17 +246,74 @@ export function EnrollNowModal({
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const { toast } = useToast();
 
+  const shouldHideBranch = hideBranchField ?? Boolean(defaultBranch);
+
   const classList = allowedClasses && allowedClasses.length > 0 ? allowedClasses : GENERAL_CLASSES;
   const courseList = allowedCourses && allowedCourses.length > 0 ? allowedCourses : GENERAL_COURSES;
 
-  const initialClass = defaultClass || (allowedClasses && allowedClasses.length > 0 ? allowedClasses[0] : '');
+  const initialClass = defaultClass || '';
   const initialCourse = defaultCourse || (allowedCourses && allowedCourses.length > 0 ? allowedCourses[0] : '');
   const initialBranch = defaultBranch ? (normalizeBranchSelection(defaultBranch)?.label || defaultBranch) : '';
 
+  const modalSchema = useMemo(
+    () =>
+      enrollmentSchema.superRefine((vals, ctx) => {
+        const trimmedEmail = (vals.email || '').trim();
+        if (!trimmedEmail) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['email'],
+            message: "Email address is required.",
+          });
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['email'],
+            message: "Please enter a valid email address.",
+          });
+        }
+
+        const isJeeNeet = Boolean(
+          programTitle?.toLowerCase().includes('jee') ||
+          programTitle?.toLowerCase().includes('neet') ||
+          vals.classLevel?.toLowerCase().includes('jee') ||
+          vals.classLevel?.toLowerCase().includes('neet') ||
+          vals.course?.toLowerCase().includes('jee') ||
+          vals.course?.toLowerCase().includes('neet') ||
+          (allowedCourses && allowedCourses.some(c => c.toLowerCase().includes('jee') || c.toLowerCase().includes('neet')))
+        );
+        const isSenior =
+          isJeeNeet ||
+          Boolean(programTitle?.includes('11') || programTitle?.includes('12')) ||
+          Boolean(vals.classLevel?.includes('11') || vals.classLevel?.includes('12')) ||
+          Boolean(allowedClasses && allowedClasses.some(c => c.includes('11') || c.includes('12')));
+
+        if (isSenior && (!vals.subjects || vals.subjects.length === 0)) {
+          const isScience =
+            !isJeeNeet &&
+            Boolean(
+              programTitle?.toLowerCase().includes('science') ||
+              vals.course?.toLowerCase().includes('science') ||
+              (allowedCourses && allowedCourses.some(c => c.toLowerCase().includes('science')))
+            );
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['subjects'],
+            message: isJeeNeet
+              ? "Please select a target stream."
+              : isScience
+                ? "Please select a subject stream (PCM, PCB, or PCMB)."
+                : "Please select at least one subject.",
+          });
+        }
+      }),
+    [programTitle, allowedClasses, allowedCourses]
+  );
+
   const form = useForm<EnrollmentFormValues>({
-    resolver: zodResolver(enrollmentSchema),
+    resolver: zodResolver(modalSchema),
     defaultValues: {
-      mode: '' as any,
+      mode: 'Offline',
       studentName: '',
       fatherName: '',
       mobile: '',
@@ -274,7 +354,34 @@ export function EnrollNowModal({
     Boolean(currentClass?.includes('11') || currentClass?.includes('12')) ||
     (allowedClasses && allowedClasses.some(c => c.includes('11') || c.includes('12')));
 
-  const subjectListToUse = isJeeNeetActive ? JEE_NEET_SUBJECTS : SENIOR_COMMERCE_SUBJECTS;
+  const isScienceProgramActive =
+    isSeniorClassActive &&
+    !isJeeNeetActive &&
+    Boolean(
+      programTitle?.toLowerCase().includes('science') ||
+      currentCourse?.toLowerCase().includes('science') ||
+      (allowedCourses && allowedCourses.some(c => c.toLowerCase().includes('science')))
+    );
+
+  const isHumanitiesProgramActive =
+    isSeniorClassActive &&
+    !isJeeNeetActive &&
+    !isScienceProgramActive &&
+    Boolean(
+      programTitle?.toLowerCase().includes('humanities') ||
+      currentCourse?.toLowerCase().includes('humanities') ||
+      (allowedCourses && allowedCourses.some(c => c.toLowerCase().includes('humanities')))
+    );
+
+  const isSingleSelectSubject = isJeeNeetActive || isScienceProgramActive;
+
+  const subjectListToUse = isJeeNeetActive
+    ? JEE_NEET_SUBJECTS
+    : isScienceProgramActive
+      ? SENIOR_SCIENCE_SUBJECTS
+      : isHumanitiesProgramActive
+        ? SENIOR_HUMANITIES_SUBJECTS
+        : SENIOR_COMMERCE_SUBJECTS;
 
   // Synchronize when modal opens or props change
   useEffect(() => {
@@ -293,11 +400,7 @@ export function EnrollNowModal({
         form.setValue('branchSlug', '');
       }
 
-      if (defaultClass) {
-        form.setValue('classLevel', defaultClass);
-      } else if (allowedClasses && allowedClasses.length > 0) {
-        form.setValue('classLevel', allowedClasses[0]);
-      }
+      form.setValue('classLevel', defaultClass || '');
 
       if (defaultCourse) {
         form.setValue('course', defaultCourse);
@@ -313,9 +416,10 @@ export function EnrollNowModal({
         form.setValue('source', source);
       }
 
-      form.setValue('mode', '' as any);
+      form.setValue('mode', 'Offline');
       setSelectedSubjects([]);
       form.setValue('subjects', []);
+      form.clearErrors();
 
       if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
@@ -325,7 +429,7 @@ export function EnrollNowModal({
 
   // If the currently selected branch is NOT available for the active course/class, reset it!
   useEffect(() => {
-    if (currentBranch) {
+    if (currentBranch && !shouldHideBranch) {
       const selectedOption = IDL_BRANCH_OPTIONS.find(b => b.label === currentBranch);
       if (selectedOption) {
         const available = isBranchAvailableForCourse({
@@ -343,12 +447,14 @@ export function EnrollNowModal({
         }
       }
     }
-  }, [currentBranch, currentClass, currentCourse, programTitle, allowedClasses, allowedCourses, availableBranches, form]);
+  }, [currentBranch, shouldHideBranch, currentClass, currentCourse, programTitle, allowedClasses, allowedCourses, availableBranches, form]);
 
-  // Toggle subject selection
+  // Toggle subject selection (single-select for Science PCM/PCB/PCMB and JEE/NEET, multi-select for Commerce)
   const handleToggleSubject = (sub: string) => {
     let updated: string[];
-    if (sub === "All Commerce Subjects") {
+    if (isSingleSelectSubject) {
+      updated = selectedSubjects.includes(sub) ? [] : [sub];
+    } else if (sub === "All Commerce Subjects") {
       if (selectedSubjects.includes("All Commerce Subjects")) {
         updated = [];
       } else {
@@ -363,23 +469,32 @@ export function EnrollNowModal({
       }
     }
     setSelectedSubjects(updated);
-    form.setValue('subjects', updated);
+    form.setValue('subjects', updated, { shouldValidate: updated.length > 0 });
+    if (updated.length > 0) {
+      form.clearErrors('subjects');
+    }
   };
 
   const onSubmit: SubmitHandler<EnrollmentFormValues> = async (data) => {
-    // 1. Validate that a mode was chosen
-    if (!data.mode) {
-      form.setError('mode', { message: 'Please select your learning mode (Offline, Online, or Hybrid).' });
-      return;
-    }
-
-    // 2. Validate that a branch was chosen
+    // 1. Validate that a branch was chosen
     if (!data.branch) {
       form.setError('branch', { message: 'Please select an available branch / centre.' });
       return;
     }
 
-    // 3. Validate that the chosen branch offers this course
+    // 2. Validate that subjects / stream are selected whenever the subject section is active
+    if (isSeniorClassActive && selectedSubjects.length === 0) {
+      form.setError('subjects', {
+        message: isJeeNeetActive
+          ? 'Please select a target stream.'
+          : isScienceProgramActive
+            ? 'Please select a subject stream (PCM, PCB, or PCMB).'
+            : 'Please select at least one subject.',
+      });
+      return;
+    }
+
+    // 2. Validate that the chosen branch offers this course
     const branchOption = IDL_BRANCH_OPTIONS.find(b => b.label === data.branch);
     if (branchOption) {
       const isAvailable = isBranchAvailableForCourse({
@@ -402,6 +517,7 @@ export function EnrollNowModal({
       // If subjects selected, attach to data
       const finalData: EnrollmentFormValues = {
         ...data,
+        mode: data.mode || 'Offline',
         subjects: selectedSubjects,
         programTitle: programTitle || data.programTitle || '',
       };
@@ -435,18 +551,27 @@ export function EnrollNowModal({
     <>
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <FormModalDialogContent
+          hideCloseButton
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           maxWidthClass="max-w-[460px] sm:max-w-[490px]"
-          className="w-[92vw] sm:w-[94vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.16),0_2px_8px_rgba(15,23,42,0.04)] border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
+          className="w-[92vw] sm:w-[94vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.16),0_2px_8px_rgba(15,23,42,0.04)] border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 antialiased !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
         >
-          {/* Top Heading: Left-aligned, All Capital Letters, Small Font - NO "ENROLL" prefix, singular "CLASS" */}
-          <div className="flex items-center justify-between px-6 sm:px-7 pt-4 pb-2.5 border-b border-slate-100/90 dark:border-slate-800/80 pr-14 bg-white dark:bg-slate-950 shrink-0">
-            <span className="text-[11px] sm:text-[11.5px] font-bold tracking-[0.12em] uppercase text-slate-500/90 dark:text-slate-400 select-none">
+          {/* Top Heading: Left-aligned, Clean Navy Uppercase Header with Vertically-Centered Close Icon */}
+          <div className="flex items-center justify-between gap-3 px-6 sm:px-7 py-2.5 border-b border-slate-200/75 dark:border-slate-800/80 bg-[#FAFBFD] dark:bg-slate-900/70 shrink-0">
+            <span className="text-[11.5px] sm:text-[12px] font-extrabold tracking-[0.1em] uppercase text-[#173568] dark:text-slate-200 leading-none select-none truncate">
               {programTitle 
                 ? programTitle.toUpperCase().replace(/^ENROLL:\s*/i, '').replace(/^ENROLL\s*/i, '').replace(/\bCLASSES\b/g, 'CLASS')
                 : "STUDENT REGISTRATION"}
             </span>
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              aria-label="Close modal"
+              className="w-7 h-7 -mr-1.5 rounded-full flex items-center justify-center text-slate-400 hover:text-[#173568] hover:bg-slate-200/65 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2864E8]/25 cursor-pointer shrink-0"
+            >
+              <X className="w-4 h-4 stroke-[2]" />
+            </button>
           </div>
 
           <DialogHeader className="sr-only">
@@ -466,133 +591,80 @@ export function EnrollNowModal({
               {/* Form Body - Plain, Clean Underlines, Consistent Vertical Spacing */}
               <div className="px-6 sm:px-7 pt-3.5 pb-5 space-y-3 sm:space-y-3.5 text-left">
 
-                {/* 1. Mode Selector: "Your Mode:" on left, text + dot radio indicator, compulsory */}
-                <FormField
-                  control={form.control}
-                  name="mode"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0.5">
-                      <FormLabel className="sr-only">Learning Mode</FormLabel>
-                      <FormControl>
-                        <div className="flex flex-wrap items-center gap-x-5 sm:gap-x-7 gap-y-1.5 py-0.5">
-                          <span className="text-[13px] sm:text-[13.5px] font-bold text-slate-800 dark:text-slate-200 shrink-0 leading-none">
-                            Your Mode:
-                          </span>
-                          <div className="flex items-center gap-5 sm:gap-6">
-                            {[
-                              { value: 'Offline', label: 'Offline' },
-                              { value: 'Online', label: 'Online' },
-                              { value: 'Hybrid', label: 'Hybrid' },
-                            ].map((item) => {
-                              const isSelected = field.value === item.value;
+                {/* 1. Branch Selection: Hidden inside individual branch pages (pre-bound automatically), shown on main website */}
+                {!shouldHideBranch && (
+                  <FormField
+                    control={form.control}
+                    name="branch"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0">
+                        <FormLabel className="sr-only">Branch / Center</FormLabel>
+                        <Select 
+                          onValueChange={(val) => {
+                            field.onChange(val);
+                            const matched = IDL_BRANCH_OPTIONS.find(b => b.label === val);
+                            if (matched) {
+                              form.setValue('branchSlug', matched.id);
+                            }
+                          }} 
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger
+                              className={cn(
+                                "h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] tracking-[-0.005em] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none [&>svg]:w-4 [&>svg]:h-4 [&>svg]:stroke-[1.9] [&>svg]:text-slate-400 [&>svg]:opacity-90 hover:[&>svg]:text-[#2864E8] data-[state=open]:[&>svg]:text-[#2864E8] [&>svg]:transition-all [&>svg]:duration-150 data-[state=open]:[&>svg]:rotate-180 cursor-pointer",
+                                field.value
+                                  ? "font-medium text-[#173568] dark:text-white"
+                                  : "font-normal text-slate-400"
+                              )}
+                            >
+                              <SelectValue placeholder="Branch / Centre *" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="max-h-[260px] z-[120] rounded-lg border-slate-200/85 shadow-lg">
+                            {IDL_BRANCH_OPTIONS.map((b) => {
+                              const isAvailable = isBranchAvailableForCourse({
+                                branchId: b.id,
+                                programTitle,
+                                classLevel: currentClass,
+                                course: currentCourse,
+                                allowedClasses,
+                                allowedCourses,
+                                availableBranches,
+                              });
                               return (
-                                <button
-                                  key={item.value}
-                                  type="button"
-                                  onClick={() => field.onChange(item.value)}
-                                  className="inline-flex items-center gap-2 cursor-pointer select-none bg-transparent border-0 py-1 px-0.5 focus:outline-none group transition-opacity"
+                                <SelectItem 
+                                  key={b.id} 
+                                  value={b.label} 
+                                  disabled={!isAvailable}
+                                  className={cn(
+                                    "text-[13px] py-1.5 cursor-pointer",
+                                    !isAvailable && "opacity-45 cursor-not-allowed pointer-events-none select-none bg-slate-50/50 dark:bg-slate-900/30"
+                                  )}
                                 >
-                                  <div
-                                    className={cn(
-                                      "w-[17px] h-[17px] rounded-full flex items-center justify-center transition-all duration-150 shrink-0",
-                                      isSelected
-                                        ? "border-[2px] border-[#2864E8] bg-white dark:bg-slate-900 shadow-[0_0_0_2px_rgba(40,100,232,0.12)]"
-                                        : "border-[1.5px] border-slate-300 dark:border-slate-600 bg-transparent group-hover:border-slate-400"
-                                    )}
-                                  >
-                                    {isSelected && (
-                                      <div className="w-[7px] h-[7px] rounded-full bg-[#2864E8]" />
+                                  <div className="flex items-center justify-between w-full gap-2">
+                                    <span className={cn(
+                                      "font-semibold",
+                                      isAvailable ? "text-slate-900 dark:text-white" : "text-slate-400 line-through decoration-slate-300"
+                                    )}>
+                                      {b.name}
+                                    </span>
+                                    {!isAvailable && (
+                                      <span className="text-[9.5px] font-bold tracking-tight text-rose-500 bg-rose-50 dark:bg-rose-950/60 px-1.5 py-0.5 rounded shrink-0">
+                                        Unavailable
+                                      </span>
                                     )}
                                   </div>
-                                  <span
-                                    className={cn(
-                                      "text-[13px] sm:text-[13.5px] transition-colors leading-none",
-                                      isSelected
-                                        ? "font-semibold text-slate-900 dark:text-white"
-                                        : "font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-900"
-                                    )}
-                                  >
-                                    {item.label}
-                                  </span>
-                                </button>
+                                </SelectItem>
                               );
                             })}
-                          </div>
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Horizontal Separation Line */}
-                <div className="border-t border-slate-100 dark:border-slate-800/80 my-0.5" />
-
-                {/* 2. Branch Selection: Plain Underline Never Hides, Height h-[38px] Centered */}
-                <FormField
-                  control={form.control}
-                  name="branch"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormLabel className="sr-only">Branch / Center</FormLabel>
-                      <Select 
-                        onValueChange={(val) => {
-                          field.onChange(val);
-                          const matched = IDL_BRANCH_OPTIONS.find(b => b.label === val);
-                          if (matched) {
-                            form.setValue('branchSlug', matched.id);
-                          }
-                        }} 
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
-                            <SelectValue placeholder="Branch / Centre *" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent className="max-h-[260px] z-[120]">
-                          {IDL_BRANCH_OPTIONS.map((b) => {
-                            const isAvailable = isBranchAvailableForCourse({
-                              branchId: b.id,
-                              programTitle,
-                              classLevel: currentClass,
-                              course: currentCourse,
-                              allowedClasses,
-                              allowedCourses,
-                              availableBranches,
-                            });
-                            return (
-                              <SelectItem 
-                                key={b.id} 
-                                value={b.label} 
-                                disabled={!isAvailable}
-                                className={cn(
-                                  "text-[13px] py-1.5 cursor-pointer",
-                                  !isAvailable && "opacity-45 cursor-not-allowed pointer-events-none select-none bg-slate-50/50 dark:bg-slate-900/30"
-                                )}
-                              >
-                                <div className="flex items-center justify-between w-full gap-2">
-                                  <span className={cn(
-                                    "font-semibold",
-                                    isAvailable ? "text-slate-900 dark:text-white" : "text-slate-400 line-through decoration-slate-300"
-                                  )}>
-                                    {b.name}
-                                  </span>
-                                  {!isAvailable && (
-                                    <span className="text-[9.5px] font-bold tracking-tight text-rose-500 bg-rose-50 dark:bg-rose-950/60 px-1.5 py-0.5 rounded shrink-0">
-                                      Unavailable
-                                    </span>
-                                  )}
-                                </div>
-                              </SelectItem>
-                            );
-                          })}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
-                    </FormItem>
-                  )}
-                />
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
                 {/* 3. Student Name: Height h-[38px] Centered, Plain Underline, Watermark Inside */}
                 <FormField
@@ -607,7 +679,7 @@ export function EnrollNowModal({
                           {...field}
                           value={field.value}
                           onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                          className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] font-medium tracking-[-0.005em] text-[#173568] dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize leading-normal transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -628,7 +700,7 @@ export function EnrollNowModal({
                           {...field}
                           value={field.value}
                           onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                          className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] font-medium tracking-[-0.005em] text-[#173568] dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize leading-normal transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -644,8 +716,8 @@ export function EnrollNowModal({
                     <FormItem className="space-y-0">
                       <FormLabel className="sr-only">Mobile Number</FormLabel>
                       <FormControl>
-                        <div className="relative flex items-center h-[38px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
-                          <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                        <div className="relative flex items-center h-[38px] w-full border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                          <span className="inline-flex items-center pr-2.5 text-[13.5px] font-bold text-[#173568]/80 dark:text-slate-300 tabular-nums select-none shrink-0 leading-normal">
                             +91
                           </span>
                           <Input
@@ -653,7 +725,7 @@ export function EnrollNowModal({
                             maxLength={10}
                             placeholder="Mobile Number (10 digits) *"
                             {...field}
-                            className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none"
+                            className="h-full py-0 w-full border-0 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] font-medium tracking-[-0.005em] text-[#173568] dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal tabular-nums focus-visible:ring-0 focus-visible:outline-none shadow-none leading-normal"
                           />
                         </div>
                       </FormControl>
@@ -662,7 +734,7 @@ export function EnrollNowModal({
                   )}
                 />
 
-                {/* 6. Email: Height h-[38px] Centered, Plain Underline, Watermark Inside */}
+                {/* 6. Email: Height h-[38px] Centered, Plain Underline, Compulsory */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -672,9 +744,9 @@ export function EnrollNowModal({
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="Email Address (Optional)"
+                          placeholder="Email Address *"
                           {...field}
-                          className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] font-medium tracking-[-0.005em] text-[#173568] dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none leading-normal transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -689,15 +761,26 @@ export function EnrollNowModal({
                   render={({ field }) => (
                     <FormItem className="space-y-0">
                       <FormLabel className="sr-only">Class / Grade</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select
+                        key={`class-${programTitle || 'default'}-${isOpen ? 'open' : 'closed'}`}
+                        onValueChange={field.onChange}
+                        value={field.value || ''}
+                      >
                         <FormControl>
-                          <SelectTrigger className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                          <SelectTrigger
+                            className={cn(
+                              "h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] tracking-[-0.005em] focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none [&>svg]:w-4 [&>svg]:h-4 [&>svg]:stroke-[1.9] [&>svg]:text-slate-400 [&>svg]:opacity-90 hover:[&>svg]:text-[#2864E8] data-[state=open]:[&>svg]:text-[#2864E8] [&>svg]:transition-all [&>svg]:duration-150 data-[state=open]:[&>svg]:rotate-180 cursor-pointer",
+                              field.value
+                                ? "font-medium text-[#173568] dark:text-white"
+                                : "font-normal text-slate-400"
+                            )}
+                          >
                             <SelectValue placeholder="Class / Grade *" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="max-h-[240px] z-[120]">
+                        <SelectContent className="max-h-[240px] z-[120] rounded-lg border-slate-200/85 shadow-lg">
                           {classList.map((c) => (
-                            <SelectItem key={c} value={c} className="text-[13px] py-1.5 cursor-pointer">
+                            <SelectItem key={c} value={c} className="text-[13px] font-medium text-[#173568] py-1.5 cursor-pointer focus:bg-[#F4F8FF] focus:text-[#2864E8]">
                               {c}
                             </SelectItem>
                           ))}
@@ -708,46 +791,79 @@ export function EnrollNowModal({
                   )}
                 />
 
-                {/* 8. Subjects / Streams (If Senior / JEE / NEET): Clean 2-Column Grid with Checkboxes */}
+                {/* 8. Subjects / Streams (If Senior / JEE / NEET): Clean single-line row across JEE/NEET, Science (PCM/PCB/PCMB), Humanities, and Commerce (Compulsory) */}
                 {isSeniorClassActive && (
-                  <div className="space-y-2 pt-0.5 pb-0.5">
-                    <span className="text-[10.5px] sm:text-[11px] font-bold tracking-[0.1em] uppercase text-slate-500 dark:text-slate-400 block select-none">
-                      {isJeeNeetActive ? "SELECT TARGET STREAM / SUBJECT(S):" : "SELECT SUBJECT(S):"}
+                  <div className="space-y-2.5 pt-1 pb-2.5 border-b border-slate-200/90 dark:border-slate-700/80">
+                    <span className="text-[10.5px] sm:text-[11px] font-bold tracking-[0.09em] uppercase text-[#173568]/75 dark:text-slate-400 block leading-none select-none">
+                      {isJeeNeetActive ? "SELECT TARGET STREAM / SUBJECT(S) *" : "SELECT SUBJECT(S) *"}
                     </span>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 w-full">
+                    <div
+                      className={cn(
+                        "w-full",
+                        isScienceProgramActive
+                          ? "flex items-center flex-nowrap gap-7 sm:gap-10"
+                          : isJeeNeetActive
+                            ? "flex items-center justify-between flex-nowrap gap-1 sm:gap-2"
+                            : "grid grid-cols-2 gap-x-4 gap-y-2.5 sm:flex sm:items-center sm:justify-between sm:flex-nowrap sm:gap-1.5"
+                      )}
+                    >
                       {subjectListToUse.map((sub) => {
                         const isSelected = selectedSubjects.includes(sub);
+                        const displayLabel = isJeeNeetActive ? (JEE_NEET_SHORT_LABELS[sub] || sub) : sub;
                         return (
                           <button
                             key={sub}
                             type="button"
+                            title={sub}
                             onClick={() => handleToggleSubject(sub)}
-                            className="flex items-center gap-2.5 text-left cursor-pointer group py-1 select-none focus:outline-none transition-colors"
+                            className={cn(
+                              "flex items-center text-left cursor-pointer group py-0.5 select-none focus:outline-none transition-colors shrink-0",
+                              isScienceProgramActive
+                                ? "gap-2"
+                                : isJeeNeetActive
+                                  ? "gap-1 sm:gap-1.5"
+                                  : "gap-2 sm:gap-1.5"
+                            )}
                           >
                             <div
                               className={cn(
-                                "w-[17px] h-[17px] rounded-[4px] border flex items-center justify-center shrink-0 transition-all duration-150",
+                                "rounded-[4px] border flex items-center justify-center shrink-0 transition-all duration-150",
+                                isScienceProgramActive
+                                  ? "w-[16px] h-[16px]"
+                                  : isJeeNeetActive
+                                    ? "w-[14px] h-[14px] sm:w-[15px] sm:h-[15px]"
+                                    : "w-[16px] h-[16px] sm:w-[15px] sm:h-[15px]",
                                 isSelected
-                                  ? "border-[1.5px] border-[#2864E8] bg-[#2864E8] text-white shadow-[0_1px_4px_rgba(40,100,232,0.3)]"
-                                  : "border-[1.5px] border-slate-300 dark:border-slate-600 bg-white/40 dark:bg-slate-900 group-hover:border-[#2864E8]"
+                                  ? "border-[1.5px] border-[#2864E8] bg-[#2864E8] text-white shadow-[0_1px_3px_rgba(40,100,232,0.28)]"
+                                  : "border-[1.5px] border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 group-hover:border-[#2864E8]/80 group-hover:bg-[#F4F8FF]/60"
                               )}
                             >
-                              {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                              {isSelected && <Check className={cn("stroke-[3]", isScienceProgramActive ? "w-3.5 h-3.5" : "w-3 h-3")} />}
                             </div>
                             <span
                               className={cn(
-                                "text-[12.5px] sm:text-[13px] transition-colors leading-tight",
+                                "transition-colors leading-[15px] whitespace-nowrap",
+                                isScienceProgramActive
+                                  ? "text-[12.5px] sm:text-[13px]"
+                                  : isJeeNeetActive
+                                    ? "text-[11px] sm:text-[12px]"
+                                    : "text-[12.5px] sm:text-[12px] sm:tracking-[-0.01em]",
                                 isSelected
-                                  ? "font-semibold text-slate-900 dark:text-white"
-                                  : "font-medium text-slate-600 dark:text-slate-400 group-hover:text-slate-900"
+                                  ? "font-semibold text-[#173568] dark:text-white"
+                                  : "font-medium text-[#173568]/80 dark:text-slate-300 group-hover:text-[#173568]"
                               )}
                             >
-                              {sub}
+                              {displayLabel}
                             </span>
                           </button>
                         );
                       })}
                     </div>
+                    {form.formState.errors.subjects?.message && (
+                      <p className="text-[11.5px] font-medium text-rose-500 pt-0.5">
+                        {String(form.formState.errors.subjects.message)}
+                      </p>
+                    )}
                   </div>
                 )}
 
@@ -762,7 +878,7 @@ export function EnrollNowModal({
                         <Input
                           placeholder="Current School / College (Optional)"
                           {...field}
-                          className="h-[38px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] py-0 w-full border-0 border-b border-slate-200/90 hover:border-slate-300 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13.5px] md:text-[13.5px] font-medium tracking-[-0.005em] text-[#173568] dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none leading-normal transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -774,7 +890,7 @@ export function EnrollNowModal({
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group w-full h-[41px] sm:h-[42px] rounded-[6px] font-bold text-[12.5px] sm:text-[13px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 mt-3.5 uppercase"
+                  className="group w-full h-[41px] sm:h-[42px] rounded-[8px] font-bold text-[13px] sm:text-[13.5px] tracking-[0.09em] leading-none bg-gradient-to-b from-[#2E6BF0] to-[#235CE0] hover:from-[#2660E4] hover:to-[#1C4FD0] active:from-[#1D52D2] active:to-[#1743B8] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_4px_14px_-2px_rgba(40,100,232,0.34)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_6px_18px_-2px_rgba(40,100,232,0.44)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 mt-3.5 uppercase"
                 >
                   {isSubmitting ? (
                     <span className="inline-flex items-center gap-2">
@@ -784,7 +900,7 @@ export function EnrollNowModal({
                   ) : (
                     <>
                       <span>SUBMIT</span>
-                      <ArrowRight className="w-4 h-4 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
+                      <ArrowRight className="w-4 h-4 stroke-[2.25] text-white/95 group-hover:translate-x-0.5 transition-transform duration-150" />
                     </>
                   )}
                 </Button>

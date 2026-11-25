@@ -22,7 +22,8 @@ interface Booking {
   email: string;
   countryCode?: string;
   mobile: string;
-  sessionMode: 'online' | 'offline';
+  sessionMode?: string;
+  mode?: string;
   state: string;
   branch?: string;
   branchId?: string;
@@ -136,7 +137,13 @@ export default function AdminDemoPage() {
                     </TableHeader>
                     <TableBody>
                       {loading ? renderSkeleton() : bookings.length > 0 ? (
-                        bookings.map((booking) => (
+                        bookings.map((booking) => {
+                          const rawMode = (booking.sessionMode || booking.mode || '').trim();
+                          const displayMode = rawMode
+                            ? rawMode.charAt(0).toUpperCase() + rawMode.slice(1).toLowerCase()
+                            : 'N/A';
+                          const isOnline = rawMode.toLowerCase() === 'online';
+                          return (
                           <TableRow key={booking.id} className={booking.status === 'new' ? 'bg-primary/5' : ''}>
                             <TableCell className="font-medium">{booking.studentName}</TableCell>
                             <TableCell className="hidden sm:table-cell">{booking.classCourse}</TableCell>
@@ -145,14 +152,15 @@ export default function AdminDemoPage() {
                               <div>{booking.countryCode?.split('-')[0]} {booking.mobile}</div>
                             </TableCell>
                             <TableCell className="hidden lg:table-cell">
-                              <Badge variant={booking.sessionMode === 'online' ? 'default' : 'secondary'}>
-                                {booking.sessionMode}
+                              <Badge variant={isOnline ? 'default' : 'secondary'}>
+                                {displayMode}
                               </Badge>
                             </TableCell>
                             <TableCell className="hidden xl:table-cell">{booking.state}</TableCell>
                             <TableCell>{booking.createdAt ? format(new Date(booking.createdAt), 'PPp') : 'N/A'}</TableCell>
                           </TableRow>
-                        ))
+                          );
+                        })
                       ) : (
                         <TableRow>
                           <TableCell colSpan={6} className="text-center text-muted-foreground h-48">

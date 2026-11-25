@@ -560,19 +560,19 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       name: "Budh Vihar",
       pincode: "Delhi – 110086",
       slug: "budh-vihar",
-      image: "/images/branches/budh-vihar.jpg"
+      image: "/mangolpuri/mangolpuri.png"
     },
     {
       name: "Krishna Vihar",
       pincode: "Delhi – 110086",
       slug: "krishna-vihar",
-      image: "/images/branches/krishna-vihar.jpg"
+      image: "/mangolpuri/mangolpuri.png"
     },
     {
       name: "Mukherjee Nagar",
       pincode: "Delhi – 110009",
       slug: "mukherjee-nagar",
-      image: "/images/branches/mukherjee-nagar.jpg"
+      image: "/mangolpuri/mangolpuri.png"
     }
   ];
 
@@ -922,7 +922,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       </div>
 
       {/* ── SECTION 03: MEET OUR DIRECTOR (100% Full-Width Background, Merges with White at Top & Bottom) ── */}
-      <section className="relative w-full overflow-hidden pt-9 sm:pt-11 lg:pt-12 pb-14 sm:pb-16 lg:pb-14">
+      <section className="relative w-full overflow-hidden pt-9 sm:pt-11 md:pt-12 lg:pt-14 pb-6 sm:pb-7 md:pb-8 lg:pb-9">
         
         {/* Edge-to-Edge 100% Left to Right Blue Gradient Background Layer (Smoothly Merges with White at Top & Bottom) */}
         <div 
@@ -1256,7 +1256,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       </section>
 
       {/* ── SECTIONS 04+: ACADEMIC PROGRAMS & REMAINING CONTENT ── */}
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-24 sm:pb-28 lg:pb-16">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 idl-section-stack pt-6 sm:pt-7 md:pt-8 lg:pt-9 pb-12 sm:pb-14 md:pb-14 lg:pb-16">
 
         {/* ── SECTION 04: ACADEMIC PROGRAMS (COURSES & CLASSES OFFERED) ── */}
         <section className="relative w-full overflow-hidden space-y-6 sm:space-y-8">
@@ -1278,7 +1278,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 setEnrollProgramTitle('Class 4–8 Junior Foundation');
                 setEnrollAllowedClasses(JUNIOR_CLASSES);
                 setEnrollAllowedCourses(JUNIOR_COURSES);
-                setEnrollDefaultClass('Class 4th');
+                setEnrollDefaultClass('');
                 setEnrollDefaultCourse(JUNIOR_COURSES[0]);
                 setIsEnrollOpen(true);
               }}
@@ -1339,7 +1339,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 setEnrollProgramTitle('Class 9 & 10 Secondary Board');
                 setEnrollAllowedClasses(SECONDARY_CLASSES);
                 setEnrollAllowedCourses(SECONDARY_COURSES);
-                setEnrollDefaultClass('Class 9th');
+                setEnrollDefaultClass('');
                 setEnrollDefaultCourse(SECONDARY_COURSES[0]);
                 setIsEnrollOpen(true);
               }}
@@ -1400,7 +1400,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 setEnrollProgramTitle('Class 11 & 12 Commerce Foundation');
                 setEnrollAllowedClasses(SENIOR_CLASSES);
                 setEnrollAllowedCourses(SENIOR_COURSES);
-                setEnrollDefaultClass('Class 11th');
+                setEnrollDefaultClass('');
                 setEnrollDefaultCourse(SENIOR_COURSES[0]);
                 setIsEnrollOpen(true);
               }}
@@ -1955,7 +1955,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             </div>
 
             {/* Right Column: Explore Other IDL Centres */}
-            <div className="lg:pl-8 xl:pl-10 pt-8 sm:pt-9 lg:pt-0 flex flex-col justify-between min-w-0 overflow-hidden pb-8 sm:pb-9 lg:pb-0">
+            <div className="lg:pl-8 xl:pl-10 pt-7 sm:pt-8 lg:pt-0 flex flex-col justify-between min-w-0 overflow-hidden pb-0">
               <div>
                 {/* Header with Title and Manual Left/Right Controls */}
                 <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5 pb-3.5 sm:pb-4 border-b border-slate-200/70">
@@ -2028,9 +2028,6 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                             sizes="(max-width: 640px) 230px, 245px"
                             className="object-cover brightness-[1.01] contrast-[1.03] select-none pointer-events-none group-hover:scale-105 transition-transform duration-300"
                           />
-                          <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs text-[10px] font-bold text-[#173568] border border-slate-200/60 shadow-xs pointer-events-none">
-                            Delhi Centre
-                          </div>
                         </div>
 
                         {/* Bottom Card Info */}

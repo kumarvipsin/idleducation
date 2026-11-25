@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Lock, GraduationCap, Briefcase, User, ArrowRight } from "lucide-react";
+import { Mail, Lock, User, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
@@ -35,7 +34,6 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
   const router = useRouter();
   const { toast } = useToast();
   const { login } = useAuth();
-  const [userRole, setUserRole] = useState<'student' | 'teacher'>('student');
   const [emailMode, setEmailMode] = useState<'login' | 'signup'>(defaultMode);
 
   const [name, setName] = useState('');
@@ -107,12 +105,12 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
       setErrors({});
       setIsSubmitting(true);
       try {
-        const result = await signUpUser({ ...parsed.data, role: userRole });
+        const result = await signUpUser({ ...parsed.data, role: 'student' });
 
         if (result.success) {
           toast({
             title: "Account Created",
-            description: "Please sign in with your credentials.",
+            description: result.message || "Please sign in with your credentials.",
           });
           setName('');
           setPassword('');
@@ -148,10 +146,12 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
         maxWidthClass="max-w-[390px] sm:max-w-[410px]"
         className="p-0 overflow-hidden"
       >
-        <DialogTitle className="sr-only">Student &amp; Teacher Authentication</DialogTitle>
+        <DialogTitle className="sr-only">
+          {emailMode === 'login' ? 'Sign In' : 'Create Student Account'}
+        </DialogTitle>
 
         {/* Top IDL Logo */}
-        <div className="pt-5 pb-3 text-center">
+        <div className="pt-5 pb-3 px-5 text-center border-b border-slate-100 dark:border-slate-800">
           <Image
             src="/idllogo.png"
             alt="IDL Education Logo"
@@ -160,26 +160,6 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
             className="h-11 sm:h-12 w-auto object-contain mx-auto"
             priority
           />
-        </div>
-
-        {/* Role Tabs */}
-        <div className="border-y border-slate-100 dark:border-slate-800">
-          <Tabs value={userRole} onValueChange={(val) => setUserRole(val as 'student' | 'teacher')}>
-            <TabsList className="grid w-full grid-cols-2 p-0 bg-transparent h-11 sm:h-12 rounded-none">
-              <TabsTrigger
-                value="student"
-                className="rounded-none bg-transparent data-[state=active]:bg-[#102A68]/[0.04] data-[state=active]:text-[#102A68] dark:data-[state=active]:text-white data-[state=active]:font-extrabold data-[state=active]:border-b-2 data-[state=active]:border-[#102A68] dark:data-[state=active]:border-blue-400 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 h-full cursor-pointer border-b-2 border-transparent transition-all"
-              >
-                <GraduationCap className="w-3.5 h-3.5 mr-1.5 shrink-0" /> Student
-              </TabsTrigger>
-              <TabsTrigger
-                value="teacher"
-                className="rounded-none bg-transparent data-[state=active]:bg-[#102A68]/[0.04] data-[state=active]:text-[#102A68] dark:data-[state=active]:text-white data-[state=active]:font-extrabold data-[state=active]:border-b-2 data-[state=active]:border-[#102A68] dark:data-[state=active]:border-blue-400 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 hover:text-slate-600 h-full cursor-pointer border-b-2 border-transparent transition-all"
-              >
-                <Briefcase className="w-3.5 h-3.5 mr-1.5 shrink-0" /> Teacher
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
         </div>
 
         {/* Main Content Area: Email Auth Only */}

@@ -97,8 +97,10 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
-    max-width: 100vw;
+    overflow-x: clip;
   }
 
   body {
@@ -107,8 +109,10 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     letter-spacing: -0.01em;
     line-height: 1.6;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
-    max-width: 100vw;
+    overflow-x: clip;
   }
 
   /* Headings: Smooth, balanced, premium weights */
@@ -369,6 +373,25 @@
   .bg-dot-pattern {
     background-image: radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0);
     background-size: 20px 20px;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     IDL Global Vertical Section Spacing System
+     Uniform responsive vertical rhythm across all major sections:
+       • .idl-section-y      : standard white section (24 / 28 / 32 / 36px each side => 48 / 56 / 64 / 72px visual gap between adjacent sections)
+       • .idl-section-band-y : contrasting / bordered full-width section (36 / 44 / 48 / 56px each side)
+       • .idl-section-stack  : grouped white sections inside a shared container (48 / 56 / 64 / 72px)
+     ───────────────────────────────────────────────────────────── */
+  .idl-section-y {
+    @apply py-6 sm:py-7 md:py-8 lg:py-9;
+  }
+
+  .idl-section-band-y {
+    @apply py-9 sm:py-11 md:py-12 lg:py-14;
+  }
+
+  .idl-section-stack {
+    @apply space-y-12 sm:space-y-14 md:space-y-16 lg:space-y-[72px];
   }
 }
 

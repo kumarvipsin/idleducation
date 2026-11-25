@@ -214,6 +214,22 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
 
   const { name, email, password, role, ...extraData } = validation.data;
 
+  const callerAdminCtx = await getServerAdminContext();
+
+  // Teacher & Admin accounts can only be created by an authenticated Admin / Super Admin
+  if (role === 'teacher' && !callerAdminCtx) {
+    return {
+      success: false,
+      message: "Teacher accounts can only be added by a Branch Admin or Super Admin.",
+    };
+  }
+  if (role === 'admin' && (!callerAdminCtx || callerAdminCtx.isBranchAdmin)) {
+    return {
+      success: false,
+      message: "Admin accounts can only be added by a Super Admin.",
+    };
+  }
+
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
@@ -224,7 +240,6 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
       photoURL = await uploadFileToGCS(photoFile, destination);
     }
 
-    const callerAdminCtx = await getServerAdminContext();
     const resolvedBranchId = callerAdminCtx?.isBranchAdmin
       ? callerAdminCtx.branchId
       : normalizeBranchId(extraData.branchId || extraData.branchName);
@@ -232,12 +247,14 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
       ? callerAdminCtx.branchName
       : (extraData.branchName || (resolvedBranchId ? getBranchDisplayName(resolvedBranchId, true) : undefined));
 
+    const isAutoApproved = role === 'admin' || (role === 'teacher' && Boolean(callerAdminCtx));
+
     const userDocData: any = {
       name: name,
       email: email,
       role: role,
       createdAt: serverTimestamp(),
-      status: role === 'admin' ? 'approved' : 'pending',
+      status: isAutoApproved ? 'approved' : 'pending',
       photoURL: photoURL,
       ...extraData,
       ...(resolvedBranchId ? { branchId: resolvedBranchId } : {}),
@@ -254,7 +271,9 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
 
     const message = role === 'admin' 
         ? "Admin account created successfully!"
-        : "Account created successfully! Please wait for an admin to approve your account before you can log in.";
+        : role === 'teacher'
+          ? "Teacher account created successfully! They can now sign in with their email and password."
+          : "Account created successfully! Please wait for an admin to approve your account before you can log in.";
 
     return { success: true, message, uid: user.uid };
   } catch (error: any) {

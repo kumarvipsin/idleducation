@@ -109,8 +109,8 @@ export function TrustStatsSection() {
           2. MOBILE VIEW (< sm): 2x2 Rounded Dark Navy Card
           Premium compact information block with subtle dividers
           ══════════════════════════════════════════════════ */}
-      <div className="block sm:hidden w-full px-3.5 min-[390px]:px-4 pt-1 pb-5 min-[390px]:pb-6">
-        <div className="w-full max-w-[480px] mx-auto bg-[#041A4D] dark:bg-[#020B1E] rounded-[16px] border border-white/[0.10] shadow-[0_4px_16px_rgba(4,26,77,0.18)] overflow-hidden">
+      <div className="block sm:hidden w-full px-3 py-6">
+        <div className="w-full max-w-none mx-auto bg-[#041A4D] dark:bg-[#020B1E] rounded-[16px] border border-white/[0.10] shadow-[0_4px_16px_rgba(4,26,77,0.18)] overflow-hidden">
           
           {/* Top Row: 2021 & 5+ */}
           <div className="grid grid-cols-2 divide-x divide-white/[0.08]">

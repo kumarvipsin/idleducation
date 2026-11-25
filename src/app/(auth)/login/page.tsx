@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Lock, GraduationCap, Briefcase, Send } from "lucide-react";
+import { Mail, Lock, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,7 +27,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { login } = useAuth();
-  const [userRole, setUserRole] = useState<'student' | 'teacher'>('student');
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -93,26 +90,6 @@ export default function LoginPage() {
           <CardContent className="p-0">
             <Form {...form}>
               <form noValidate onSubmit={form.handleSubmit(handleEmailLogin)} className="flex flex-col overflow-hidden">
-                {/* Role Tabs — styled as header row */}
-                <div className="border-b border-slate-100 dark:border-slate-800">
-                  <Tabs value={userRole} onValueChange={(val) => setUserRole(val as 'student' | 'teacher')}>
-                    <TabsList className="grid w-full grid-cols-2 p-0 bg-transparent h-12 rounded-none">
-                      <TabsTrigger
-                        value="student"
-                        className="rounded-none bg-transparent data-[state=active]:bg-primary/5 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary text-xs font-bold uppercase tracking-wider text-slate-400 h-full cursor-pointer border-b-2 border-transparent transition-all"
-                      >
-                        <GraduationCap className="w-3.5 h-3.5 mr-1.5" /> Student
-                      </TabsTrigger>
-                      <TabsTrigger
-                        value="teacher"
-                        className="rounded-none bg-transparent data-[state=active]:bg-primary/5 data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary text-xs font-bold uppercase tracking-wider text-slate-400 h-full cursor-pointer border-b-2 border-transparent transition-all"
-                      >
-                        <Briefcase className="w-3.5 h-3.5 mr-1.5" /> Teacher
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </div>
-
                 {/* Email & Password login fields */}
                 <div className="grid grid-cols-1 divide-y divide-slate-100">
                   <FormField

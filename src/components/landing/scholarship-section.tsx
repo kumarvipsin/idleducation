@@ -89,7 +89,7 @@ export function ScholarshipSection() {
     <section
       id="why-idl-education"
       aria-label="Why Choose IDL"
-      className="relative w-full pt-6 min-[390px]:pt-7 sm:pt-10 md:pt-14 pb-3 min-[390px]:pb-4 sm:pb-16 md:pb-20 bg-white dark:bg-slate-950 overflow-hidden"
+      className="relative w-full pt-6 sm:pt-7 md:pt-8 lg:pt-9 pb-6 sm:pb-10 md:pb-12 lg:pb-14 bg-white dark:bg-slate-950 overflow-hidden"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* ══════════════════════════════════════════════════
@@ -118,7 +118,7 @@ export function ScholarshipSection() {
         />
       </div>
 
-      <div className="container relative z-10 mx-auto px-3.5 min-[390px]:px-4 sm:px-6 max-w-[1260px]">
+      <div className="w-full md:container relative z-10 mx-auto px-3 sm:px-4 md:px-6 max-w-[1260px]">
         
         {/* ══════════════════════════════════════════════════
             1. HEADER AREA
@@ -241,7 +241,7 @@ export function ScholarshipSection() {
             Refined, modern, subtle 1px border, soft shadow,
             consistent height, clear typography hierarchy
             ══════════════════════════════════════════════════ */}
-        <div className="block lg:hidden w-full max-w-[480px] mx-auto space-y-2.5 min-[390px]:space-y-3">
+        <div className="block lg:hidden w-full max-w-none md:max-w-[480px] mx-auto space-y-2.5 min-[390px]:space-y-3">
           {pillars.map((item) => (
             <div 
               key={item.id}

@@ -230,12 +230,12 @@ function AdminLayout({
 
                   const portalItemsAfterAttendance = [
                     { href: '/admin/fees', label: 'Fee Management', icon: IndianRupee, active: pathname.startsWith('/admin/fees') },
-                    { href: '/admin/enrollments', label: 'Course Enrollments', icon: GraduationCap, active: pathname.startsWith('/admin/enrollments') },
                     { href: '/admin/teachers', label: 'Teachers', icon: Briefcase, active: pathname.startsWith('/admin/teachers') },
                     { href: '/admin/users', label: 'Students', icon: Users, active: pathname.startsWith('/admin/users') },
                   ];
 
                   const directoryItems = [
+                    { href: '/admin/enrollments', label: 'Course Enrollments', icon: GraduationCap, active: pathname.startsWith('/admin/enrollments') },
                     { href: '/admin/admissions', label: 'Admissions', icon: FileText, active: pathname.startsWith('/admin/admissions') },
                     { href: '/admin/demo', label: 'Free Demo', icon: Presentation, active: pathname.startsWith('/admin/demo'), badge: bookingCount },
                     { href: '/admin/enquiries', label: 'Student Enquiries', icon: MessageSquare, active: pathname.startsWith('/admin/enquiries') },

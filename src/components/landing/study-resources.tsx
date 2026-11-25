@@ -50,9 +50,9 @@ export function StudyResources() {
     <section
       id="free-learning-resources"
       aria-label="Study Resources"
-      className="w-full pt-2 sm:pt-3 md:pt-4 pb-8 sm:pb-12 md:pb-14 scroll-mt-24 bg-white dark:bg-slate-950 relative overflow-hidden"
+      className="w-full idl-section-y scroll-mt-24 bg-white dark:bg-slate-950 relative overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-[1260px] relative z-10">
+      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-8 max-w-[1260px] relative z-10">
 
         {/* ══════════════════════════════════════════════════
             HEADER: "Study Resources"
@@ -158,7 +158,7 @@ export function StudyResources() {
         {/* ══════════════════════════════════════════════════
             MOBILE: Stacked vertical cards — Compact, equal height & balanced
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col md:hidden gap-2.5 min-[380px]:gap-3 max-w-[480px] mx-auto w-full">
+        <div className="flex flex-col md:hidden gap-2.5 min-[380px]:gap-3 max-w-none mx-auto w-full">
           {resources.map((item) => (
             <Link
               key={item.id}

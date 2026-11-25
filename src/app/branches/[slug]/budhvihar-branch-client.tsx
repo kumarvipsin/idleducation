@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { 
   MapPin, 
   Phone, 
@@ -11,10 +10,12 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Building2,
   ArrowRight,
   Calendar,
-  HelpCircle,
+  Check,
+  CheckCircle2,
+  Instagram,
+  Youtube,
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -22,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { BRANCHES_DATA, BranchInfo } from '@/data/branches-data';
 import { useToast } from '@/hooks/use-toast';
+import { bookFreeSession, submitStudentEnquiry } from '@/app/actions/forms';
 import { BookDemoModal } from '@/components/book-demo-modal';
 import { AdmissionModal } from '@/components/admission-modal';
 import { StudentEnquiryModal } from '@/components/student-enquiry-modal';
@@ -32,13 +34,229 @@ import {
   SECONDARY_CLASSES, 
   SECONDARY_COURSES, 
   SENIOR_CLASSES, 
-  SENIOR_COURSES 
+  SENIOR_COURSES,
+  JEE_NEET_CLASSES,
+  JEE_NEET_COURSES
 } from '@/components/enroll-now-modal';
+
+interface TimetableSlot {
+  subject: string;
+  time: string;
+}
+
+interface TimetableColumn {
+  dayCode: string;
+  dayNames: string;
+  slots: TimetableSlot[];
+}
+
+interface ClassTimetableEntry {
+  classLabel: string;
+  columns: [TimetableColumn, TimetableColumn];
+}
+
+const BUDHVIHAR_WEEKLY_TIMETABLE: Record<'9' | '10' | '11' | '12', ClassTimetableEntry> = {
+  '9': {
+    classLabel: 'Class 9',
+    columns: [
+      {
+        dayCode: 'MWF',
+        dayNames: '(Mon, Wed, Fri)',
+        slots: [
+          { subject: 'Mathematics', time: '4:00 – 5:00 PM' },
+          { subject: 'Social Studies', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+      {
+        dayCode: 'TTS',
+        dayNames: '(Tue, Thu, Sat)',
+        slots: [
+          { subject: 'Science', time: '4:00 – 5:00 PM' },
+          { subject: 'English', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+    ],
+  },
+  '10': {
+    classLabel: 'Class 10',
+    columns: [
+      {
+        dayCode: 'MWF',
+        dayNames: '(Mon, Wed, Fri)',
+        slots: [
+          { subject: 'Science', time: '4:00 – 5:00 PM' },
+          { subject: 'English', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+      {
+        dayCode: 'TTS',
+        dayNames: '(Tue, Thu, Sat)',
+        slots: [
+          { subject: 'Mathematics', time: '4:00 – 5:00 PM' },
+          { subject: 'Social Studies', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+    ],
+  },
+  '11': {
+    classLabel: 'Class 11',
+    columns: [
+      {
+        dayCode: 'MWF',
+        dayNames: '(Mon, Wed, Fri)',
+        slots: [
+          { subject: '---', time: '4:00 – 5:00 PM' },
+          { subject: 'Biology', time: '5:00 – 6:00 PM' },
+          { subject: 'Political Science', time: '6:00 – 7:00 PM' },
+        ],
+      },
+      {
+        dayCode: 'TTS',
+        dayNames: '(Tue, Thu, Sat)',
+        slots: [
+          { subject: 'Mathematics', time: '4:00 – 5:00 PM' },
+          { subject: 'Physics | Economics', time: '5:00 – 6:00 PM' },
+          { subject: 'History', time: '6:00 – 7:00 PM' },
+        ],
+      },
+    ],
+  },
+  '12': {
+    classLabel: 'Class 12',
+    columns: [
+      {
+        dayCode: 'MWF',
+        dayNames: '(Mon, Wed, Fri)',
+        slots: [
+          { subject: '---', time: '4:00 – 5:00 PM' },
+          { subject: '---', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+      {
+        dayCode: 'TTS',
+        dayNames: '(Tue, Thu, Sat)',
+        slots: [
+          { subject: 'Economics', time: '4:00 – 5:00 PM' },
+          { subject: '---', time: '5:00 – 6:00 PM' },
+          { subject: '---', time: '6:00 – 7:00 PM' },
+        ],
+      },
+    ],
+  },
+};
+
+interface SessionWeek {
+  id: string;
+  rangeLabel: string;
+  monthKey: string;
+  monthLabel: string;
+}
+
+interface SessionMonthOption {
+  key: string;
+  label: string;
+}
+
+interface AcademicSessionCalendar {
+  weeks: SessionWeek[];
+  months: SessionMonthOption[];
+  currentWeekIndex: number;
+}
+
+const SESSION_START_UTC = Date.UTC(2026, 3, 1); // 01 Apr 2026
+const SESSION_END_UTC = Date.UTC(2027, 2, 31);  // 31 Mar 2027
+const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] as const;
+
+function getTodayUtcFromIst(now: Date = new Date()): number {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kolkata',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now);
+  const year = Number(parts.find((p) => p.type === 'year')?.value ?? 2026);
+  const month = Number(parts.find((p) => p.type === 'month')?.value ?? 11);
+  const day = Number(parts.find((p) => p.type === 'day')?.value ?? 25);
+  return Date.UTC(year, month - 1, day);
+}
+
+function formatDayMonthUtc(date: Date): string {
+  const dd = String(date.getUTCDate()).padStart(2, '0');
+  return `${dd} ${SHORT_MONTHS[date.getUTCMonth()]}`;
+}
+
+function buildAcademicSessionWeeks(now: Date = new Date()): AcademicSessionCalendar {
+  const todayUtc = getTodayUtcFromIst(now);
+  // Cap browsing automatically at the current week within the Apr 2026 – Mar 2027 session
+  const effectiveMaxUtc = Math.min(Math.max(todayUtc, SESSION_START_UTC), SESSION_END_UTC);
+
+  const weeks: SessionWeek[] = [];
+  const monthMap = new Map<string, string>();
+
+  let cursor = new Date(SESSION_START_UTC);
+  while (cursor.getTime() <= effectiveMaxUtc) {
+    const dow = cursor.getUTCDay(); // 0 = Sun, 1 = Mon ... 6 = Sat
+    if (dow === 0) {
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+      if (cursor.getTime() > effectiveMaxUtc) break;
+    }
+
+    const weekStart = new Date(cursor.getTime());
+    const daysToSaturday = 6 - weekStart.getUTCDay();
+    const rawEnd = new Date(weekStart.getTime());
+    rawEnd.setUTCDate(weekStart.getUTCDate() + daysToSaturday);
+    const weekEnd = rawEnd.getTime() > SESSION_END_UTC ? new Date(SESSION_END_UTC) : rawEnd;
+
+    // Assign month cleanly without ever exposing a future month before it begins
+    const spansMonth = weekStart.getUTCMonth() !== weekEnd.getUTCMonth();
+    const endMonthFirstUtc = Date.UTC(weekEnd.getUTCFullYear(), weekEnd.getUTCMonth(), 1);
+    const monthAnchor =
+      spansMonth && weekEnd.getUTCDate() >= 4 && effectiveMaxUtc >= endMonthFirstUtc
+        ? weekEnd
+        : weekStart;
+
+    const mYear = monthAnchor.getUTCFullYear();
+    const mIdx = monthAnchor.getUTCMonth();
+    const monthKey = `${mYear}-${String(mIdx + 1).padStart(2, '0')}`;
+    const monthLabel = `${SHORT_MONTHS[mIdx]} ${mYear}`;
+
+    if (!monthMap.has(monthKey)) {
+      monthMap.set(monthKey, monthLabel);
+    }
+
+    weeks.push({
+      id: `${weekStart.getUTCFullYear()}-${String(weekStart.getUTCMonth() + 1).padStart(2, '0')}-${String(weekStart.getUTCDate()).padStart(2, '0')}`,
+      rangeLabel: `${formatDayMonthUtc(weekStart)} – ${formatDayMonthUtc(weekEnd)}`,
+      monthKey,
+      monthLabel,
+    });
+
+    // Advance to next Monday (Saturday + 2 days)
+    cursor = new Date(weekEnd.getTime());
+    cursor.setUTCDate(weekEnd.getUTCDate() + 2);
+  }
+
+  const months: SessionMonthOption[] = Array.from(monthMap.entries()).map(([key, label]) => ({
+    key,
+    label,
+  }));
+
+  return {
+    weeks,
+    months,
+    currentWeekIndex: Math.max(0, weeks.length - 1),
+  };
+}
 
 // Future-Ready Branch Manager Timetable Configuration
 export const BUDHVIHAR_TIMETABLE_CONFIG = {
   branchName: "Budh Vihar Branch",
-  academicYear: "2025–2026",
+  academicYear: "2026–2027",
   classes9_10: {
     durationBadge: "2 Hours / Day",
     mwf: {
@@ -119,9 +337,61 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
   // Director Tab ('director' | 'profile')
   const [activeMessageTab, setActiveMessageTab] = useState<'director' | 'profile'>('director');
 
-  // Timetable Tabs (Class 9, Class 10, Class 11, Class 12)
+  // Timetable Tabs (Class 9, Class 10, Class 11, Class 12) + Auto Session Week/Month Navigation (Apr 2026 – Mar 2027)
   const [timetableTab, setTimetableTab] = useState<'9' | '10' | '11' | '12'>('9');
+  const [sessionCalendar, setSessionCalendar] = useState<AcademicSessionCalendar>(() => buildAcademicSessionWeeks());
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(() => buildAcademicSessionWeeks().currentWeekIndex);
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+
+  // Auto-sync current week & month when date rolls over (up to current week of Apr 2026 – Mar 2027)
+  useEffect(() => {
+    const syncCurrentWeek = () => {
+      const updated = buildAcademicSessionWeeks();
+      setSessionCalendar((prev) => {
+        const latestWeekChanged =
+          prev.weeks.length !== updated.weeks.length ||
+          prev.weeks[prev.currentWeekIndex]?.id !== updated.weeks[updated.currentWeekIndex]?.id;
+        if (!latestWeekChanged) return prev;
+        setSelectedWeekIndex((prevIdx) =>
+          prevIdx >= prev.currentWeekIndex ? updated.currentWeekIndex : Math.min(prevIdx, updated.currentWeekIndex)
+        );
+        return updated;
+      });
+    };
+
+    const intervalId = window.setInterval(syncCurrentWeek, 15 * 60 * 1000);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') syncCurrentWeek();
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => {
+      window.clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, []);
+
+  const safeWeekIndex = Math.min(Math.max(selectedWeekIndex, 0), sessionCalendar.currentWeekIndex);
+  const activeSessionWeek = sessionCalendar.weeks[safeWeekIndex] ?? sessionCalendar.weeks[sessionCalendar.currentWeekIndex];
+
+  const handlePrevTimetableWeek = () => {
+    setSelectedWeekIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNextTimetableWeek = () => {
+    setSelectedWeekIndex((prev) => Math.min(sessionCalendar.currentWeekIndex, prev + 1));
+  };
+
+  const handleSelectTimetableMonth = (monthKey: string) => {
+    const latestWeek = sessionCalendar.weeks[sessionCalendar.currentWeekIndex];
+    if (latestWeek && monthKey === latestWeek.monthKey) {
+      setSelectedWeekIndex(sessionCalendar.currentWeekIndex);
+      return;
+    }
+    const firstWeekIdx = sessionCalendar.weeks.findIndex((w) => w.monthKey === monthKey);
+    if (firstWeekIdx !== -1) {
+      setSelectedWeekIndex(firstWeekIdx);
+    }
+  };
 
   // Real PDF generator for Weekly Class Timetable
   const handleDownloadTimetable = () => {
@@ -150,8 +420,8 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(203, 213, 225);
-      doc.text('A-1/6 Budh Vihar, Phase -1, Delhi-110086 | Helpline: +91 8860040010', 14, 21);
-      doc.text('Official Weekly Class Timetable (Academic Session 2025–2026)', 14, 27);
+      doc.text('A-1/6 Budh Vihar, Phase -1, Delhi-110086 | Helpline: +91 9058350731', 14, 21);
+      doc.text('Official Weekly Class Timetable (Academic Session 2026–2027)', 14, 27);
 
       let y = 42;
 
@@ -391,1408 +661,1259 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
     }
   };
 
-  // Demo Booking Form
-  const [formName, setFormName] = useState('');
-  const [formPhone, setFormPhone] = useState('');
-  const [formClass, setFormClass] = useState('Class 10');
-  const [formStream, setFormStream] = useState('Science');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Hero Right Card Switcher ('demo' | 'enquiry') + Touch Swipe
+  const [heroFormTab, setHeroFormTab] = useState<'demo' | 'enquiry'>('demo');
+  const heroCardTouchStartXRef = useRef<number | null>(null);
 
-  // FAQ Accordion
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const handleHeroCardTouchStart = (e: React.TouchEvent) => {
+    heroCardTouchStartXRef.current = e.touches[0].clientX;
+  };
 
-  // Explore Other IDL Centres continuous slider & manual drag state
-  const otherCentresSliderRef = useRef<HTMLDivElement>(null);
-  const [isCentresSliderPaused, setIsCentresSliderPaused] = useState(false);
-  const isCentresMouseDownRef = useRef(false);
-  const centresStartXRef = useRef(0);
-  const centresDragMovedRef = useRef(false);
-  const centresResumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Initialize scroll position at half for infinite bidirectional free scrolling
-  useEffect(() => {
-    const el = otherCentresSliderRef.current;
-    if (el) {
-      const half = el.scrollWidth / 2;
-      if (half > 0 && el.scrollLeft === 0) {
-        el.scrollLeft = half;
-      }
+  const handleHeroCardTouchEnd = (e: React.TouchEvent) => {
+    if (heroCardTouchStartXRef.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - heroCardTouchStartXRef.current;
+    heroCardTouchStartXRef.current = null;
+    if (Math.abs(deltaX) < 50) return;
+    if (deltaX < 0 && heroFormTab === 'demo') {
+      setHeroFormTab('enquiry');
+    } else if (deltaX > 0 && heroFormTab === 'enquiry') {
+      setHeroFormTab('demo');
     }
+  };
+
+  // Hero Free Demo Booking Form (Budh Vihar Branch)
+  const [heroDemoMode, setHeroDemoMode] = useState<'' | 'Offline'>('');
+  const [heroStudentName, setHeroStudentName] = useState('');
+  const [heroGuardianName, setHeroGuardianName] = useState('');
+  const [heroMobile, setHeroMobile] = useState('');
+  const [heroClass, setHeroClass] = useState('');
+  const [isHeroSubmitting, setIsHeroSubmitting] = useState(false);
+  const [heroBookedSummary, setHeroBookedSummary] = useState<{
+    studentName: string;
+    classCourse: string;
+  } | null>(null);
+
+  // Hero Student Enquiry Form (Budh Vihar Branch)
+  const [heroEnqStudentName, setHeroEnqStudentName] = useState('');
+  const [heroEnqGuardianName, setHeroEnqGuardianName] = useState('');
+  const [heroEnqMobile, setHeroEnqMobile] = useState('');
+  const [heroEnqClass, setHeroEnqClass] = useState('');
+  const [heroEnqMessage, setHeroEnqMessage] = useState('');
+  const [isHeroEnqSubmitting, setIsHeroEnqSubmitting] = useState(false);
+  const [heroEnqSummary, setHeroEnqSummary] = useState<{
+    studentName: string;
+    classCourse: string;
+    message: string;
+  } | null>(null);
+
+  const toTitleCase = (str: string) => str.replace(/\b([a-z])/g, (char) => char.toUpperCase());
+
+  // FAQ Accordion (all closed by default; opens manually on click)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  // Explore Academic Programs horizontal carousel state
+  const programsSliderRef = useRef<HTMLDivElement>(null);
+  const [canScrollProgramsLeft, setCanScrollProgramsLeft] = useState(false);
+  const [canScrollProgramsRight, setCanScrollProgramsRight] = useState(true);
+
+  const updateProgramsScrollState = () => {
+    const el = programsSliderRef.current;
+    if (!el) return;
+    setCanScrollProgramsLeft(el.scrollLeft > 4);
+    setCanScrollProgramsRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  };
+
+  useEffect(() => {
+    updateProgramsScrollState();
+    window.addEventListener('resize', updateProgramsScrollState);
+    return () => window.removeEventListener('resize', updateProgramsScrollState);
   }, []);
 
-  // Auto-scroll loop (continuous right-to-left running slider on both desktop & mobile)
-  useEffect(() => {
-    let animationFrameId: number;
-    const speed = 0.65; // gentle, smooth right-to-left continuous sliding
-
-    const step = () => {
-      const el = otherCentresSliderRef.current;
-      if (el && !isCentresSliderPaused && !isCentresMouseDownRef.current) {
-        el.scrollLeft += speed;
-        const half = el.scrollWidth / 2;
-        if (half > 0 && el.scrollLeft >= half) {
-          el.scrollLeft -= half;
-        }
-      }
-      animationFrameId = requestAnimationFrame(step);
-    };
-
-    animationFrameId = requestAnimationFrame(step);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-    };
-  }, [isCentresSliderPaused]);
-
-  // Seamless wrap during manual scroll in both directions
-  const handleCentresScroll = () => {
-    const el = otherCentresSliderRef.current;
+  const scrollProgramsBy = (direction: 'left' | 'right') => {
+    const el = programsSliderRef.current;
     if (!el) return;
-    const half = el.scrollWidth / 2;
-    if (half > 200) {
-      if (el.scrollLeft >= half) {
-        el.scrollLeft -= half;
-      } else if (el.scrollLeft <= 2) {
-        el.scrollLeft += half;
-      }
-    }
+    const step = Math.max(268, Math.round(el.clientWidth * 0.55));
+    el.scrollBy({ left: direction === 'left' ? -step : step, behavior: 'smooth' });
   };
-
-  // Mouse drag handlers (free manual left-right drag on desktop)
-  const handleCentresMouseDown = (e: React.MouseEvent) => {
-    const el = otherCentresSliderRef.current;
-    if (!el) return;
-    isCentresMouseDownRef.current = true;
-    setIsCentresSliderPaused(true);
-    centresDragMovedRef.current = false;
-    centresStartXRef.current = e.pageX;
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-  };
-
-  const handleCentresMouseMove = (e: React.MouseEvent) => {
-    const el = otherCentresSliderRef.current;
-    if (!isCentresMouseDownRef.current || !el) return;
-    const deltaX = e.pageX - centresStartXRef.current;
-    if (Math.abs(deltaX) > 4) {
-      centresDragMovedRef.current = true;
-    }
-    el.scrollLeft -= deltaX;
-    centresStartXRef.current = e.pageX;
-  };
-
-  const handleCentresMouseUp = () => {
-    if (!isCentresMouseDownRef.current) return;
-    isCentresMouseDownRef.current = false;
-    setTimeout(() => {
-      centresDragMovedRef.current = false;
-    }, 80);
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-    centresResumeTimeoutRef.current = setTimeout(() => {
-      setIsCentresSliderPaused(false);
-    }, 2000);
-  };
-
-  const handleCentresMouseLeave = () => {
-    if (isCentresMouseDownRef.current) {
-      isCentresMouseDownRef.current = false;
-      setTimeout(() => {
-        centresDragMovedRef.current = false;
-      }, 80);
-    }
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-    centresResumeTimeoutRef.current = setTimeout(() => {
-      setIsCentresSliderPaused(false);
-    }, 1500);
-  };
-
-  // Touch swipe handlers (free manual left-right swipe on mobile)
-  const handleCentresTouchStart = () => {
-    setIsCentresSliderPaused(true);
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-  };
-
-  const handleCentresTouchEnd = () => {
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-    centresResumeTimeoutRef.current = setTimeout(() => {
-      setIsCentresSliderPaused(false);
-    }, 2000);
-  };
-
-  // Manual arrow navigation controls (free jump left / right)
-  const handleCentresScrollManual = (direction: 'left' | 'right') => {
-    const el = otherCentresSliderRef.current;
-    if (!el) return;
-    setIsCentresSliderPaused(true);
-    const cardStep = 250;
-    const shift = direction === 'left' ? -cardStep : cardStep;
-    el.scrollBy({ left: shift, behavior: 'smooth' });
-    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
-    centresResumeTimeoutRef.current = setTimeout(() => {
-      setIsCentresSliderPaused(false);
-    }, 2500);
-  };
-
-  // Branch cards list repeated for continuous loop (Other IDL Centres excluding Budh Vihar)
-  const OTHER_IDL_CENTRES_ITEMS = [
-    {
-      name: "Mangolpuri",
-      pincode: "Delhi – 110083",
-      slug: "mangolpuri",
-      image: "/mangolpuri/mangolpuri.png"
-    },
-    {
-      name: "Krishna Vihar",
-      pincode: "Delhi – 110086",
-      slug: "krishna-vihar",
-      image: "/images/branches/krishna-vihar.jpg"
-    },
-    {
-      name: "Mukherjee Nagar",
-      pincode: "Delhi – 110009",
-      slug: "mukherjee-nagar",
-      image: "/images/branches/mukherjee-nagar.jpg"
-    }
-  ];
-
-  const LOOP_CENTRES = [
-    ...OTHER_IDL_CENTRES_ITEMS,
-    ...OTHER_IDL_CENTRES_ITEMS,
-    ...OTHER_IDL_CENTRES_ITEMS,
-    ...OTHER_IDL_CENTRES_ITEMS,
-  ];
 
   const isBudhVihar = branch.id === 'budh-vihar' || branch.slug === 'budh-vihar';
-  const heroPhone = isBudhVihar ? "+91 8860040010" : (branch.altPhone || branch.phone || "+91 8860040010");
-  const heroTel = isBudhVihar ? "+918860040010" : (branch.phone?.replace(/[^0-9+]/g, '') || "+918860040010");
+  const heroPhone = isBudhVihar ? "+91 9058350731" : (branch.altPhone || branch.phone || "+91 9058350731");
+  const heroTel = isBudhVihar ? "+919058350731" : (branch.phone?.replace(/[^0-9+]/g, '') || "+919058350731");
 
-  const handleQuickFormSubmit = (e: React.FormEvent) => {
+  const handleHeroDemoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName.trim() || !formPhone.trim()) {
+    if (!heroDemoMode) {
       toast({
-        title: 'Missing Details',
-        description: 'Please enter your name and phone number.',
+        title: 'Select Session Mode',
+        description: 'Please select Offline session mode to continue.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (heroStudentName.trim().length < 2) {
+      toast({
+        title: 'Student Name Required',
+        description: 'Please enter the student full name.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (heroGuardianName.trim().length < 2) {
+      toast({
+        title: 'Guardian Name Required',
+        description: 'Please enter parent / guardian name.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!/^\d{10}$/.test(heroMobile)) {
+      toast({
+        title: 'Valid Mobile Required',
+        description: 'Please enter a valid 10-digit mobile number.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!heroClass) {
+      toast({
+        title: 'Select Class',
+        description: 'Please select a class / course.',
         variant: 'destructive',
       });
       return;
     }
 
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: 'Free Demo Class Reserved!',
-        description: `Thank you ${formName}! Our coordinator will call you at ${formPhone} shortly.`,
+    setIsHeroSubmitting(true);
+    try {
+      const result = await bookFreeSession({
+        mode: heroDemoMode,
+        studentName: heroStudentName.trim(),
+        guardianName: heroGuardianName.trim(),
+        classCourse: heroClass,
+        mobile: heroMobile.trim(),
+        state: 'Delhi',
+        branch: 'Budh Vihar, Delhi-110086',
+        nearestBranch: 'Budh Vihar, Delhi-110086',
+        subjects: '',
+        email: '',
       });
-      setFormName('');
-      setFormPhone('');
-    }, 700);
+
+      if (result.success) {
+        setHeroBookedSummary({
+          studentName: heroStudentName.trim(),
+          classCourse: heroClass,
+        });
+        toast({
+          title: 'Free Demo Session Booked!',
+          description: `Your Budh Vihar Branch demo session is confirmed for ${heroStudentName.trim()}.`,
+        });
+        setHeroDemoMode('');
+        setHeroStudentName('');
+        setHeroGuardianName('');
+        setHeroMobile('');
+        setHeroClass('');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Submission Failed',
+          description: result.message || 'Failed to book demo session. Please try again.',
+        });
+      }
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An unexpected error occurred. Please try again.',
+      });
+    } finally {
+      setIsHeroSubmitting(false);
+    }
+  };
+
+  const handleHeroEnquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (heroEnqStudentName.trim().length < 2) {
+      toast({
+        title: 'Student Name Required',
+        description: 'Please enter the student full name.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (heroEnqGuardianName.trim().length < 2) {
+      toast({
+        title: 'Guardian Name Required',
+        description: 'Please enter parent / guardian name.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!/^\d{10}$/.test(heroEnqMobile)) {
+      toast({
+        title: 'Valid Mobile Required',
+        description: 'Please enter a valid 10-digit mobile number.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!heroEnqClass) {
+      toast({
+        title: 'Select Class',
+        description: 'Please select a class / course.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (heroEnqMessage.trim().length < 2) {
+      toast({
+        title: 'Enquiry Details Required',
+        description: 'Please specify stream, subject(s), or your question.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsHeroEnqSubmitting(true);
+    try {
+      const result = await submitStudentEnquiry({
+        studentName: heroEnqStudentName.trim(),
+        guardianName: heroEnqGuardianName.trim(),
+        classCourse: heroEnqClass,
+        mobile: heroEnqMobile.trim(),
+        state: 'Delhi',
+        branch: 'Budh Vihar, Delhi-110086',
+        message: heroEnqMessage.trim(),
+      });
+
+      if (result.success) {
+        setHeroEnqSummary({
+          studentName: heroEnqStudentName.trim(),
+          classCourse: heroEnqClass,
+          message: heroEnqMessage.trim(),
+        });
+        toast({
+          title: 'Enquiry Submitted!',
+          description: `Thank you ${heroEnqStudentName.trim()}, our Budh Vihar counsellor will reach out shortly.`,
+        });
+        setHeroEnqStudentName('');
+        setHeroEnqGuardianName('');
+        setHeroEnqMobile('');
+        setHeroEnqClass('');
+        setHeroEnqMessage('');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Submission Failed',
+          description: result.message || 'Failed to submit enquiry. Please try again.',
+        });
+      }
+    } catch {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An unexpected error occurred. Please try again.',
+      });
+    } finally {
+      setIsHeroEnqSubmitting(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-800 selection:bg-[#142F70]/20 selection:text-[#142F70]">
+    <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 antialiased selection:bg-[#142F70]/20 selection:text-[#142F70]">
 
-      {/* ── BREADCRUMB ──────────────────────────────────────────────── */}
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-2">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-slate-500 font-medium antialiased">
-          <Link href="/" className="hover:text-[#2563EB] transition-colors">Home</Link>
-          <span className="text-slate-300">/</span>
-          <Link href="/branches" className="hover:text-[#2563EB] transition-colors">Branches</Link>
-          <span className="text-slate-300">/</span>
-          <span className="font-semibold text-slate-800">{branch.name}</span>
-        </nav>
-      </div>
-
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pb-3 sm:pb-4">
-
-        {/* ── SECTION 01 & 02: HERO SECTION WITH OVERLAPPING 3-COLUMN INFO CARD ── */}
-        <div className="relative pt-2 sm:pt-4">
+      {/* ── SECTION 01: MAIN HERO SLIDE PROPORTIONS & PREMIUM ROYAL PURPLE-INDIGO THEME (LEFT STUDENT PHOTO + RIGHT DEMO/ENQUIRY FORM) ── */}
+      <section className="relative w-full max-w-full overflow-hidden pt-0 pb-0 bg-white md:bg-[#171442]">
+        <div className="relative w-full max-w-full overflow-hidden flex items-start md:items-center min-h-0 md:min-h-[560px] lg:min-h-[580px] xl:min-h-[600px] px-0 md:px-12 lg:px-16 pt-0 md:pt-10 lg:pt-8 xl:pt-9 pb-0 md:pb-20 lg:pb-16 xl:pb-16">
           
-          {/* ── DESKTOP HERO (Strictly Preserved for lg: screens) ── */}
-          <div className="relative w-full h-[490px] rounded-3xl overflow-hidden shadow-[0_20px_50px_-15px_rgba(9,26,58,0.22)] bg-[#091A3A] hidden lg:flex flex-col justify-center">
-            
-            {/* Background Branch Building Image (Same image as Mangolpuri) */}
-            <div className="absolute inset-0">
-              <Image
-                src="/mangolpuri/mangolpuri.png"
-                alt="IDL Education Budh Vihar Campus Building"
-                fill
-                priority
-                sizes="1240px"
-                className="object-cover object-[right_center] select-none brightness-[1.0] contrast-[1.02] saturate-[1.02]"
-              />
-            </div>
-
-            {/* Left-to-Right Smooth Navy Gradient: Eased transition from high-contrast dark text area to photograph */}
-            <div 
-              className="absolute inset-0 pointer-events-none"
+          {/* Rich Royal Purple, Soft Luminous Violet & Deep Indigo-Navy Dimensional Background (Desktop/Tablet Only so Mobile Form is Full-Bleed Edge-to-Edge) */}
+          <div
+            aria-hidden="true"
+            className="hidden md:block absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
+          >
+            {/* 1. Sculpted Multi-Stop Base: Rich Royal Purple & Soft Violet Left/Center Flowing Smoothly into Calm Deep Indigo-Navy Right */}
+            <div
+              className="absolute inset-0"
               style={{
-                background: 'linear-gradient(90deg, #091A3A 0%, #091A3A 26%, rgba(9, 26, 58, 0.96) 38%, rgba(9, 26, 58, 0.78) 46%, rgba(9, 26, 58, 0.38) 55%, rgba(9, 26, 58, 0.08) 64%, transparent 72%)'
+                background:
+                  'radial-gradient(ellipse 88% 72% at 34% 6%, rgba(174, 138, 255, 0.34) 0%, rgba(124, 78, 232, 0.16) 46%, transparent 78%), radial-gradient(ellipse 76% 96% at 24% 48%, rgba(136, 82, 242, 0.54) 0%, rgba(96, 52, 198, 0.30) 44%, rgba(30, 22, 82, 0) 76%), linear-gradient(118deg, #562DB8 0%, #48249E 24%, #371E80 48%, #24195E 74%, #15143E 100%)',
               }}
             />
-            {/* Subtle bottom fade to blend smoothly with overlapping bottom information card */}
-            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#091A3A]/70 via-[#091A3A]/30 to-transparent pointer-events-none" />
 
-            {/* Left-Side Dark Navy Content Panel */}
-            <div className="relative z-10 p-11 max-w-[620px] flex flex-col justify-center h-full pb-20 antialiased">
-              
-              {/* Institutional Campus Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.07] border border-white/[0.08] backdrop-blur-sm mb-3.5 w-fit">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
-                <span className="text-[10.5px] font-bold tracking-[0.16em] uppercase text-slate-200">
-                  Offline Campus
-                </span>
-              </div>
+            {/* 2. Subtle Silky Top Rim Sheen */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-200/45 to-transparent shadow-[0_1px_12px_rgba(167,139,250,0.28)]" />
 
-              {/* Main Heading */}
-              <h1 className="text-[45px] font-extrabold tracking-[-0.03em] text-white leading-[1.12] drop-shadow-xs">
-                Budh Vihar Branch
-              </h1>
+            {/* 3. Focused Luminous Radial Backlight Behind Student Image Area (Centered on Tablet, Left-Aligned on Desktop) */}
+            <div
+              className="hidden md:block absolute top-[30%] lg:top-[46%] left-[50%] lg:left-[24%] -translate-x-1/2 -translate-y-1/2 w-[520px] lg:w-[680px] h-[360px] lg:h-[440px] rounded-full blur-[72px] opacity-95"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(196, 165, 255, 0.48) 0%, rgba(145, 96, 246, 0.32) 34%, rgba(95, 52, 198, 0.14) 64%, transparent 84%)',
+              }}
+            />
 
-              {/* Description */}
-              <p className="text-[15px] text-slate-300 font-normal tracking-[0.01em] mt-2.5 leading-relaxed max-w-lg">
-                Focused Academic &amp; Commerce Coaching
-              </p>
+            {/* 4. Silky Diagonal Light Diffusion Across Upper-Center Canvas (Keeps Right Form Side Calmer & Deeper) */}
+            <div
+              className="absolute top-[22%] left-[44%] lg:left-[42%] -translate-x-1/2 -translate-y-1/2 w-[640px] md:w-[880px] h-[250px] md:h-[310px] -rotate-[8deg] rounded-full blur-[90px] opacity-75"
+              style={{
+                background:
+                  'radial-gradient(ellipse at center, rgba(178, 146, 255, 0.26) 0%, rgba(118, 76, 224, 0.14) 48%, transparent 82%)',
+              }}
+            />
 
-              {/* Two Academic Category Information Panels */}
-              <div className="grid grid-cols-2 gap-3 mt-6">
-                
-                {/* Card 1: Class 4–10 */}
-                <div className="p-4 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/10 hover:border-blue-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
-                  <div className="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-blue-500/25 transition-colors">
-                    <GraduationCap className="w-4.5 h-4.5 text-blue-300" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-blue-300/90 block whitespace-nowrap">Academic Foundation</span>
-                    <h3 className="text-base font-bold text-white tracking-tight mt-0.5">Class 4–10</h3>
-                    <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
-                      Covered 4+ Subjects
-                    </p>
-                  </div>
-                </div>
+            {/* 5. Soft Violet Stage Floor Luminance (Left) + Calm Deep Indigo Grounding (Right) for White Contact Card */}
+            <div
+              className="absolute bottom-0 inset-x-0 h-44 sm:h-52 md:h-56 pointer-events-none overflow-hidden"
+              style={{
+                background:
+                  'radial-gradient(ellipse 64% 88% at 28% 100%, rgba(154, 112, 248, 0.26) 0%, rgba(92, 54, 186, 0.12) 48%, transparent 78%), radial-gradient(ellipse 65% 100% at 80% 100%, rgba(16, 18, 52, 0.34) 0%, transparent 72%)',
+              }}
+            />
 
-                {/* Card 2: Class 11–12 */}
-                <div className="p-4 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/10 hover:border-purple-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
-                  <div className="w-9 h-9 rounded-lg bg-purple-500/15 text-purple-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-500/25 transition-colors">
-                    <GraduationCap className="w-4.5 h-4.5 text-purple-300" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-purple-300/90 block whitespace-nowrap">COMMERCE FOUNDATION</span>
-                    <h3 className="text-base font-bold text-white tracking-tight mt-0.5">Class 11–12</h3>
-                    <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
-                      Covered 4+ Subjects
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex items-center gap-3.5 mt-7">
-                <Button
-                  asChild
-                  className="h-12 px-7 rounded-[5px] font-semibold text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_16px_rgba(40,100,232,0.3)] hover:shadow-[0_6px_20px_rgba(40,100,232,0.4)] transition-all duration-200 cursor-pointer flex items-center gap-2.5 group"
-                >
-                  <a
-                    href={branch.mapLink || "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span>Get Direction</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-12 px-6 rounded-[5px] font-semibold text-sm tracking-wide border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white backdrop-blur-sm transition-all duration-200 flex items-center gap-2.5 cursor-pointer"
-                >
-                  <a href={`tel:${heroTel}`}>
-                    <Phone className="w-4 h-4 text-[#D9A441]" />
-                    <span>Call Branch</span>
-                  </a>
-                </Button>
-              </div>
-
-            </div>
-
+            {/* 6. Crisp Subtle Bottom Horizon Line */}
+            <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-200/35 to-transparent" />
           </div>
 
-          {/* ── MOBILE & TABLET HERO (Tailored for screens < lg) ── */}
-          <div className="block lg:hidden rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_16px_40px_-12px_rgba(9,26,58,0.25)] bg-[#091A3A]">
+          {/* 2-Column Responsive Layout Matching Main Hero Slide Width (max-w-7xl) */}
+          <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10">
             
-            {/* 1. Dedicated Building Image Area (Same image as Mangolpuri) */}
-            <div className="relative w-full h-[200px] min-[390px]:h-[220px] sm:h-[260px] overflow-hidden bg-slate-900">
-              <Image
-                src="/mangolpuri/mangolpuri.png"
-                alt="IDL Education Budh Vihar Campus Building"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 1240px"
-                className="object-cover object-[82%_center] brightness-[1.02] contrast-[1.03] select-none"
-              />
-              
-              {/* Smooth Navy-to-Image bottom transition gradient */}
-              <div 
-                className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
-                style={{
-                  background: 'linear-gradient(to top, #091A3A 0%, rgba(9, 26, 58, 0.85) 30%, rgba(9, 26, 58, 0.40) 65%, transparent 100%)'
-                }}
-              />
+            {/* LEFT COLUMN: Balanced Student Visual Size, Halo Circle & Grounded Position (Hidden on Mobile) */}
+            <div className="hidden md:flex w-full lg:max-w-[46%] xl:max-w-[45%] items-end justify-center lg:justify-start relative lg:self-end lg:-mb-5 xl:-mb-6">
+              <div className="relative w-[255px] min-[360px]:w-[275px] sm:w-[315px] md:w-[350px] lg:w-[405px] xl:w-[435px] h-[280px] min-[360px]:h-[300px] sm:h-[340px] md:h-[380px] lg:h-[445px] xl:h-[470px] flex items-end justify-center">
+                
+                {/* 1. Luminous Soft-Violet Stage Halo Circle */}
+                <div
+                  aria-hidden="true"
+                  className="absolute top-4 min-[360px]:top-5 sm:top-6 md:top-7 lg:top-7 xl:top-8 left-[56%] -translate-x-1/2 w-[245px] min-[360px]:w-[265px] sm:w-[305px] md:w-[340px] lg:w-[385px] xl:w-[405px] h-[245px] min-[360px]:h-[265px] sm:h-[305px] md:h-[340px] lg:h-[385px] xl:h-[405px] rounded-full pointer-events-none"
+                  style={{
+                    background:
+                      'radial-gradient(circle at 46% 36%, rgba(196, 168, 255, 0.36) 0%, rgba(139, 92, 246, 0.22) 45%, rgba(82, 46, 174, 0.08) 72%, transparent 84%)',
+                    border: '1px solid rgba(226, 214, 255, 0.42)',
+                    boxShadow: '0 0 48px rgba(130, 82, 242, 0.34), inset 0 1px 28px rgba(240, 232, 255, 0.20)',
+                  }}
+                />
+
+                {/* 2. Student Photo with Soft Feathered Bottom Mask Blending Above Overlapping Strip */}
+                <div
+                  className="relative w-full h-full pointer-events-none select-none"
+                  style={{
+                    maskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
+                  }}
+                >
+                  <Image
+                    src="/scholarship.png"
+                    alt="IDL Education Budh Vihar Student"
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 275px, (max-width: 1024px) 350px, 435px"
+                    className="object-contain object-bottom drop-shadow-[0_16px_36px_rgba(0,0,0,0.6)]"
+                  />
+                </div>
+
+              </div>
             </div>
 
-            {/* 2. Content Area Below Image (Dark Navy, Smooth & Unobstructed) */}
-            <div className="p-4 sm:p-6 pb-12 sm:pb-14 flex flex-col antialiased">
-              
-              {/* Institutional Campus Badge (Positioned directly above Budh Vihar Branch text, matching desktop) */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.07] border border-white/[0.08] backdrop-blur-sm mb-3 w-fit">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
-                <span className="text-[10px] font-bold tracking-[0.14em] uppercase text-slate-200">
-                  Offline Campus
-                </span>
-              </div>
-
-              {/* Main Heading */}
-              <h1 className="text-[25px] min-[390px]:text-[27px] sm:text-3xl font-extrabold tracking-[-0.03em] text-white leading-[1.14]">
-                Budh Vihar Branch
-              </h1>
-
-              {/* Description */}
-              <p className="text-xs min-[390px]:text-[13px] sm:text-sm text-slate-300 font-normal tracking-[0.01em] mt-1.5 leading-snug">
-                Focused Academic &amp; Commerce Coaching
-              </p>
-
-              {/* Two Academic Category Tiles: Side-by-Side 2-Column Grid */}
-              <div className="grid grid-cols-2 gap-2 min-[390px]:gap-2.5 mt-4">
-                
-                {/* Tile 1: Class 4–10 */}
-                <div className="px-2.5 py-2.5 min-[390px]:px-3 min-[390px]:py-3 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/15 text-white flex items-start gap-1.5 min-[390px]:gap-2 transition-colors">
-                  <div className="w-5 h-5 min-[390px]:w-5.5 min-[390px]:h-5.5 rounded-md bg-blue-500/20 text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
-                    <GraduationCap className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 text-blue-300" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[7px] min-[390px]:text-[7.5px] font-bold uppercase tracking-wider text-blue-300/90 whitespace-nowrap block">
-                      Academic Foundation
-                    </span>
-                    <h3 className="text-[12.5px] min-[390px]:text-[13.5px] font-bold text-white tracking-tight leading-snug mt-0.5">
-                      Class 4–10
-                    </h3>
-                    <p className="text-[9.5px] min-[390px]:text-[10px] text-slate-300 mt-0.5 leading-tight font-normal whitespace-nowrap">
-                      Covered 4+ Subjects
-                    </p>
-                  </div>
+            {/* RIGHT COLUMN: Full-Bleed Edge-to-Edge on Mobile, Floating Card on Desktop */}
+            <div className="w-full lg:max-w-[50%] xl:max-w-[48%] flex items-center justify-center lg:justify-end">
+              <div
+                onTouchStart={handleHeroCardTouchStart}
+                onTouchEnd={handleHeroCardTouchEnd}
+                className="w-full max-w-none md:max-w-[416px] xl:max-w-[432px] rounded-none md:rounded-[18px] bg-white border-0 border-b border-slate-100 md:border md:border-white/80 shadow-none md:shadow-[0_24px_56px_-14px_rgba(4,14,34,0.48),0_4px_14px_rgba(4,14,34,0.12)] px-4 pt-3.5 pb-5 sm:px-6 sm:pt-4 sm:pb-6 md:px-6 md:py-5 antialiased overflow-hidden"
+              >
+                {/* Minimal Underline Tabs (No Heavy Gray Box Background) */}
+                <div className="grid grid-cols-2 border-b border-slate-200/70 md:border-slate-200/80 mb-4 md:mb-3.5">
+                  {[
+                    { key: 'demo' as const, label: 'Book Free Demo' },
+                    { key: 'enquiry' as const, label: 'Student Enquiry' },
+                  ].map((tab) => {
+                    const isActive = heroFormTab === tab.key;
+                    return (
+                      <button
+                        key={tab.key}
+                        type="button"
+                        onClick={() => setHeroFormTab(tab.key)}
+                        className={cn(
+                          "relative pb-3 pt-1 md:pb-2.5 md:pt-0.5 text-[13.5px] tracking-[-0.01em] md:tracking-[-0.005em] transition-colors duration-200 cursor-pointer select-none flex items-center justify-center bg-transparent",
+                          isActive
+                            ? "font-bold text-[#173568]"
+                            : "font-medium text-slate-400 md:text-slate-500 hover:text-[#173568]"
+                        )}
+                      >
+                        <span>{tab.label}</span>
+                        {isActive && (
+                          <motion.span
+                            layoutId="heroFormTabUnderlineBV"
+                            transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                            className="absolute bottom-[-1px] inset-x-5 md:inset-x-4 h-[2.5px] md:h-[2px] rounded-full bg-[#2864E8]"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* Tile 2: Class 11–12 */}
-                <div className="px-2.5 py-2.5 min-[390px]:px-3 min-[390px]:py-3 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/15 text-white flex items-start gap-1.5 min-[390px]:gap-2 transition-colors">
-                  <div className="w-5 h-5 min-[390px]:w-5.5 min-[390px]:h-5.5 rounded-md bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
-                    <GraduationCap className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 text-purple-300" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <span className="text-[7px] min-[390px]:text-[7.5px] font-bold uppercase tracking-wider text-purple-300/90 whitespace-nowrap block">
-                      Commerce Foundation
-                    </span>
-                    <h3 className="text-[12.5px] min-[390px]:text-[13.5px] font-bold text-white tracking-tight leading-snug mt-0.5">
-                      Class 11–12
-                    </h3>
-                    <p className="text-[9.5px] min-[390px]:text-[10px] text-slate-300 mt-0.5 leading-tight font-normal whitespace-nowrap">
-                      Covered 4+ Subjects
-                    </p>
-                  </div>
+                {/* Fixed-Height Smooth Sliding Form Body Matched to Hero Proportions Above Overlap */}
+                <div className="min-h-0 md:min-h-[344px] xl:min-h-[354px] flex flex-col justify-between">
+                  <AnimatePresence mode="wait" initial={false}>
+                    {heroFormTab === 'demo' ? (
+                      <motion.div
+                        key="hero-demo-tab"
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -12 }}
+                        transition={{ duration: 0.16, ease: 'easeOut' }}
+                        className="flex-1 flex flex-col justify-between"
+                      >
+                        {heroBookedSummary ? (
+                          /* Clean Inline Confirmation View (Demo) */
+                          <div className="py-5 text-center space-y-4 my-auto">
+                            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                              <CheckCircle2 className="w-7 h-7" />
+                            </div>
+                            <div>
+                              <h2 className="text-[18px] sm:text-[19px] font-extrabold text-[#173568] tracking-[-0.02em] leading-snug">
+                                Free Demo Session Booked!
+                              </h2>
+                              <p className="text-[13px] text-slate-600 mt-1.5 leading-[1.6]">
+                                Thank you, <span className="font-bold text-[#173568]">{heroBookedSummary.studentName}</span>. Our Budh Vihar Branch counsellor will contact you shortly.
+                              </p>
+                            </div>
+                            <div className="rounded-xl bg-slate-50/90 border border-slate-200/70 p-3.5 text-left space-y-1.5 text-[12.5px]">
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Branch:</span>
+                                <span className="font-bold text-[#173568]">Budh Vihar</span>
+                              </div>
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Mode:</span>
+                                <span className="font-bold text-[#173568]">Offline</span>
+                              </div>
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Class:</span>
+                                <span className="font-bold text-[#2864E8]">{heroBookedSummary.classCourse}</span>
+                              </div>
+                            </div>
+                            <Button
+                              type="button"
+                              onClick={() => setHeroBookedSummary(null)}
+                              className="w-full h-10 rounded-lg bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold text-[14px] tracking-[0.01em] cursor-pointer"
+                            >
+                              Book Another Demo
+                            </Button>
+                          </div>
+                        ) : (
+                          /* Demo Form (Budh Vihar Branch) */
+                          <form onSubmit={handleHeroDemoSubmit} className="flex-1 flex flex-col justify-between gap-4 md:gap-3.5" autoComplete="off">
+                            <div className="space-y-3.5 md:space-y-3">
+                              {/* Form Header */}
+                              <div className="text-center pb-0.5">
+                                <h2 className="text-[20px] sm:text-[21px] md:text-[20px] font-extrabold text-[#173568] tracking-[-0.025em] md:tracking-[-0.02em] leading-tight md:leading-snug">
+                                  Book your Free Demo
+                                </h2>
+                              </div>
+
+                              {/* Session Mode Selector: Offline on Left (Unselected by default), Online Disabled on Right */}
+                              <div>
+                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
+                                    Select the Session Mode
+                                  </span>
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-3 md:gap-2.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => setHeroDemoMode(heroDemoMode === 'Offline' ? '' : 'Offline')}
+                                    className={cn(
+                                      "relative h-[42px] md:h-[36px] rounded-[10px] md:rounded-[8px] text-[13.5px] md:text-[12.5px] flex items-center justify-center transition-all duration-150 cursor-pointer select-none",
+                                      heroDemoMode === 'Offline'
+                                        ? "border border-[#2864E8] md:border-[1.5px] bg-[#EEF4FF] md:bg-[#F4F8FF] ring-1 ring-[#2864E8]/15 md:ring-0 font-semibold text-[#173568] shadow-[0_1px_4px_rgba(40,100,232,0.12)] md:shadow-[0_1px_4px_rgba(40,100,232,0.14)]"
+                                        : "border border-slate-200/80 md:border-slate-200/90 bg-[#F8FAFC] md:bg-white font-medium text-[#173568]/85 md:text-slate-700 hover:border-[#2864E8]/45 md:hover:border-[#2864E8]/55 hover:bg-[#F4F8FF]/60 md:hover:bg-slate-50/60"
+                                    )}
+                                  >
+                                    {heroDemoMode === 'Offline' && (
+                                      <span className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-[#2864E8] text-white flex items-center justify-center shadow-sm">
+                                        <Check className="w-2.5 h-2.5 stroke-[3]" />
+                                      </span>
+                                    )}
+                                    Offline
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    disabled
+                                    className="h-[42px] md:h-[36px] rounded-[10px] md:rounded-[8px] border border-slate-200/60 md:border-slate-200/75 bg-slate-50/70 md:bg-slate-50/80 text-[13.5px] md:text-[12.5px] font-medium text-slate-400/90 md:text-slate-400 cursor-not-allowed flex items-center justify-center select-none opacity-75"
+                                    title="Online demo is currently unavailable"
+                                  >
+                                    Online
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Enter Your Details Section */}
+                              <div>
+                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
+                                    Enter Your Details
+                                  </span>
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                </div>
+
+                                <div className="space-y-2.5">
+                                  {/* Student Name */}
+                                  <input
+                                    type="text"
+                                    value={heroStudentName}
+                                    onChange={(e) => setHeroStudentName(toTitleCase(e.target.value))}
+                                    placeholder="Enter Student Full Name *"
+                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
+                                  />
+
+                                  {/* Parent / Guardian Name */}
+                                  <input
+                                    type="text"
+                                    value={heroGuardianName}
+                                    onChange={(e) => setHeroGuardianName(toTitleCase(e.target.value))}
+                                    placeholder="Father / Guardian Name *"
+                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
+                                  />
+
+                                  {/* Mobile Number (Clean Input Without OTP) */}
+                                  <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
+                                    <span className="pl-3.5 pr-1.5 text-[13.5px] md:text-[12.5px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
+                                      +91
+                                    </span>
+                                    <input
+                                      type="tel"
+                                      maxLength={10}
+                                      value={heroMobile}
+                                      onChange={(e) => setHeroMobile(e.target.value.replace(/\D/g, ''))}
+                                      placeholder="Enter your Mobile Number *"
+                                      className="flex-1 min-w-0 h-full px-1 pr-3.5 bg-transparent text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
+                                    />
+                                  </div>
+
+                                  {/* Single Full-Width Class / Course Dropdown */}
+                                  <div className="relative">
+                                    <select
+                                      value={heroClass}
+                                      onChange={(e) => setHeroClass(e.target.value)}
+                                      className={cn(
+                                        "w-full h-[44px] md:h-[38px] pl-3.5 pr-9 md:pr-8 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium appearance-none focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all cursor-pointer",
+                                        heroClass ? "text-[#173568] md:text-slate-800" : "text-slate-400 md:text-slate-400/90 font-normal"
+                                      )}
+                                    >
+                                      <option value="" disabled>Class / Course *</option>
+                                      {[
+                                        'Class 4',
+                                        'Class 5',
+                                        'Class 6',
+                                        'Class 7',
+                                        'Class 8',
+                                        'Class 9',
+                                        'Class 10',
+                                        'Class 11',
+                                        'Class 12',
+                                        'Class 12 PASS',
+                                      ].map((c) => (
+                                        <option key={c} value={c} className="text-slate-900">
+                                          {c}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 md:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Primary Submit CTA */}
+                            <button
+                              type="submit"
+                              disabled={isHeroSubmitting}
+                              className="w-full h-[46px] md:h-[40px] rounded-[10px] md:rounded-[8px] bg-gradient-to-b from-[#2E6BF0] to-[#235CE0] md:bg-none md:bg-[#2864E8] hover:from-[#2660E4] hover:to-[#1C4FD0] md:hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white font-bold text-[14.5px] md:text-[14px] tracking-[0.01em] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_6px_18px_-4px_rgba(40,100,232,0.38)] md:shadow-[0_4px_14px_-2px_rgba(40,100,232,0.34)] md:hover:shadow-[0_6px_18px_-2px_rgba(40,100,232,0.44)] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-65 mt-auto"
+                            >
+                              {isHeroSubmitting ? (
+                                <>
+                                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                  <span>Booking Session...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>Book Free Demo</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </>
+                              )}
+                            </button>
+                          </form>
+                        )}
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="hero-enquiry-tab"
+                        initial={{ opacity: 0, x: 12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 12 }}
+                        transition={{ duration: 0.16, ease: 'easeOut' }}
+                        className="flex-1 flex flex-col justify-between"
+                      >
+                        {heroEnqSummary ? (
+                          /* Clean Inline Confirmation View (Enquiry) */
+                          <div className="py-5 text-center space-y-4 my-auto">
+                            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                              <CheckCircle2 className="w-7 h-7" />
+                            </div>
+                            <div>
+                              <h2 className="text-[18px] sm:text-[19px] font-extrabold text-[#173568] tracking-[-0.02em] leading-snug">
+                                Enquiry Submitted!
+                              </h2>
+                              <p className="text-[13px] text-slate-600 mt-1.5 leading-[1.6]">
+                                Thank you, <span className="font-bold text-[#173568]">{heroEnqSummary.studentName}</span>. Our Budh Vihar Branch counsellor will contact you shortly.
+                              </p>
+                            </div>
+                            <div className="rounded-xl bg-slate-50/90 border border-slate-200/70 p-3.5 text-left space-y-1.5 text-[12.5px]">
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Branch:</span>
+                                <span className="font-bold text-[#173568]">Budh Vihar</span>
+                              </div>
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Class:</span>
+                                <span className="font-bold text-[#2864E8]">{heroEnqSummary.classCourse}</span>
+                              </div>
+                              <div className="flex justify-between gap-2">
+                                <span className="text-slate-500 font-medium">Enquiry:</span>
+                                <span className="font-semibold text-slate-700 truncate max-w-[200px]">{heroEnqSummary.message}</span>
+                              </div>
+                            </div>
+                            <Button
+                              type="button"
+                              onClick={() => setHeroEnqSummary(null)}
+                              className="w-full h-10 rounded-lg bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold text-[14px] tracking-[0.01em] cursor-pointer"
+                            >
+                              Submit Another Enquiry
+                            </Button>
+                          </div>
+                        ) : (
+                          /* Student Enquiry Form (Matching Demo Form UI & Dimensions) */
+                          <form onSubmit={handleHeroEnquirySubmit} className="flex-1 flex flex-col justify-between gap-4 md:gap-3.5" autoComplete="off">
+                            <div className="space-y-3.5 md:space-y-3">
+                              {/* Form Header */}
+                              <div className="text-center pb-0.5">
+                                <h2 className="text-[20px] sm:text-[21px] md:text-[20px] font-extrabold text-[#173568] tracking-[-0.025em] md:tracking-[-0.02em] leading-tight md:leading-snug">
+                                  Student Enquiry
+                                </h2>
+                              </div>
+
+                              {/* Enter Your Details Section */}
+                              <div>
+                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
+                                    Enter Your Details
+                                  </span>
+                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
+                                </div>
+
+                                <div className="space-y-2.5">
+                                  {/* Student Name */}
+                                  <input
+                                    type="text"
+                                    value={heroEnqStudentName}
+                                    onChange={(e) => setHeroEnqStudentName(toTitleCase(e.target.value))}
+                                    placeholder="Enter Student Full Name *"
+                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
+                                  />
+
+                                  {/* Parent / Guardian Name */}
+                                  <input
+                                    type="text"
+                                    value={heroEnqGuardianName}
+                                    onChange={(e) => setHeroEnqGuardianName(toTitleCase(e.target.value))}
+                                    placeholder="Father / Guardian Name *"
+                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
+                                  />
+
+                                  {/* Mobile Number */}
+                                  <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
+                                    <span className="pl-3.5 pr-1.5 text-[13.5px] md:text-[12.5px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
+                                      +91
+                                    </span>
+                                    <input
+                                      type="tel"
+                                      maxLength={10}
+                                      value={heroEnqMobile}
+                                      onChange={(e) => setHeroEnqMobile(e.target.value.replace(/\D/g, ''))}
+                                      placeholder="Enter your Mobile Number *"
+                                      className="flex-1 min-w-0 h-full px-1 pr-3.5 bg-transparent text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
+                                    />
+                                  </div>
+
+                                  {/* Class / Course Dropdown */}
+                                  <div className="relative">
+                                    <select
+                                      value={heroEnqClass}
+                                      onChange={(e) => setHeroEnqClass(e.target.value)}
+                                      className={cn(
+                                        "w-full h-[44px] md:h-[38px] pl-3.5 pr-9 md:pr-8 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium appearance-none focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all cursor-pointer",
+                                        heroEnqClass ? "text-[#173568] md:text-slate-800" : "text-slate-400 md:text-slate-400/90 font-normal"
+                                      )}
+                                    >
+                                      <option value="" disabled>Class / Course *</option>
+                                      {[
+                                        'Class 4',
+                                        'Class 5',
+                                        'Class 6',
+                                        'Class 7',
+                                        'Class 8',
+                                        'Class 9',
+                                        'Class 10',
+                                        'Class 11',
+                                        'Class 12',
+                                        'Class 12 PASS',
+                                      ].map((c) => (
+                                        <option key={c} value={c} className="text-slate-900">
+                                          {c}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 md:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                  </div>
+
+                                  {/* Enquiry / Stream / Subject Message */}
+                                  <textarea
+                                    rows={2}
+                                    value={heroEnqMessage}
+                                    onChange={(e) => setHeroEnqMessage(e.target.value)}
+                                    placeholder="Stream, Subject(s) or Enquiry Message *"
+                                    className="w-full h-[66px] md:h-[60px] px-3.5 py-2.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all resize-none leading-snug"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Primary Submit CTA */}
+                            <button
+                              type="submit"
+                              disabled={isHeroEnqSubmitting}
+                              className="w-full h-[46px] md:h-[40px] rounded-[10px] md:rounded-[8px] bg-gradient-to-b from-[#2E6BF0] to-[#235CE0] md:bg-none md:bg-[#2864E8] hover:from-[#2660E4] hover:to-[#1C4FD0] md:hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white font-bold text-[14.5px] md:text-[14px] tracking-[0.01em] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_6px_18px_-4px_rgba(40,100,232,0.38)] md:shadow-[0_4px_14px_-2px_rgba(40,100,232,0.34)] md:hover:shadow-[0_6px_18px_-2px_rgba(40,100,232,0.44)] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-65 mt-auto"
+                            >
+                              {isHeroEnqSubmitting ? (
+                                <>
+                                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                  <span>Submitting...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span>Submit Enquiry</span>
+                                  <ArrowRight className="w-4 h-4" />
+                                </>
+                              )}
+                            </button>
+                          </form>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
               </div>
-
-              {/* CTA Action Buttons: Side-by-Side 2-Column Grid */}
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-4">
-                <Button
-                  asChild
-                  className="h-10 min-[390px]:h-11 px-3 sm:px-4 rounded-[5px] font-semibold text-xs sm:text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_14px_rgba(40,100,232,0.25)] hover:shadow-[0_6px_18px_rgba(40,100,232,0.35)] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 active:scale-[0.98]"
-                >
-                  <a
-                    href={branch.mapLink || "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <span>Get Direction</span>
-                    <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-                  </a>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-10 min-[390px]:h-11 px-3 sm:px-4 rounded-[5px] font-semibold text-xs sm:text-sm tracking-wide border border-white/20 bg-white/[0.08] hover:bg-white/[0.14] text-white backdrop-blur-sm transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98]"
-                >
-                  <a href={`tel:${heroTel}`}>
-                    <Phone className="w-3.5 h-3.5 text-[#D9A441] shrink-0" />
-                    <span>Call Branch</span>
-                  </a>
-                </Button>
-              </div>
-
             </div>
 
           </div>
+        </div>
+      </section>
 
-          {/* Bottom Floating Information Bar (One Continuous Unified Panel, Exactly 3 Columns with Hairline Dividers) */}
+      {/* ── SECTION 02: OVERLAPPING CONTACT, LOCATION, HOURS & SOCIAL MEDIA BAR (HIDDEN ON MOBILE, PRESERVED ON TABLET/DESKTOP) ── */}
+      <div className="hidden md:block relative w-full z-30 md:-mt-10 lg:-mt-12 md:px-6 pointer-events-auto md:pb-3">
+        <div className="container mx-auto px-0 max-w-[1360px] relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-20 -mt-8 sm:-mt-10 lg:-mt-14 w-[92%] sm:w-[92%] lg:w-[94%] max-w-5xl mx-auto rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/70 shadow-[0_12px_36px_-6px_rgba(9,26,58,0.07),0_2px_6px_rgba(9,26,58,0.02)] p-4 sm:p-5 lg:px-8 lg:py-6 antialiased"
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full rounded-[16px] md:rounded-[18px] bg-white border border-slate-200/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_6px_20px_-8px_rgba(9,26,58,0.06),0_1px_3px_rgba(9,26,58,0.025)] md:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_12px_32px_-12px_rgba(9,26,58,0.09),0_2px_6px_rgba(9,26,58,0.03)] px-5 py-4 sm:px-6 sm:py-5 lg:px-8 xl:px-9 lg:py-6 lg:min-h-[108px] flex items-center antialiased"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/70 items-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-0 sm:gap-y-5 sm:gap-x-6 lg:gap-y-0 lg:gap-x-0 divide-y sm:divide-y-0 divide-slate-200/50 items-stretch">
               
-              {/* Group 1 – Branch Location */}
-              <div className="pb-3.5 md:pb-0 md:pr-6 lg:pr-8 flex items-start gap-3 sm:gap-4">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-blue-50/90 border border-blue-100/80 text-[#2864E8] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <MapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#2864E8]" />
+              {/* Group 1 – Contact Us */}
+              <div className="pb-3.5 sm:pb-0 lg:pr-6 xl:pr-7 flex items-center gap-4">
+                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-gradient-to-b from-emerald-50 to-emerald-50/60 border border-emerald-200/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_2px_rgba(16,185,129,0.06)] text-emerald-600 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 lg:w-[17px] lg:h-[17px] stroke-[1.85] text-emerald-600" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Branch Location</p>
-                  <p className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] text-[#091A3A] font-semibold mt-1 leading-snug">
-                    A-1/6 Budh Vihar, Phase -1,<br />Delhi-110086
-                  </p>
-                </div>
-              </div>
-
-              {/* Group 2 – Working Hours */}
-              <div className="py-3.5 md:py-0 md:px-6 lg:px-8 flex items-start gap-3 sm:gap-4">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-amber-50/90 border border-amber-100/80 text-[#D9A441] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <Clock className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#D9A441]" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Working Hours</p>
-                  <p className="text-[12.5px] sm:text-[13px] text-[#091A3A] font-semibold mt-1 leading-snug">
-                    Mon – Sat: 8:00 AM – 8:30 PM
-                  </p>
-                  <p className="text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
-                    Sun: Open on Prior Notice
-                  </p>
-                </div>
-              </div>
-
-              {/* Group 3 – Branch Contact */}
-              <div className="pt-3.5 md:pt-0 md:pl-6 lg:pl-8 flex items-start gap-3 sm:gap-4">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-emerald-50/90 border border-emerald-100/80 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <Phone className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-emerald-600" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Branch Contact</p>
-                  <a href={`tel:${heroTel}`} className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] font-semibold text-[#091A3A] hover:text-[#2864E8] mt-1 block leading-snug tracking-tight transition-colors">
+                  <p className="text-[11px] font-semibold text-slate-500/85 tracking-[0.12em] uppercase block leading-none">Contact Us</p>
+                  <a href={`tel:${heroTel}`} className="text-[14.5px] lg:text-[15px] xl:text-[15.5px] font-bold text-[#173568] hover:text-[#2864E8] mt-2 block leading-[1.35] tracking-[-0.015em] tabular-nums whitespace-nowrap transition-colors duration-150">
                     {heroPhone}
                   </a>
-                  <p className="text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
-                    Direct Branch Enquiry
+                </div>
+              </div>
+
+              {/* Group 2 – Branch Address */}
+              <div className="relative py-3.5 sm:py-0 lg:px-6 xl:px-7 flex items-center gap-4 lg:before:content-[''] lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:-translate-y-1/2 lg:before:h-12 lg:before:w-px lg:before:bg-slate-200/75">
+                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-gradient-to-b from-blue-50 to-blue-50/60 border border-blue-200/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_2px_rgba(40,100,232,0.06)] text-[#2864E8] flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4 lg:w-[17px] lg:h-[17px] stroke-[1.85] text-[#2864E8]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold text-slate-500/85 tracking-[0.12em] uppercase block leading-none">Branch Address</p>
+                  <p className="text-[14px] xl:text-[14.5px] text-[#173568] font-bold mt-2 leading-[1.42] tracking-[-0.01em] xl:whitespace-nowrap">
+                    A-1/6 Budh Vihar, Delhi-86
                   </p>
+                </div>
+              </div>
+
+              {/* Group 3 – Working Time */}
+              <div className="relative py-3.5 sm:py-0 lg:px-6 xl:px-7 flex items-center gap-4 lg:before:content-[''] lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:-translate-y-1/2 lg:before:h-12 lg:before:w-px lg:before:bg-slate-200/75">
+                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-gradient-to-b from-amber-50 to-amber-50/60 border border-amber-200/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_1px_2px_rgba(200,142,34,0.07)] text-[#C88E22] flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4 lg:w-[17px] lg:h-[17px] stroke-[1.85] text-[#C88E22]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-semibold text-slate-500/85 tracking-[0.12em] uppercase block leading-none">Working Time</p>
+                  <p className="mt-2 text-[14px] xl:text-[14.5px] text-[#173568] font-bold leading-[1.42] tracking-[-0.01em] tabular-nums">
+                    <span className="whitespace-nowrap">Mon – Sat:</span>{' '}
+                    <span className="whitespace-nowrap">8:00 AM – 9:30 PM</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Group 4 – Connect Us (Instagram & YouTube Only) */}
+              <div className="relative pt-3.5 sm:pt-0 lg:pl-6 xl:pl-7 flex items-center lg:before:content-[''] lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:-translate-y-1/2 lg:before:h-12 lg:before:w-px lg:before:bg-slate-200/75">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[10.5px] font-bold text-slate-500/85 tracking-[0.14em] uppercase block leading-none pl-0.5">Connect Us</p>
+                  <div className="mt-2.5 flex flex-wrap items-center gap-2.5">
+                    <a
+                      href="https://www.instagram.com/idleducationbudhvihar/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Follow IDL Education Budh Vihar on Instagram"
+                      className="group inline-flex items-center justify-center gap-2 w-[126px] h-[38px] px-3.5 rounded-[11px] bg-white hover:bg-[#FFF5F8] border border-slate-200/85 hover:border-[#F3C2D4] shadow-[0_1px_3px_rgba(15,23,42,0.05),0_1px_1px_rgba(15,23,42,0.02)] hover:shadow-[0_6px_14px_-4px_rgba(225,48,108,0.18)] hover:-translate-y-[1.5px] active:translate-y-0 text-[#173568] hover:text-[#C1255B] text-[13.5px] font-semibold leading-none tracking-[-0.01em] transition-all duration-200 ease-out cursor-pointer"
+                    >
+                      <Instagram className="w-[16.5px] h-[16.5px] stroke-[2] text-[#E1306C] shrink-0 transition-transform duration-200 ease-out group-hover:scale-105" />
+                      <span>Instagram</span>
+                    </a>
+
+                    <a
+                      href="https://www.youtube.com/@IDLEducationBudhVihar"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Subscribe to IDL Education Budh Vihar on YouTube"
+                      className="group inline-flex items-center justify-center gap-2 w-[126px] h-[38px] px-3.5 rounded-[11px] bg-white hover:bg-[#FFF5F5] border border-slate-200/85 hover:border-[#F7C4C4] shadow-[0_1px_3px_rgba(15,23,42,0.05),0_1px_1px_rgba(15,23,42,0.02)] hover:shadow-[0_6px_14px_-4px_rgba(229,45,39,0.18)] hover:-translate-y-[1.5px] active:translate-y-0 text-[#173568] hover:text-[#C81E1E] text-[13.5px] font-semibold leading-none tracking-[-0.01em] transition-all duration-200 ease-out cursor-pointer"
+                    >
+                      <Youtube className="w-[18px] h-[18px] stroke-[2] text-[#E52D27] shrink-0 transition-transform duration-200 ease-out group-hover:scale-105" />
+                      <span>YouTube</span>
+                    </a>
+                  </div>
                 </div>
               </div>
 
             </div>
           </motion.div>
-
         </div>
       </div>
 
-      {/* ── SECTION 03: MEET OUR DIRECTOR (100% Full-Width Background, Merges with White at Top & Bottom) ── */}
-      <section className="relative w-full overflow-hidden pt-9 sm:pt-11 lg:pt-12 pb-14 sm:pb-16 lg:pb-14">
-        
-        {/* Edge-to-Edge 100% Left to Right Blue Gradient Background Layer (Smoothly Merges with White at Top & Bottom) */}
-        <div 
-          className="absolute inset-0 pointer-events-none select-none"
-          style={{
-            background: 'linear-gradient(180deg, #FFFFFF 0%, #F5F9FF 12%, #EEF5FF 45%, #F0F6FF 68%, #F7FAFF 88%, #FFFFFF 100%)',
-          }}
-        />
-
-        {/* Ambient Radial Soft Glow */}
-        <div 
-          className="absolute inset-0 pointer-events-none select-none"
-          style={{
-            background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(216, 233, 254, 0.45) 0%, rgba(238, 245, 255, 0.2) 55%, transparent 100%)',
-          }}
-        />
-
-        {/* Subtle Concentric Orbital / Architectural Watermark */}
-        <svg 
-          className="absolute right-6 top-1/2 -translate-y-1/2 w-[540px] h-[540px] text-[#2864E8]/[0.016] pointer-events-none select-none" 
-          viewBox="0 0 400 400" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <circle cx="200" cy="200" r="190" stroke="currentColor" strokeWidth="0.8" strokeDasharray="4 6" />
-          <circle cx="200" cy="200" r="140" stroke="currentColor" strokeWidth="0.6" />
-          <circle cx="200" cy="200" r="90" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 4" />
-        </svg>
-
-        {/* Inner Content Container: EXACT SAME 1240px Length As Hero Section */}
-        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Centered Section Heading */}
-          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
-              <span className="text-[#173568]">Meet </span>
-              <span className="text-[#2864E8]">Branch Director</span>
-            </h2>
-          </div>
-
-          {/* ── DESKTOP DIRECTOR LAYOUT (Strictly Preserved for lg: screens) ── */}
-          <div className="hidden lg:grid grid-cols-12 gap-12 xl:gap-16 items-center">
-            
-            {/* Left Column: Frameless Editorial Cutout + Soft Ambient Lighting + Integrated Identity */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
-              
-              {/* Luminous Ambient Lighting & Soft Blue Glow */}
-              <div 
-                className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] rounded-full pointer-events-none select-none blur-3xl opacity-60"
-                style={{
-                  background: 'radial-gradient(circle at 50% 45%, rgba(40, 100, 232, 0.16) 0%, rgba(216, 233, 254, 0.5) 45%, rgba(238, 245, 255, 0.75) 70%, transparent 100%)',
-                }}
-              />
-
-              {/* Additional soft ambient light halo behind subject */}
-              <div 
-                className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-blue-200/25 blur-2xl pointer-events-none" 
-              />
-
-              {/* Portrait Cutout (Director image: Chandra Prakash) */}
-              <div className="relative w-full max-w-[380px] flex flex-col items-center">
-                
-                {/* Large Frameless Portrait Cutout */}
-                <div className="relative w-full h-[430px] flex items-end justify-center z-10">
-                  <div 
-                    className="relative w-full h-full flex items-end justify-center"
-                    style={{
-                      WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
-                      maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
-                    }}
-                  >
-                    <Image
-                      src="/chandu.png"
-                      alt="Chandra Prakash - Academic Head & Branch Director"
-                      fill
-                      sizes="420px"
-                      className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_14px_28px_rgba(23,53,104,0.12)]"
-                      priority
-                    />
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Right Column: Seamless Open Editorial Message & Profile (No Box, Directly on Shared Canvas) */}
-            <div className="lg:col-span-7 flex flex-col justify-center relative py-4 lg:pl-2">
-              
-              {/* Subtle Ambient Quotation Watermark Accent */}
-              <svg 
-                className="absolute -top-5 right-6 w-20 h-20 text-[#2864E8]/[0.05] pointer-events-none select-none" 
-                fill="currentColor" 
-                viewBox="0 0 24 24" 
-                aria-hidden="true"
-              >
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-              </svg>
-
-              {/* Tabs Integrated Naturally into the Open Layout */}
-              <div className="flex items-center gap-7 border-b border-[#173568]/15 pb-3 mb-6 relative z-10 max-w-xl">
-                <button
-                  type="button"
-                  onClick={() => setActiveMessageTab('director')}
-                  className={cn(
-                    "pb-1 text-[13px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer relative -mb-[13px]",
-                    activeMessageTab === 'director'
-                      ? "text-[#173568]"
-                      : "text-[#64748B] hover:text-[#173568]"
-                  )}
-                >
-                  <span>Director Message</span>
-                  {activeMessageTab === 'director' && (
-                    <motion.span
-                      layoutId="activeLeadershipUnderlineDesktopBV"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
-                    />
-                  )}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setActiveMessageTab('profile')}
-                  className={cn(
-                    "pb-1 text-[13px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer relative -mb-[13px]",
-                    activeMessageTab === 'profile'
-                      ? "text-[#173568]"
-                      : "text-[#64748B] hover:text-[#173568]"
-                  )}
-                >
-                  <span>Director Profile</span>
-                  {activeMessageTab === 'profile' && (
-                    <motion.span
-                      layoutId="activeLeadershipUnderlineDesktopBV"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
-                    />
-                  )}
-                </button>
-              </div>
-
-              {/* Open Message Content Area - Fixed Grid Stack */}
-              <div className="relative z-10 w-full max-w-2xl">
-                
-                {/* Paragraph Content Grid Stack (Height locked to taller content) */}
-                <div className="grid grid-cols-1">
-                  {/* View 1: Director Message */}
-                  <div
-                    className={cn(
-                      "col-start-1 row-start-1 w-full space-y-5 transition-opacity duration-150",
-                      activeMessageTab === 'director'
-                        ? "opacity-100 z-10 pointer-events-auto"
-                        : "opacity-0 z-0 pointer-events-none invisible"
-                    )}
-                  >
-                    <p className="text-[18px] font-semibold text-[#173568] leading-[1.75] tracking-[-0.01em]">
-                      &ldquo;At IDL Education Budh Vihar, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
-                    </p>
-
-                    <p className="text-[15.5px] font-normal text-[#475569] leading-[1.8]">
-                      &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
-                    </p>
-                  </div>
-
-                  {/* View 2: Director Profile */}
-                  <div
-                    className={cn(
-                      "col-start-1 row-start-1 w-full space-y-5 transition-opacity duration-150",
-                      activeMessageTab === 'profile'
-                        ? "opacity-100 z-10 pointer-events-auto"
-                        : "opacity-0 z-0 pointer-events-none invisible"
-                    )}
-                  >
-                    <p className="text-[18px] font-semibold text-[#173568] leading-[1.75] tracking-[-0.01em]">
-                      &ldquo;Senior Mathematics Faculty with 7+ years of distinguished teaching and mentorship experience. M.Sc. Mathematics specialist dedicated to building deep mathematical intuition, visual problem solving, and structured conceptual clarity for CBSE Boards and competitive exams.&rdquo;
-                    </p>
-
-                    <p className="text-[15.5px] font-normal text-[#475569] leading-[1.8]">
-                      &ldquo;His signature teaching methodology combines structured shortcuts with strong fundamentals. Through chapter-wise test series and step-by-step exam preparation, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                {/* Director Signature & Designation */}
-                <div className="pt-4 flex flex-col items-end text-right">
-                  <h4 className="text-xl sm:text-[22px] font-extrabold text-slate-900 tracking-tight">
-                    Chandra Prakash
-                  </h4>
-                  <p className="text-[11px] font-bold text-[#2864E8] tracking-[0.06em] uppercase mt-0.5">
-                    Academic Head &amp; Branch Director
-                  </p>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-          {/* ── MOBILE DIRECTOR LAYOUT (Tailored for screens < lg) ── */}
-          <div className="block lg:hidden max-w-xl mx-auto flex flex-col items-center text-center">
-            
-            {/* 1. Director Portrait (Wider & prominent 85-90% width, natural proportions, feathered bottom blend) */}
-            <div className="relative w-[88%] max-w-[325px] min-[390px]:max-w-[340px] sm:max-w-[370px] mx-auto flex flex-col items-center justify-center">
-
-              {/* Frameless Portrait Cutout Container */}
-              <div className="relative w-full h-[290px] min-[390px]:h-[315px] sm:h-[345px] flex items-end justify-center z-10">
-                <div 
-                  className="relative w-full h-full flex items-end justify-center"
-                  style={{
-                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.08) 2%, rgba(0, 0, 0, 0.35) 5%, rgba(0, 0, 0, 0.75) 9%, black 16%)',
-                    maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.08) 2%, rgba(0, 0, 0, 0.35) 5%, rgba(0, 0, 0, 0.75) 9%, black 16%)',
-                  }}
-                >
-                  <Image
-                    src="/chandu.png"
-                    alt="Chandra Prakash - Academic Head & Branch Director"
-                    fill
-                    sizes="(max-width: 640px) 340px, 370px"
-                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_12px_24px_rgba(23,53,104,0.12)]"
-                    priority
-                  />
-                </div>
-              </div>
-
-            </div>
-
-            {/* 2. Director Identity (Directly Below Portrait, No Box, Natural Hierarchy) */}
-            <div className="mt-2.5 sm:mt-3 flex flex-col items-center">
-              <h3 className="text-[19px] min-[390px]:text-[20px] sm:text-[22px] font-extrabold text-[#173568] tracking-tight">
-                Chandra Prakash
-              </h3>
-              <p className="text-[10.5px] min-[390px]:text-[11px] sm:text-xs font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-0.5">
-                Academic Head &amp; Branch Director
-              </p>
-            </div>
-
-            {/* 3. Director Message / Director Profile Tabs */}
-            <div className="w-full flex items-center justify-center gap-6 border-b border-[#173568]/15 pb-2.5 mt-4 sm:mt-5 mb-4 relative z-10">
-              <button
-                type="button"
-                onClick={() => setActiveMessageTab('director')}
-                className={cn(
-                  "pb-1 text-xs min-[390px]:text-[12.5px] sm:text-[13px] font-bold uppercase tracking-[0.10em] transition-colors cursor-pointer relative -mb-[11px]",
-                  activeMessageTab === 'director'
-                    ? "text-[#173568]"
-                    : "text-[#64748B] hover:text-[#173568]"
-                )}
-              >
-                <span>Director Message</span>
-                {activeMessageTab === 'director' && (
-                  <motion.span
-                    layoutId="activeLeadershipUnderlineMobileBV"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
-                  />
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveMessageTab('profile')}
-                className={cn(
-                  "pb-1 text-xs min-[390px]:text-[12.5px] sm:text-[13px] font-bold uppercase tracking-[0.10em] transition-colors cursor-pointer relative -mb-[11px]",
-                  activeMessageTab === 'profile'
-                    ? "text-[#173568]"
-                    : "text-[#64748B] hover:text-[#173568]"
-                )}
-              >
-                <span>Director Profile</span>
-                {activeMessageTab === 'profile' && (
-                  <motion.span
-                    layoutId="activeLeadershipUnderlineMobileBV"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
-                  />
-                )}
-              </button>
-            </div>
-
-            {/* 4. Message or Profile Content Area */}
-            <div className="w-full relative z-10 px-1 sm:px-3 text-left pb-4">
-              <div className="grid grid-cols-1">
-                
-                {/* View 1: Director Message */}
-                <div
-                  className={cn(
-                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-150",
-                    activeMessageTab === 'director'
-                      ? "opacity-100 z-10 pointer-events-auto"
-                      : "opacity-0 z-0 pointer-events-none invisible"
-                  )}
-                >
-                  <p className="text-[13.5px] min-[390px]:text-[14px] sm:text-[15px] font-semibold text-[#173568] leading-relaxed tracking-[-0.01em]">
-                    &ldquo;At IDL Education Budh Vihar, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
-                  </p>
-
-                  <p className="text-[12.5px] min-[390px]:text-[13px] sm:text-[13.5px] font-normal text-[#475569] leading-relaxed">
-                    &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
-                  </p>
-                </div>
-
-                {/* View 2: Director Profile */}
-                <div
-                  className={cn(
-                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-150",
-                    activeMessageTab === 'profile'
-                      ? "opacity-100 z-10 pointer-events-auto"
-                      : "opacity-0 z-0 pointer-events-none invisible"
-                  )}
-                >
-                  <p className="text-[13.5px] min-[390px]:text-[14px] sm:text-[15px] font-semibold text-[#173568] leading-relaxed tracking-[-0.01em]">
-                    &ldquo;Senior Mathematics Faculty with 7+ years of distinguished teaching and mentorship experience. M.Sc. Mathematics specialist dedicated to building deep mathematical intuition, visual problem solving, and structured conceptual clarity for CBSE Boards and competitive exams.&rdquo;
-                  </p>
-
-                  <p className="text-[12.5px] min-[390px]:text-[13px] sm:text-[13.5px] font-normal text-[#475569] leading-relaxed">
-                    &ldquo;His signature teaching methodology combines structured shortcuts with strong fundamentals. Through chapter-wise test series and step-by-step exam preparation, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── SECTIONS 04+: ACADEMIC PROGRAMS & REMAINING CONTENT ── */}
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-24 sm:pb-28 lg:pb-16">
+      {/* ── SECTIONS 04–06: ACADEMIC PROGRAMS, TIMETABLE & BRANCH FACILITIES ── */}
+      <div className="w-full max-w-[1240px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 idl-section-stack pt-6 sm:pt-7 md:pt-10 lg:pt-12 pb-6 sm:pb-7 md:pb-8 lg:pb-9">
 
         {/* ── SECTION 04: ACADEMIC PROGRAMS (COURSES & CLASSES OFFERED) ── */}
-        <section className="relative w-full overflow-hidden space-y-6 sm:space-y-8">
+        <section className="relative w-full -mb-3">
           
           {/* Centered Section Heading matching Timetable Visual Hierarchy */}
-          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
-            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
+          <div className="text-center max-w-3xl mx-auto mb-5 sm:mb-6 lg:mb-7">
+            <h2 className="text-[23px] min-[390px]:text-[25px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-[-0.025em] leading-tight">
               <span className="text-[#173568]">Explore </span>
-              <span className="text-[#2864E8]">Academic Programs</span>
+              <span className="text-[#2864E8]">Our Programs</span>
             </h2>
           </div>
 
-          {/* Three Vertical Program Cards (Classes 4-8, 9 & 10, 11 & 12) with Student Cutouts */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-            
-            {/* Card 1: Class 4 – 8 (Junior Foundation) */}
-            <div
-              onClick={() => {
-                setEnrollProgramTitle('Class 4–8 Junior Foundation');
-                setEnrollAllowedClasses(JUNIOR_CLASSES);
-                setEnrollAllowedCourses(JUNIOR_COURSES);
-                setEnrollDefaultClass('Class 4th');
-                setEnrollDefaultCourse(JUNIOR_COURSES[0]);
-                setIsEnrollOpen(true);
-              }}
-              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+          {/* Horizontal Scrollable Programs Carousel */}
+          <div className="relative -mx-3 sm:-mx-4 md:mx-0 md:px-10 lg:px-11">
+            {/* Left Scroll Chevron */}
+            <button
+              type="button"
+              onClick={() => scrollProgramsBy('left')}
+              aria-label="Scroll academic programs left"
+              disabled={!canScrollProgramsLeft}
+              className={cn(
+                "hidden md:flex items-center justify-center absolute left-0 top-[calc(50%-6px)] -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full border transition-all duration-200 cursor-pointer",
+                canScrollProgramsLeft
+                  ? "bg-white border-slate-200/80 text-[#2864E8] shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] hover:border-[#2864E8]/40 hover:bg-[#F5F8FF] hover:shadow-[0_4px_12px_-2px_rgba(40,100,232,0.16)] active:scale-95"
+                  : "bg-white/70 border-slate-100 text-slate-300 opacity-50 pointer-events-none"
+              )}
             >
-              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
-                {/* Soft ambient radial glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
+              <ChevronLeft className="w-[18px] h-[18px] stroke-[2.25]" />
+            </button>
 
-                {/* Badge on Image Header */}
-                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Class 4 – 8
-                </span>
+            {/* Right Scroll Chevron */}
+            <button
+              type="button"
+              onClick={() => scrollProgramsBy('right')}
+              aria-label="Scroll academic programs right"
+              disabled={!canScrollProgramsRight}
+              className={cn(
+                "hidden md:flex items-center justify-center absolute right-0 top-[calc(50%-6px)] -translate-y-1/2 z-20 w-8 h-8 lg:w-9 lg:h-9 rounded-full border transition-all duration-200 cursor-pointer",
+                canScrollProgramsRight
+                  ? "bg-white border-slate-200/80 text-[#2864E8] shadow-[0_2px_8px_-2px_rgba(15,23,42,0.08)] hover:border-[#2864E8]/40 hover:bg-[#F5F8FF] hover:shadow-[0_4px_12px_-2px_rgba(40,100,232,0.16)] active:scale-95"
+                  : "bg-white/70 border-slate-100 text-slate-300 opacity-50 pointer-events-none"
+              )}
+            >
+              <ChevronRight className="w-[18px] h-[18px] stroke-[2.25]" />
+            </button>
 
-                {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
-                  <Image
-                    src="/mangolpuri/girl.png"
-                    alt="Class 4 - 8 Junior Foundation Student"
-                    fill
-                    className="object-contain object-bottom"
-                    priority
-                  />
-                </div>
+            {/* Scroll Track */}
+            <div
+              ref={programsSliderRef}
+              onScroll={updateProgramsScrollState}
+              className="flex items-stretch gap-3.5 sm:gap-4 md:gap-[18px] lg:gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory scroll-pl-4 sm:scroll-pl-5 md:scroll-pl-0 pt-1 pb-3 px-4 sm:px-5 md:px-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+              {[
+                {
+                  id: 'junior-foundation',
+                  classLabel: 'Class 4 - 8',
+                  title: 'Junior Foundation',
+                  image: '/mangolpuri/girl.png',
+                  alt: 'Class 4 - 8 Junior Foundation Student',
+                  priority: true,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('Class 4–8 Junior Foundation');
+                    setEnrollAllowedClasses(JUNIOR_CLASSES);
+                    setEnrollAllowedCourses(JUNIOR_COURSES);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse(JUNIOR_COURSES[0]);
+                    setIsEnrollOpen(true);
+                  },
+                },
+                {
+                  id: 'secondary-board',
+                  classLabel: 'Class 9 - 10',
+                  title: 'Secondary Board',
+                  image: '/mangolpuri/boy.png',
+                  alt: 'Class 9 and 10 CBSE Board Student',
+                  priority: true,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('Class 9 & 10 Secondary Board');
+                    setEnrollAllowedClasses(SECONDARY_CLASSES);
+                    setEnrollAllowedCourses(SECONDARY_COURSES);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse(SECONDARY_COURSES[0]);
+                    setIsEnrollOpen(true);
+                  },
+                },
+                {
+                  id: 'jee-neet-preparation',
+                  classLabel: 'Class 11 - 12 / 12 PASS',
+                  title: 'JEE / NEET FOUNDATION',
+                  image: '/mangolpuri/girl.png',
+                  alt: 'JEE and NEET Foundation Student',
+                  priority: true,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('JEE / NEET FOUNDATION');
+                    setEnrollAllowedClasses(JEE_NEET_CLASSES);
+                    setEnrollAllowedCourses(JEE_NEET_COURSES);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse(JEE_NEET_COURSES[0]);
+                    setIsEnrollOpen(true);
+                  },
+                },
+                {
+                  id: 'science-program',
+                  classLabel: 'Class 11 - 12',
+                  title: 'Science Program',
+                  image: '/mangolpuri/boy.png',
+                  alt: 'Class 11 and 12 Science Program Student',
+                  priority: false,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('Class 11 & 12 Science Program');
+                    setEnrollAllowedClasses(SENIOR_CLASSES);
+                    setEnrollAllowedCourses(['Class 11 & 12 Science Program (Physics, Chemistry, Mathematics & Biology)']);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse('Class 11 & 12 Science Program (Physics, Chemistry, Mathematics & Biology)');
+                    setIsEnrollOpen(true);
+                  },
+                },
+                {
+                  id: 'commerce-program',
+                  classLabel: 'Class 11 - 12',
+                  title: 'Commerce Program',
+                  image: '/mangolpuri/girl.png',
+                  alt: 'Class 11 and 12 Commerce Program Student',
+                  priority: false,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('Class 11 & 12 Commerce Program');
+                    setEnrollAllowedClasses(SENIOR_CLASSES);
+                    setEnrollAllowedCourses(SENIOR_COURSES);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse(SENIOR_COURSES[0]);
+                    setIsEnrollOpen(true);
+                  },
+                },
+                {
+                  id: 'humanities-program',
+                  classLabel: 'Class 11 - 12',
+                  title: 'Humanities Program',
+                  image: '/mangolpuri/boy.png',
+                  alt: 'Class 11 and 12 Humanities Program Student',
+                  priority: false,
+                  onEnroll: () => {
+                    setEnrollProgramTitle('Class 11 & 12 Humanities Program');
+                    setEnrollAllowedClasses(SENIOR_CLASSES);
+                    setEnrollAllowedCourses(['Class 11 & 12 Humanities Program']);
+                    setEnrollDefaultClass('');
+                    setEnrollDefaultCourse('Class 11 & 12 Humanities Program');
+                    setIsEnrollOpen(true);
+                  },
+                },
+              ].map((program) => (
+                <div
+                  key={program.id}
+                  onClick={program.onEnroll}
+                  className="group snap-start shrink-0 w-[252px] min-[390px]:w-[262px] sm:w-[260px] lg:w-[256px] rounded-[14px] bg-[#F8FAFC] border border-slate-200/80 hover:border-[#2864E8]/35 p-3.5 shadow-[0_2px_10px_-3px_rgba(15,23,42,0.06),0_10px_22px_-12px_rgba(23,53,104,0.10)] hover:shadow-[0_14px_28px_-12px_rgba(23,53,104,0.16)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col cursor-pointer select-none"
+                >
+                  {/* Clean Top Image Frame Only (No Overlays or Badges) */}
+                  <div className="relative w-full h-[178px] sm:h-[184px] rounded-[10px] overflow-hidden bg-gradient-to-b from-[#F0F6FE] via-[#EDF4FD] to-[#E5EFFC] ring-1 ring-inset ring-[#DCE8F8]/70 flex items-end justify-center pt-3">
+                    <div className="relative w-full h-[166px] sm:h-[172px] transition-transform duration-300 ease-out group-hover:scale-[1.03] pointer-events-none">
+                      <Image
+                        src={program.image}
+                        alt={program.alt}
+                        fill
+                        sizes="(max-width: 640px) 262px, 260px"
+                        className="object-contain object-bottom"
+                        priority={program.priority}
+                      />
+                    </div>
+                  </div>
 
-                {/* Soft natural bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-              </div>
+                  {/* Minimal Card Body: Class -> Heading -> Underlined Enroll Now Link */}
+                  <div className="pt-4 pb-1.5 px-1 flex flex-col flex-1 justify-between text-left antialiased">
+                    <div className="min-w-0">
+                      <p className="text-[13px] sm:text-[13.5px] font-bold text-[#2864E8] tracking-[0.005em] leading-snug tabular-nums">
+                        {program.classLabel}
+                      </p>
+                      <h3
+                        style={{ wordSpacing: '0.1em' }}
+                        className="text-[14px] sm:text-[14.5px] font-extrabold uppercase text-[#173568] tracking-[0.01em] group-hover:text-[#2864E8] transition-colors duration-200 leading-[1.35] mt-1.5"
+                      >
+                        {program.title}
+                      </h3>
+                    </div>
 
-              {/* Content Body */}
-              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
-                <div>
-                  {/* Program Title - Deep Navy with Royal Blue Hover */}
-                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
-                    JUNIOR FOUNDATION PROGRAM
-                  </h3>
-
-                  {/* Description - Slate Grey */}
-                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
-                    Build strong fundamentals, mental maths, and disciplined study habits.
-                  </p>
-                </div>
-
-                {/* Action Footer - Deep Navy Button */}
-                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
-                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
-                    <span>Enroll Now</span>
-                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
+                    <div className="mt-5">
+                      <span className="inline-block text-[14px] sm:text-[14.5px] font-bold text-[#2864E8] group-hover:text-[#173568] border-b-[1.5px] border-[#2864E8] group-hover:border-[#173568] pb-[3px] tracking-[0.005em] leading-none transition-colors duration-200">
+                        Enroll Now
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-
-            {/* Card 2: Class 9 & 10 (Secondary Board Foundation) */}
-            <div
-              onClick={() => {
-                setEnrollProgramTitle('Class 9 & 10 Secondary Board');
-                setEnrollAllowedClasses(SECONDARY_CLASSES);
-                setEnrollAllowedCourses(SECONDARY_COURSES);
-                setEnrollDefaultClass('Class 9th');
-                setEnrollDefaultCourse(SECONDARY_COURSES[0]);
-                setIsEnrollOpen(true);
-              }}
-              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
-            >
-              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
-                {/* Soft ambient radial glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
-
-                {/* Badge on Image Header */}
-                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Class 9 &amp; 10
-                </span>
-
-                {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
-                  <Image
-                    src="/mangolpuri/boy.png"
-                    alt="Class 9 and 10 CBSE Board Student"
-                    fill
-                    className="object-contain object-bottom"
-                    priority
-                  />
-                </div>
-
-                {/* Soft natural bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-              </div>
-
-              {/* Content Body */}
-              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
-                <div>
-                  {/* Program Title - Deep Navy with Royal Blue Hover */}
-                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
-                    SECONDARY BOARD PROGRAM
-                  </h3>
-
-                  {/* Description - Slate Grey */}
-                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
-                    Complete NCERT mastery, weekly test series, and top scoring strategies.
-                  </p>
-                </div>
-
-                {/* Action Footer - Deep Navy Button */}
-                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
-                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
-                    <span>Enroll Now</span>
-                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: Class 11 & 12 (Senior Commerce & CUET) */}
-            <div
-              onClick={() => {
-                setEnrollProgramTitle('Class 11 & 12 Commerce Foundation');
-                setEnrollAllowedClasses(SENIOR_CLASSES);
-                setEnrollAllowedCourses(SENIOR_COURSES);
-                setEnrollDefaultClass('Class 11th');
-                setEnrollDefaultCourse(SENIOR_COURSES[0]);
-                setIsEnrollOpen(true);
-              }}
-              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
-            >
-              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
-                {/* Soft ambient radial glow */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
-
-                {/* Badge on Image Header */}
-                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Class 11 &amp; 12
-                </span>
-
-                {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
-                  <Image
-                    src="/mangolpuri/girl.png"
-                    alt="Class 11 and 12 Commerce & CUET Student"
-                    fill
-                    className="object-contain object-bottom"
-                    priority
-                  />
-                </div>
-
-                {/* Soft natural bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
-              </div>
-
-              {/* Content Body */}
-              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
-                <div>
-                  {/* Program Title - Deep Navy with Royal Blue Hover */}
-                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
-                    COMMERCE FOUNDATION
-                  </h3>
-
-                  {/* Description - Slate Grey */}
-                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
-                    Mentorship in Accounts and Economics for 95%+ Board and CUET scores.
-                  </p>
-                </div>
-
-                {/* Action Footer - Deep Navy Button */}
-                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
-                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
-                    <span>Enroll Now</span>
-                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
 
         </section>
 
         {/* ── SECTION 05: WEEKLY CLASS TIMETABLE ────────────────────────── */}
-        <section id="weekly-timetable" className="relative w-full overflow-hidden space-y-6 sm:space-y-8 bg-white">
+        <section id="weekly-timetable" className="relative w-full overflow-visible bg-white">
 
           {/* 1. Centered Section Heading */}
-          <div className="text-center max-w-3xl mx-auto mb-5 sm:mb-6">
-            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
+          <div className="text-center max-w-3xl mx-auto mb-4 sm:mb-5">
+            <h2 className="text-[23px] min-[390px]:text-[25px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-[-0.025em] leading-tight">
               <span className="text-[#173568]">Weekly </span>
-              <span className="text-[#2864E8]">Class Timetable</span>
+              <span className="text-[#2864E8]">Time-table</span>
             </h2>
           </div>
 
-          {/* 2. Top Navigation Tabs (Text-only matching Director Message & Profile style) */}
-          <div className="flex items-center justify-center gap-7 sm:gap-9 border-b border-slate-200/70 pb-3 mb-7 sm:mb-8 max-w-md mx-auto">
-            {[
-              { id: '9', label: 'Class 9' },
-              { id: '10', label: 'Class 10' },
-              { id: '11', label: 'Class 11' },
-              { id: '12', label: 'Class 12' },
-            ].map((tab) => {
-              const isActive = timetableTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setTimetableTab(tab.id as any)}
-                  className={cn(
-                    "pb-2 text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] transition-colors duration-200 cursor-pointer relative -mb-[13px] outline-none select-none",
-                    isActive
-                      ? "text-[#173568]"
-                      : "text-[#64748B] hover:text-[#173568]"
-                  )}
-                >
-                  <span>{tab.label}</span>
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeTimetableUnderlineBV"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
-                    />
-                  )}
-                </button>
-              );
-            })}
+          {/* 2. Restrained Minimal Class Tabs */}
+          <div className="flex justify-center mb-5 sm:mb-6">
+            <div className="inline-flex items-center gap-0.5 p-[3px] rounded-full bg-[#F5F8FC] border border-slate-200/50 max-w-full overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              {[
+                { id: '9', label: 'Class 9' },
+                { id: '10', label: 'Class 10' },
+                { id: '11', label: 'Class 11' },
+                { id: '12', label: 'Class 12' },
+              ].map((tab) => {
+                const isActive = timetableTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setTimetableTab(tab.id as any)}
+                    className={cn(
+                      "relative z-10 h-[32px] sm:h-[34px] px-3.5 min-[390px]:px-4 sm:px-5 rounded-full inline-flex items-center justify-center text-[12.5px] sm:text-[13px] tracking-[0.005em] leading-none whitespace-nowrap transition-colors duration-200 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#2864E8]/25 select-none",
+                      isActive
+                        ? "font-semibold text-[#2864E8]"
+                        : "font-medium text-slate-500 hover:text-[#173568]"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeTimetableUnderlineBV"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                        className="absolute inset-0 rounded-full bg-white ring-1 ring-slate-200/60 shadow-[0_1px_3px_rgba(15,23,42,0.06),0_1px_2px_rgba(40,100,232,0.04)] -z-10"
+                      />
+                    )}
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* 3. Main 2-Column Content Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-7 items-stretch">
+          {/* 3. Main 2-Column Content Layout (Clean Single-Level Cards) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 lg:gap-6 items-stretch">
             
-            {/* Left Column (lg:col-span-8) – Dynamic Selected Class Timetable */}
+            {/* Left Column (lg:col-span-8) – Clean Weekly Timetable Card */}
             <div className="lg:col-span-8 flex flex-col">
               <AnimatePresence mode="wait">
-                {/* 1. CLASS 9 TIMETABLE */}
-                {timetableTab === '9' && (
-                  <motion.div
-                    key="class-9-timetable"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
-                  >
-                    {/* Header Banner - Soft Blue Gradient Banner */}
-                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
-                      <div className="flex items-center gap-2.5">
-                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
-                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
-                          Class 9 (Time-Table)
-                        </h3>
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
-                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
-                        <span>2 Hours / Day • Mon to Sat</span>
-                      </div>
-                    </div>
+                {(() => {
+                  const activeSchedule = BUDHVIHAR_WEEKLY_TIMETABLE[timetableTab];
+                  return (
+                    <motion.div
+                      key={`class-${timetableTab}-timetable`}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                      className="rounded-[14px] sm:rounded-[16px] bg-white border border-slate-200/80 shadow-[0_2px_12px_-6px_rgba(15,23,42,0.06)] overflow-hidden flex flex-col h-full"
+                    >
+                      {/* Clean Subtle Header Strip with Consistent Month & Week Controls */}
+                      <div className="bg-[#F8FAFD] border-b border-slate-200/75 px-4 py-2.5 sm:px-5 min-h-[52px] flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Calendar className="w-4 h-4 text-[#2864E8] shrink-0" />
+                          <h3 className="text-[14.5px] sm:text-[15.5px] font-extrabold tracking-[-0.015em] text-[#173568] leading-snug">
+                            {activeSchedule.classLabel}
+                          </h3>
+                        </div>
 
-                    {/* Merged 100% Full Content with Hairline Separation */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
-                      {/* MWF Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : MWF
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
+                        {/* Session Month Selector (Apr 2026 – Mar 2027, up to Current Month) + Week Stepper (up to Current Week) */}
+                        <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 min-w-0">
+                          <div className="relative shrink-0">
+                            <select
+                              aria-label="Select timetable month"
+                              value={activeSessionWeek?.monthKey ?? ''}
+                              onChange={(e) => handleSelectTimetableMonth(e.target.value)}
+                              className="h-[30px] pl-2 min-[360px]:pl-2.5 pr-5 min-[360px]:pr-6 rounded-md bg-white border border-slate-200/90 hover:border-slate-300 text-[12px] font-bold text-[#173568] appearance-none cursor-pointer focus:outline-none focus:border-[#2864E8] transition-colors"
+                            >
+                              {sessionCalendar.months.map((m) => (
+                                <option key={m.key} value={m.key}>
+                                  {m.label}
+                                </option>
+                              ))}
+                            </select>
+                            <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                           </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
 
-                      {/* TTS Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : TTS
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* 2. CLASS 10 TIMETABLE */}
-                {timetableTab === '10' && (
-                  <motion.div
-                    key="class-10-timetable"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
-                  >
-                    {/* Header Banner - Soft Blue Gradient Banner */}
-                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
-                      <div className="flex items-center gap-2.5">
-                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
-                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
-                          Class 10 (Time-Table)
-                        </h3>
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
-                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
-                        <span>2 Hours / Day • Board Prep</span>
-                      </div>
-                    </div>
-
-                    {/* Merged 100% Full Content with Hairline Separation */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
-                      {/* MWF Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : MWF
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
+                          <div className="inline-flex items-center h-[30px] rounded-md bg-white border border-slate-200/90 overflow-hidden min-w-0">
+                            <button
+                              type="button"
+                              onClick={handlePrevTimetableWeek}
+                              disabled={safeWeekIndex <= 0}
+                              aria-label="Previous week"
+                              className="w-[24px] min-[360px]:w-[26px] h-full flex items-center justify-center border-r border-slate-200/80 text-slate-500 hover:bg-slate-50 hover:text-[#2864E8] disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-500 disabled:cursor-not-allowed transition-colors cursor-pointer shrink-0"
+                            >
+                              <ChevronLeft className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="px-1.5 min-[360px]:px-2 sm:px-2.5 inline-flex items-center gap-1.5 text-[11.5px] sm:text-[12px] font-semibold text-slate-600 tabular-nums whitespace-nowrap select-none">
+                              <Clock className="hidden min-[360px]:inline-block w-3 h-3 text-slate-400 shrink-0" />
+                              <span>{activeSessionWeek?.rangeLabel}</span>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={handleNextTimetableWeek}
+                              disabled={safeWeekIndex >= sessionCalendar.currentWeekIndex}
+                              aria-label="Next week"
+                              className="w-[24px] min-[360px]:w-[26px] h-full flex items-center justify-center border-l border-slate-200/80 text-slate-500 hover:bg-slate-50 hover:text-[#2864E8] disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-500 disabled:cursor-not-allowed transition-colors cursor-pointer shrink-0"
+                            >
+                              <ChevronRight className="w-3.5 h-3.5" />
+                            </button>
                           </div>
                         </div>
                       </div>
 
-                      {/* TTS Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : TTS
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                      {/* Clean White Side-by-Side MWF / TTS Columns with Understated Separation */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/75 flex-1 bg-white">
+                        {activeSchedule.columns.map((col) => (
+                          <div
+                            key={col.dayCode}
+                            className="px-4 py-3.5 sm:px-5 sm:py-4 lg:py-5 flex flex-col justify-start"
+                          >
+                            {/* Clean Weekday Header */}
+                            <div className="flex items-baseline flex-wrap gap-2 pb-3 border-b border-slate-100">
+                              <span className="text-[13px] sm:text-[13.5px] font-extrabold text-[#173568] tracking-[0.04em]">
+                                {col.dayCode}
+                              </span>
+                              <span className="text-[12.5px] sm:text-[13px] font-medium text-slate-500">
+                                {col.dayNames}
+                              </span>
+                            </div>
 
-                {/* 3. CLASS 11 TIMETABLE */}
-                {timetableTab === '11' && (
-                  <motion.div
-                    key="class-11-timetable"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
-                  >
-                    {/* Header Banner - Soft Blue Gradient Banner */}
-                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
-                      <div className="flex items-center gap-2.5">
-                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
-                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
-                          Class 11 (Time-Table)
-                        </h3>
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
-                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
-                        <span>1 Hour / Subject • Commerce Focus</span>
-                      </div>
-                    </div>
-
-                    {/* Merged 100% Full Content with Hairline Separation */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
-                      {/* MWF Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : MWF
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
+                            {/* Separate Subject & Timing Rows Aligned Side-by-Side */}
+                            <div className="divide-y divide-slate-100">
+                              {col.slots.map((slot, slotIdx) => {
+                                const isEmptySlot = slot.subject === '---';
+                                return (
+                                  <div
+                                    key={`${col.dayCode}-${slotIdx}`}
+                                    className={cn(
+                                      "flex items-center justify-between gap-3",
+                                      slotIdx === col.slots.length - 1 ? "pt-3 pb-0" : "py-3"
+                                    )}
+                                  >
+                                    <span
+                                      className={cn(
+                                        "text-[13.5px] sm:text-[14px] leading-snug text-left min-w-0",
+                                        isEmptySlot
+                                          ? "font-medium text-slate-400 tracking-[0.14em] select-none"
+                                          : "font-bold text-[#173568]"
+                                      )}
+                                    >
+                                      {slot.subject}
+                                    </span>
+                                    <span className="text-[13px] sm:text-[13.5px] font-bold text-[#2864E8] tabular-nums whitespace-nowrap shrink-0 text-right">
+                                      {slot.time}
+                                    </span>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
+                        ))}
                       </div>
-
-                      {/* TTS Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : TTS
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Guided Practice &amp; Doubts</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* 4. CLASS 12 TIMETABLE */}
-                {timetableTab === '12' && (
-                  <motion.div
-                    key="class-12-timetable"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
-                  >
-                    {/* Header Banner - Soft Blue Gradient Banner */}
-                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
-                      <div className="flex items-center gap-2.5">
-                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
-                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
-                          Class 12 (Time-Table)
-                        </h3>
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
-                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
-                        <span>1 Hour / Subject • Commerce Focus</span>
-                      </div>
-                    </div>
-
-                    {/* Merged 100% Full Content with Hairline Separation */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
-                      {/* TTS Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : TTS
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* MWF Column */}
-                      <div className="p-5 sm:p-6 flex flex-col justify-between">
-                        <div className="flex items-center pb-3 border-b border-slate-200/80">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
-                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
-                            Day : MWF
-                          </span>
-                        </div>
-                        <div className="divide-y divide-slate-200/70 pt-1">
-                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Board Answer Writing</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
-                          </div>
-                          <div className="flex items-center justify-between py-2.5 first:pt-2.5 last:pb-0">
-                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
-                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+                    </motion.div>
+                  );
+                })()}
               </AnimatePresence>
             </div>
 
-            {/* Right Column (lg:col-span-4) – Sunday Special Card */}
+            {/* Right Column (lg:col-span-4) – Matched Clean Sunday Special Card */}
             <div className="lg:col-span-4 flex flex-col">
-              <div className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between w-full h-full transition-all duration-200">
-                {/* Header Banner - Soft Blue Gradient Banner */}
-                <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex items-center gap-2.5 text-white border-b border-[#173568]/30">
-                  <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
-                  <span className="font-extrabold text-sm sm:text-[15px] lg:text-base tracking-tight">
+              <div className="rounded-[14px] sm:rounded-[16px] bg-white border border-slate-200/80 shadow-[0_2px_12px_-6px_rgba(15,23,42,0.06)] overflow-hidden flex flex-col w-full h-full">
+                {/* Matched Quiet Header Strip */}
+                <div className="bg-[#F8FAFD] border-b border-slate-200/75 px-4 py-2.5 sm:px-5 min-h-[52px] flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-[#2864E8] shrink-0" />
+                  <span className="font-extrabold text-[14.5px] sm:text-[15.5px] tracking-[-0.015em] text-[#173568] leading-snug">
                     Sunday Special
                   </span>
                 </div>
 
-                {/* Body Content */}
-                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-                  <div className="divide-y divide-slate-200/70">
-                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
-                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                {/* Clean White List with Subtle Dividers */}
+                <div className="px-4 py-1.5 sm:px-5 sm:py-2 flex-1 flex flex-col justify-center bg-white">
+                  <div className="divide-y divide-slate-100">
+                    <div className="flex items-center py-2.5 sm:py-3">
+                      <span className="text-[13.5px] sm:text-[14px] font-semibold text-[#173568] leading-[1.45]">
                         Weekly Subject Tests &amp; Assessment
                       </span>
                     </div>
-                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
-                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                    <div className="flex items-center py-2.5 sm:py-3">
+                      <span className="text-[13.5px] sm:text-[14px] font-semibold text-[#173568] leading-[1.45]">
                         Dedicated 1-on-1 Doubt Clearing
                       </span>
                     </div>
-                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
-                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                    <div className="flex items-center py-2.5 sm:py-3">
+                      <span className="text-[13.5px] sm:text-[14px] font-semibold text-[#173568] leading-[1.45]">
                         Special Concept &amp; Strategy Workshops
                       </span>
                     </div>
-                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
-                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                    <div className="flex items-center py-2.5 sm:py-3">
+                      <span className="text-[13.5px] sm:text-[14px] font-semibold text-[#173568] leading-[1.45]">
                         Comprehensive Revision &amp; Answer Writing
                       </span>
                     </div>
@@ -1810,7 +1931,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
           
           {/* Centered Section Heading */}
           <div className="text-center max-w-3xl mx-auto mb-5 sm:mb-7 lg:mb-8">
-            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight whitespace-nowrap">
+            <h2 className="text-[23px] min-[390px]:text-[25px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-[-0.025em] leading-tight whitespace-nowrap">
               <span className="text-[#173568]">Branch </span>
               <span className="text-[#2864E8]">Facilities</span>
             </h2>
@@ -1843,199 +1964,374 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
 
         </section>
 
-        {/* ── SECTION 07: FAQ & EXPLORE OTHER IDL CENTRES ───────────── */}
-        <section className="relative w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 items-stretch">
+      </div>
+
+      {/* ── SECTION 06B: MEET BRANCH DIRECTOR (Below Branch Facilities) ── */}
+      <section className="relative w-full overflow-hidden idl-section-y">
+        
+        {/* Subtle, Distraction-Free Soft Canvas Transition */}
+        <div 
+          className="absolute inset-0 pointer-events-none select-none"
+          style={{
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFD 18%, #F8FAFD 82%, #FFFFFF 100%)',
+          }}
+        />
+
+        {/* Inner Content Container */}
+        <div className="relative z-10 w-full max-w-[1160px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+          
+          {/* Centered Section Heading */}
+          <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-8 lg:mb-12">
+            <h2 className="text-[23px] min-[390px]:text-[25px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-[-0.025em] leading-tight">
+              <span className="text-[#173568]">Meet </span>
+              <span className="text-[#2864E8]">Branch Director</span>
+            </h2>
+          </div>
+
+          {/* ── DESKTOP DIRECTOR LAYOUT (Balanced Editorial 2-Column Composition) ── */}
+          <div className="hidden lg:grid grid-cols-12 gap-10 xl:gap-14 items-center">
             
-            {/* Left Column: Frequently Asked Questions */}
-            <div className="lg:pr-8 xl:pr-10 pb-8 sm:pb-9 lg:pb-0 flex flex-col justify-between">
-              <div>
-                {/* Header */}
-                <div className="flex items-start gap-3 mb-5 pb-4 border-b border-slate-200/70">
-                  <span className="w-1.5 h-6 bg-[#2864E8] rounded-full shrink-0 mt-0.5" />
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <HelpCircle className="w-5 h-5 text-[#2864E8] shrink-0" />
-                      <h3 className="text-lg sm:text-xl font-extrabold text-[#173568] tracking-tight">
-                        Frequently Asked Questions
-                      </h3>
-                    </div>
-                    <p className="text-xs sm:text-[13px] text-slate-500 font-medium mt-0.5">
-                      Common questions about the Budh Vihar branch
+            {/* Left Column: Clean, Natural Executive Portrait */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-[390px] aspect-[10/10.8] rounded-2xl overflow-hidden border border-slate-200/75 shadow-[0_12px_32px_-12px_rgba(15,23,42,0.12)] bg-slate-100">
+                <Image
+                  src="/budhvihar/chandu.png"
+                  alt="Chandra Prakash - Academic Head & Branch Director"
+                  fill
+                  sizes="400px"
+                  className="object-cover object-center select-none pointer-events-none"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Clean Editorial Tabs, Readable Copy & Refined Signature */}
+            <div className="lg:col-span-7 flex flex-col justify-center lg:pl-2">
+              <div className="w-full max-w-[600px]">
+                
+                {/* Subtle, Clean Tabs */}
+                <div className="flex items-center gap-7 border-b border-slate-200/85 pb-3 mb-6">
+                  <button
+                    type="button"
+                    onClick={() => setActiveMessageTab('director')}
+                    className={cn(
+                      "pb-3 text-[12px] xl:text-[12.5px] font-bold uppercase tracking-[0.09em] transition-colors duration-200 cursor-pointer relative -mb-[13px] outline-none",
+                      activeMessageTab === 'director'
+                        ? "text-[#173568]"
+                        : "text-slate-500 hover:text-[#173568]"
+                    )}
+                  >
+                    <span>Director Message</span>
+                    {activeMessageTab === 'director' && (
+                      <motion.span
+                        layoutId="activeLeadershipUnderlineDesktopBV"
+                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                        className="absolute bottom-0 inset-x-0 h-[2px] bg-[#2864E8] rounded-full"
+                      />
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setActiveMessageTab('profile')}
+                    className={cn(
+                      "pb-3 text-[12px] xl:text-[12.5px] font-bold uppercase tracking-[0.09em] transition-colors duration-200 cursor-pointer relative -mb-[13px] outline-none",
+                      activeMessageTab === 'profile'
+                        ? "text-[#173568]"
+                        : "text-slate-500 hover:text-[#173568]"
+                    )}
+                  >
+                    <span>Director Profile</span>
+                    {activeMessageTab === 'profile' && (
+                      <motion.span
+                        layoutId="activeLeadershipUnderlineDesktopBV"
+                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                        className="absolute bottom-0 inset-x-0 h-[2px] bg-[#2864E8] rounded-full"
+                      />
+                    )}
+                  </button>
+                </div>
+
+                {/* Paragraph Content Grid Stack (Height locked to taller content for smooth switching) */}
+                <div className="grid grid-cols-1">
+                  {/* View 1: Director Message */}
+                  <div
+                    className={cn(
+                      "col-start-1 row-start-1 w-full space-y-4 transition-opacity duration-200",
+                      activeMessageTab === 'director'
+                        ? "opacity-100 z-10 pointer-events-auto"
+                        : "opacity-0 z-0 pointer-events-none invisible"
+                    )}
+                  >
+                    <p className="text-[16px] xl:text-[16.5px] font-semibold text-[#173568] leading-[1.7] tracking-[-0.01em]">
+                      &ldquo;At IDL Education Budh Vihar, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
+                    </p>
+
+                    <p className="text-[14.5px] xl:text-[15px] font-normal text-slate-600 leading-[1.72]">
+                      &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
+                    </p>
+                  </div>
+
+                  {/* View 2: Director Profile */}
+                  <div
+                    className={cn(
+                      "col-start-1 row-start-1 w-full space-y-4 transition-opacity duration-200",
+                      activeMessageTab === 'profile'
+                        ? "opacity-100 z-10 pointer-events-auto"
+                        : "opacity-0 z-0 pointer-events-none invisible"
+                    )}
+                  >
+                    <p className="text-[16px] xl:text-[16.5px] font-semibold text-[#173568] leading-[1.7] tracking-[-0.01em]">
+                      &ldquo;Senior Mathematics Faculty with 7+ years of distinguished teaching and mentorship experience. M.Sc. Mathematics specialist dedicated to building deep mathematical intuition, visual problem solving, and structured conceptual clarity for CBSE Boards and competitive exams.&rdquo;
+                    </p>
+
+                    <p className="text-[14.5px] xl:text-[15px] font-normal text-slate-600 leading-[1.72]">
+                      &ldquo;His signature teaching methodology combines structured shortcuts with strong fundamentals. Through chapter-wise test series and step-by-step exam preparation, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
                     </p>
                   </div>
                 </div>
 
-                {/* Accordion List - 100% Full Width with Hairline Divider Lines */}
-                <div className="divide-y divide-slate-200/80">
-                  {[
-                    {
-                      q: "What is the landmark for IDL Education Budh Vihar?",
-                      a: "The centre is located at A-1/6 Budh Vihar, Phase -1, Delhi-110086, near Pocket-D Park & Brahm Shakti Hospital Road."
-                    },
-                    {
-                      q: "Which is the nearest metro station to Budh Vihar branch?",
-                      a: "Rithala Metro Station on the Red Line is the nearest metro station, approximately 7–8 minutes away by e-rickshaw or auto."
-                    },
-                    {
-                      q: "Does Budh Vihar branch provide printed study material?",
-                      a: "Yes, all enrolled students receive comprehensive printed study modules, chapter-wise worksheets, formula booklets, and previous 10 years question banks."
-                    }
-                  ].map((faq, idx) => {
-                    const isOpen = openFaqIndex === idx;
-                    return (
-                      <div key={idx} className="transition-colors">
-                        <button
-                          type="button"
-                          onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                          className="w-full py-4 text-left flex items-center justify-between gap-3 group cursor-pointer select-none"
-                        >
-                          <span className={cn(
-                            "text-xs sm:text-[13.5px] font-bold tracking-tight transition-colors leading-snug",
-                            isOpen ? "text-[#2864E8]" : "text-[#173568] group-hover:text-[#2864E8]"
-                          )}>
-                            {faq.q}
-                          </span>
-                          <div className={cn(
-                            "w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200",
-                            isOpen ? "bg-[#EEF5FF] text-[#2864E8] rotate-180" : "text-slate-400 group-hover:text-[#2864E8] group-hover:bg-slate-50"
-                          )}>
-                            <ChevronDown className="w-4 h-4" />
-                          </div>
-                        </button>
-                        <AnimatePresence initial={false}>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: "auto" }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
-                            >
-                              <div className="pb-4 pt-0.5 text-xs sm:text-[13px] text-slate-600 leading-relaxed">
-                                <p>{faq.a}</p>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Explore Other IDL Centres */}
-            <div className="lg:pl-8 xl:pl-10 pt-8 sm:pt-9 lg:pt-0 flex flex-col justify-between min-w-0 overflow-hidden pb-8 sm:pb-9 lg:pb-0">
-              <div>
-                {/* Header with Title and Manual Left/Right Controls */}
-                <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5 pb-3.5 sm:pb-4 border-b border-slate-200/70">
-                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                    <span className="w-1.5 h-5 sm:h-6 bg-[#2864E8] rounded-full shrink-0" />
-                    <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#2864E8] shrink-0" />
-                    <div className="min-w-0">
-                      <h3 className="text-[15px] min-[380px]:text-base sm:text-lg lg:text-xl font-extrabold text-[#173568] tracking-tight truncate">
-                        Explore Other IDL Centres
-                      </h3>
-                      <p className="hidden sm:block text-xs sm:text-[13px] text-slate-500 font-medium mt-0.5 truncate">
-                        Visit our other centres across Delhi for quality education.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Manual Navigation Arrows */}
-                  <div className="flex items-center gap-1.5 shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => handleCentresScrollManual('left')}
-                      aria-label="Previous centre"
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200/80 bg-white hover:bg-[#EEF5FF] text-slate-600 hover:text-[#2864E8] hover:border-[#2864E8]/40 transition-colors flex items-center justify-center shadow-2xs active:scale-95 cursor-pointer"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleCentresScrollManual('right')}
-                      aria-label="Next centre"
-                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200/80 bg-white hover:bg-[#EEF5FF] text-slate-600 hover:text-[#2864E8] hover:border-[#2864E8]/40 transition-colors flex items-center justify-center shadow-2xs active:scale-95 cursor-pointer"
-                    >
-                      <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
-                  </div>
+                {/* Compact Integrated Signature & Designation */}
+                <div className="mt-4 flex flex-col items-end text-right">
+                  <h4 className="text-[19px] xl:text-[20px] font-extrabold text-[#173568] tracking-[-0.02em] leading-tight">
+                    Chandra Prakash
+                  </h4>
+                  <p className="text-[11px] xl:text-[11.5px] font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-1 leading-snug">
+                    Academic Head &amp; Branch Director
+                  </p>
                 </div>
 
-                {/* Continuous Running Loop Slider + Free Left/Right Manual Drag */}
-                <div className="relative w-full overflow-hidden">
-                  <div
-                    ref={otherCentresSliderRef}
-                    onScroll={handleCentresScroll}
-                    onMouseEnter={() => setIsCentresSliderPaused(true)}
-                    onMouseLeave={handleCentresMouseLeave}
-                    onMouseDown={handleCentresMouseDown}
-                    onMouseMove={handleCentresMouseMove}
-                    onMouseUp={handleCentresMouseUp}
-                    onTouchStart={handleCentresTouchStart}
-                    onTouchEnd={handleCentresTouchEnd}
-                    className="flex gap-3.5 sm:gap-4 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5 cursor-grab active:cursor-grabbing select-none"
-                    style={{ WebkitOverflowScrolling: 'touch' }}
-                  >
-                    {LOOP_CENTRES.map((item, idx) => (
-                      <Link
-                        key={`${item.slug}-${idx}`}
-                        href={`/branches/${item.slug}`}
-                        onClick={(e) => {
-                          if (centresDragMovedRef.current) {
-                            e.preventDefault();
-                          }
-                        }}
-                        className="w-[215px] min-[390px]:w-[230px] sm:w-[245px] shrink-0 rounded-xl border border-slate-200/80 overflow-hidden bg-white hover:border-[#2864E8]/60 hover:shadow-md transition-all duration-200 group flex flex-col justify-between shadow-2xs select-none"
-                      >
-                        {/* Branch Image */}
-                        <div className="relative h-32 min-[390px]:h-36 sm:h-32 w-full bg-slate-100 overflow-hidden">
-                          <Image
-                            src={item.image}
-                            alt={`${item.name} Branch - IDL Education`}
-                            fill
-                            sizes="(max-width: 640px) 230px, 245px"
-                            className="object-cover brightness-[1.01] contrast-[1.03] select-none pointer-events-none group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs text-[10px] font-bold text-[#173568] border border-slate-200/60 shadow-xs pointer-events-none">
-                            Delhi Centre
-                          </div>
-                        </div>
-
-                        {/* Bottom Card Info */}
-                        <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-1 bg-white">
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <MapPin className="w-3.5 h-3.5 text-[#2864E8] shrink-0" />
-                              <h4 className="text-xs sm:text-[13px] font-bold text-[#173568] group-hover:text-[#2864E8] transition-colors leading-snug truncate">
-                                {item.name}
-                              </h4>
-                            </div>
-                            <p className="text-[11px] text-slate-500 pl-5 mt-0.5 font-medium truncate">
-                              {item.pincode}
-                            </p>
-                          </div>
-
-                          {/* Subtle Action Row */}
-                          <div className="mt-2.5 pt-2 border-t border-slate-100/90 flex items-center justify-between text-[11px] font-semibold text-[#2864E8] group-hover:text-[#173568] transition-colors">
-                            <span>View Branch</span>
-                            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  {/* Edge gradient masks for seamless premium look */}
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-3 sm:w-4 bg-gradient-to-r from-white to-transparent" />
-                  <div className="pointer-events-none absolute inset-y-0 right-0 w-3 sm:w-4 bg-gradient-to-l from-white to-transparent" />
-                </div>
               </div>
             </div>
 
           </div>
+
+          {/* ── MOBILE & TABLET DIRECTOR LAYOUT (< lg) ── */}
+          <div className="flex lg:hidden w-full max-w-none sm:max-w-xl mx-auto flex-col items-center text-center">
+            
+            {/* 1. Director Portrait (Refined Compact Mobile Footprint, Same Proportions) */}
+            <div className="w-full max-w-[250px] min-[390px]:max-w-[268px] sm:max-w-[310px] mx-auto">
+              <div className="relative w-full aspect-[10/10.8] rounded-2xl overflow-hidden border border-slate-200/75 shadow-[0_10px_28px_-12px_rgba(15,23,42,0.12)] bg-slate-100">
+                <Image
+                  src="/budhvihar/chandu.png"
+                  alt="Chandra Prakash - Academic Head & Branch Director"
+                  fill
+                  sizes="(max-width: 640px) 268px, 310px"
+                  className="object-cover object-center select-none pointer-events-none"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* 2. Director Identity */}
+            <div className="mt-3 flex flex-col items-center text-center">
+              <h3 className="text-[18.5px] sm:text-[20px] font-extrabold text-[#173568] tracking-[-0.02em] leading-tight">
+                Chandra Prakash
+              </h3>
+              <p className="text-[11px] sm:text-[11.5px] font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-1 leading-snug">
+                Academic Head &amp; Branch Director
+              </p>
+            </div>
+
+            {/* 3. Director Message / Director Profile Tabs (Touch-Friendly & Balanced) */}
+            <div className="w-full flex items-center justify-center gap-5 sm:gap-7 border-b border-slate-200/80 mt-3.5 mb-4">
+              <button
+                type="button"
+                onClick={() => setActiveMessageTab('director')}
+                className={cn(
+                  "px-2 pt-2 pb-2.5 min-h-[40px] text-[12px] sm:text-[12.5px] font-bold uppercase tracking-[0.09em] transition-colors duration-200 cursor-pointer relative -mb-px outline-none select-none",
+                  activeMessageTab === 'director'
+                    ? "text-[#173568]"
+                    : "text-slate-500 hover:text-[#173568]"
+                )}
+              >
+                <span>Director Message</span>
+                {activeMessageTab === 'director' && (
+                  <motion.span
+                    layoutId="activeLeadershipUnderlineMobileBV"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    className="absolute bottom-0 inset-x-1 h-[2px] bg-[#2864E8] rounded-full"
+                  />
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMessageTab('profile')}
+                className={cn(
+                  "px-2 pt-2 pb-2.5 min-h-[40px] text-[12px] sm:text-[12.5px] font-bold uppercase tracking-[0.09em] transition-colors duration-200 cursor-pointer relative -mb-px outline-none select-none",
+                  activeMessageTab === 'profile'
+                    ? "text-[#173568]"
+                    : "text-slate-500 hover:text-[#173568]"
+                )}
+              >
+                <span>Director Profile</span>
+                {activeMessageTab === 'profile' && (
+                  <motion.span
+                    layoutId="activeLeadershipUnderlineMobileBV"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    className="absolute bottom-0 inset-x-1 h-[2px] bg-[#2864E8] rounded-full"
+                  />
+                )}
+              </button>
+            </div>
+
+            {/* 4. Message or Profile Content Area (Clean Margins & Comfortable Bottom Clearance) */}
+            <div className="w-full px-1 sm:px-2 pb-2 text-left">
+              <div className="grid grid-cols-1">
+                
+                {/* View 1: Director Message */}
+                <div
+                  className={cn(
+                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-200",
+                    activeMessageTab === 'director'
+                      ? "opacity-100 z-10 pointer-events-auto"
+                      : "opacity-0 z-0 pointer-events-none invisible"
+                  )}
+                >
+                  <p className="text-[14px] min-[390px]:text-[14.5px] sm:text-[15.5px] font-semibold text-[#173568] leading-[1.68] tracking-[-0.01em]">
+                    &ldquo;At IDL Education Budh Vihar, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
+                  </p>
+
+                  <p className="text-[13.5px] sm:text-[14.5px] font-normal text-slate-600 leading-[1.7]">
+                    &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
+                  </p>
+                </div>
+
+                {/* View 2: Director Profile */}
+                <div
+                  className={cn(
+                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-200",
+                    activeMessageTab === 'profile'
+                      ? "opacity-100 z-10 pointer-events-auto"
+                      : "opacity-0 z-0 pointer-events-none invisible"
+                  )}
+                >
+                  <p className="text-[14px] min-[390px]:text-[14.5px] sm:text-[15.5px] font-semibold text-[#173568] leading-[1.68] tracking-[-0.01em]">
+                    &ldquo;Senior Mathematics Faculty with 7+ years of distinguished teaching and mentorship experience. M.Sc. Mathematics specialist dedicated to building deep mathematical intuition, visual problem solving, and structured conceptual clarity for CBSE Boards and competitive exams.&rdquo;
+                  </p>
+
+                  <p className="text-[13.5px] sm:text-[14.5px] font-normal text-slate-600 leading-[1.7]">
+                    &ldquo;His signature teaching methodology combines structured shortcuts with strong fundamentals. Through chapter-wise test series and step-by-step exam preparation, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── SECTION 07: FREQUENTLY ASKED QUESTIONS ── */}
+      <div className="w-full max-w-[1240px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 pt-6 sm:pt-7 md:pt-8 lg:pt-9 pb-14 sm:pb-16 lg:pb-16">
+
+        {/* ── SECTION 07: FREQUENTLY ASKED QUESTIONS (2-COLUMN FULL-WIDTH SECTION: 3 LEFT + 3 RIGHT) ── */}
+        <section id="branch-faq" className="relative w-full">
+          {/* Centered Section Heading */}
+          <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-7 lg:mb-8">
+            <h2 className="text-[23px] min-[390px]:text-[25px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-[-0.025em] leading-tight">
+              <span className="text-[#173568]">Frequently Asked </span>
+              <span className="text-[#2864E8]">Questions</span>
+            </h2>
+          </div>
+
+          {/* Clean 2-Column Accordion Grid (3 Questions Left + 3 Questions Right on Desktop, Unified List on Mobile) */}
+          {(() => {
+            const leftFaqs = [
+              {
+                q: "What is the landmark for IDL Education Budh Vihar?",
+                a: "The centre is located at A-1/6 Budh Vihar, Phase -1, Delhi-110086, near Pocket-D Park & Brahm Shakti Hospital Road."
+              },
+              {
+                q: "Which is the nearest metro station to Budh Vihar branch?",
+                a: "Rithala Metro Station on the Red Line is the nearest metro station, approximately 7–8 minutes away by e-rickshaw or auto."
+              },
+              {
+                q: "Does Budh Vihar branch provide printed study material?",
+                a: "Yes, all enrolled students receive comprehensive printed study modules, chapter-wise worksheets, formula booklets, and previous 10 years question banks."
+              }
+            ];
+
+            const rightFaqs = [
+              {
+                q: "What are the office visiting hours for IDL Education Budh Vihar?",
+                a: "Our Budh Vihar centre is open from Monday to Saturday between 8:00 AM and 9:30 PM, and on Sundays from 9:00 AM to 2:00 PM for demo classes, parent counseling, and doubt sessions."
+              },
+              {
+                q: "Can I take a free demo class before enrolling at Budh Vihar?",
+                a: "Yes! IDL Education offers 2 complimentary trial demo classes for any student. You can click 'Book Free Demo' or visit the centre directly to schedule your demo slot."
+              },
+              {
+                q: "What is the batch size at Budh Vihar branch?",
+                a: "We maintain a strict maximum limit of 25 to 30 students per batch to guarantee personal faculty attention and individual doubt resolution."
+              }
+            ];
+
+            const renderFaqColumn = (items: { q: string; a: string }[], offset: number, isRightCol: boolean) => (
+              <div
+                className={cn(
+                  "min-w-0 w-full divide-y divide-slate-200/75",
+                  isRightCol
+                    ? "border-y border-slate-200/80"
+                    : "border-t border-slate-200/80 lg:border-b"
+                )}
+              >
+                {items.map((faq, idx) => {
+                  const globalIdx = offset + idx;
+                  const isOpen = openFaqIndex === globalIdx;
+                  return (
+                    <div key={globalIdx}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenFaqIndex(isOpen ? null : globalIdx)}
+                        aria-expanded={isOpen}
+                        className="w-full py-4 px-0.5 sm:px-1 text-left flex items-start justify-between gap-4 group cursor-pointer select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2864E8]/25 rounded-md"
+                      >
+                        <span className="flex-1 min-w-0 text-[14px] sm:text-[15px] font-extrabold text-[#173568] group-hover:text-[#2864E8] tracking-[-0.015em] leading-[1.45] transition-colors duration-200">
+                          {faq.q}
+                        </span>
+                        <ChevronDown
+                          className={cn(
+                            "w-4 h-4 shrink-0 mt-[3px] transition-transform duration-200",
+                            isOpen
+                              ? "text-[#2864E8] rotate-180"
+                              : "text-slate-400 group-hover:text-[#2864E8]"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-0.5 sm:px-1 pb-4 pr-7 sm:pr-8">
+                              <p className="text-[13.5px] sm:text-[14.5px] font-normal text-slate-600 leading-[1.7]">
+                                {faq.a}
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+
+            return (
+              <div className="w-full grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 xl:gap-x-12 items-start">
+                {renderFaqColumn(leftFaqs, 0, false)}
+                {renderFaqColumn(rightFaqs, leftFaqs.length, true)}
+              </div>
+            );
+          })()}
         </section>
 
       </div>

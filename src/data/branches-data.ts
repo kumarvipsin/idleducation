@@ -64,10 +64,10 @@ export const BRANCHES_DATA: BranchInfo[] = [
     nearestMetro: "Rithala Metro Station",
     metroLine: "Red Line",
     metroDistance: "Approx. 7-8 mins by E-Rickshaw / Auto",
-    phone: "8860040010",
-    altPhone: "+91 8860040010",
+    phone: "9058350731",
+    altPhone: "+91 9058350731",
     email: "info@idleducation.in",
-    timingsWeekday: "Monday to Saturday: 8:00 AM – 8:30 PM",
+    timingsWeekday: "Monday to Saturday: 8:00 AM – 9:30 PM",
     timingsSunday: "Sunday: 9:00 AM – 2:00 PM (Doubt Counters & Test Series)",
     mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6",
     mapEmbedQuery: "Budh+Vihar+Phase+1+Delhi+110086",
@@ -143,7 +143,7 @@ export const BRANCHES_DATA: BranchInfo[] = [
     faqs: [
       {
         q: "What are the office visiting hours for IDL Education Budh Vihar?",
-        a: "Our Budh Vihar centre is open from Monday to Saturday between 8:00 AM and 8:30 PM, and on Sundays from 9:00 AM to 2:00 PM for demo classes, parent counseling, and doubt sessions.",
+        a: "Our Budh Vihar centre is open from Monday to Saturday between 8:00 AM and 9:30 PM, and on Sundays from 9:00 AM to 2:00 PM for demo classes, parent counseling, and doubt sessions.",
       },
       {
         q: "Can I take a free demo class before enrolling at Budh Vihar?",
@@ -180,7 +180,7 @@ export const BRANCHES_DATA: BranchInfo[] = [
     timingsSunday: "Sunday: 9:00 AM – 2:00 PM (Weekly Mock Tests & Remedial Sessions)",
     mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6",
     mapEmbedQuery: "Krishan+Vihar+Main+Sultanpuri+Road+Delhi+110086",
-    imageUrl: "/idlbranch.png",
+    imageUrl: "/mangolpuri/mangolpuri.png",
     rating: "4.9",
     reviewCount: "385+ Reviews",
     overview:
@@ -398,7 +398,7 @@ export const BRANCHES_DATA: BranchInfo[] = [
     timingsSunday: "Sunday: 9:00 AM – 3:00 PM (Masterclasses, Topper Talks & Tests)",
     mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6",
     mapEmbedQuery: "Mukherjee+Nagar+Batra+Cinema+Delhi+110009",
-    imageUrl: "/idlbranch.png",
+    imageUrl: "/mangolpuri/mangolpuri.png",
     rating: "4.9",
     reviewCount: "680+ Reviews",
     overview:
