@@ -691,7 +691,7 @@ export function Header() {
         {
             title: "EXPLORE",
             links: [
-                { href: "/blog", label: "IDL Blog", icon: BookOpen, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
+                { href: "/blog", label: "Blog", icon: BookOpen, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
                 { href: '/gallery', label: "Gallery", icon: ImageIcon, iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60" },
             ]
         },

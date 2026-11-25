@@ -9,18 +9,11 @@ import {
   CheckCircle,
   Edit,
   FileText,
-  GraduationCap,
   Megaphone,
-  MessageCircle,
   MoreVertical,
   PlusCircle,
-  Presentation,
   RefreshCw,
   Trash2,
-  UserCheck,
-  UserPlus,
-  Users,
-  UserX,
   XCircle,
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
@@ -171,8 +164,10 @@ interface StatCardConfig {
   title: string;
   value: number;
   monthly?: number;
-  icon: React.ReactNode;
   colors: string;
+  titleClass: string;
+  valueClass: string;
+  monthlyClass?: string;
   href?: string;
 }
 
@@ -184,6 +179,9 @@ export function BranchAdminDashboard() {
     normalizedBranchId && normalizedBranchId !== 'all' ? normalizedBranchId : undefined;
 
   const [data, setData] = useState<BranchDashboardPayload | null>(null);
+  const isBudhViharBranch =
+    normalizedBranchId === 'budh-vihar' ||
+    normalizeBranchId(data?.admin?.branchId) === 'budh-vihar';
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [busyTeacherId, setBusyTeacherId] = useState<string | null>(null);
@@ -391,81 +389,85 @@ export function BranchAdminDashboard() {
       {
         title: 'Total Users',
         value: s.totalUsers,
-        icon: <Users className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-blue-100 to-blue-200 dark:from-blue-900/20 dark:to-blue-800/20',
+        colors: 'from-[#DCEBFF] via-[#E6F1FF] to-[#CEE3FF] border-[#B4D3FF] hover:border-[#8CB9FF] dark:from-blue-950/60 dark:via-blue-950/50 dark:to-blue-900/40 dark:border-blue-800/60',
+        titleClass: 'text-[#173568] dark:text-blue-200',
+        valueClass: 'text-[#0B224D] dark:text-white',
         href: '/admin/users',
       },
       {
         title: 'Total Students',
         value: s.totalStudents,
-        icon: <GraduationCap className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-green-100 to-green-200 dark:from-green-900/20 dark:to-green-800/20',
+        colors: 'from-[#D3F8E2] via-[#E0FBEC] to-[#C2F4D8] border-[#9DEAC1] hover:border-[#76DCA7] dark:from-emerald-950/60 dark:via-emerald-950/50 dark:to-emerald-900/40 dark:border-emerald-800/60',
+        titleClass: 'text-[#0F4C3A] dark:text-emerald-200',
+        valueClass: 'text-[#06382A] dark:text-white',
         href: '/admin/users',
       },
       {
         title: 'Total Teachers',
         value: s.totalTeachers,
-        icon: <Briefcase className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-yellow-100 to-yellow-200 dark:from-yellow-900/20 dark:to-yellow-800/20',
+        colors: 'from-[#FFECC7] via-[#FFF2D6] to-[#FFE2AB] border-[#F9D082] hover:border-[#F2BD5B] dark:from-amber-950/60 dark:via-amber-950/50 dark:to-amber-900/40 dark:border-amber-800/60',
+        titleClass: 'text-[#6B3B0A] dark:text-amber-200',
+        valueClass: 'text-[#4B2604] dark:text-white',
         href: '/admin/teachers',
       },
       {
         title: 'Approved Students',
         value: s.approvedStudents,
-        icon: <UserPlus className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-sky-100 to-sky-200 dark:from-sky-900/20 dark:to-sky-800/20',
+        colors: 'from-[#D4F0FF] via-[#E2F5FF] to-[#C2E9FF] border-[#9CD9FA] hover:border-[#72C5F4] dark:from-sky-950/60 dark:via-sky-950/50 dark:to-sky-900/40 dark:border-sky-800/60',
+        titleClass: 'text-[#0E4366] dark:text-sky-200',
+        valueClass: 'text-[#072E4A] dark:text-white',
         href: '/admin/users',
       },
       {
         title: 'Deny Users',
         value: s.deniedUsers,
-        icon: <XCircle className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-red-100 to-red-200 dark:from-red-900/20 dark:to-red-800/20',
+        colors: 'from-[#FFDDE2] via-[#FFE6EA] to-[#FFCDD5] border-[#F9B4C0] hover:border-[#F291A3] dark:from-rose-950/60 dark:via-rose-950/50 dark:to-rose-900/40 dark:border-rose-800/60',
+        titleClass: 'text-[#7A1C2E] dark:text-rose-200',
+        valueClass: 'text-[#570E1E] dark:text-white',
       },
       {
         title: 'Free Demo',
         value: s.totalBookings,
         monthly: s.monthlyBookings,
-        icon: <Presentation className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-indigo-100 to-indigo-200 dark:from-indigo-900/20 dark:to-indigo-800/20',
+        colors: 'from-[#DFE3FF] via-[#E8EBFF] to-[#D0D6FF] border-[#B4BFFA] hover:border-[#93A3F5] dark:from-indigo-950/60 dark:via-indigo-950/50 dark:to-indigo-900/40 dark:border-indigo-800/60',
+        titleClass: 'text-[#232B74] dark:text-indigo-200',
+        valueClass: 'text-[#151B54] dark:text-white',
+        monthlyClass: 'text-[#3B49C4] dark:text-indigo-300',
         href: '/admin/demo',
       },
-      {
-        title: 'Contact Us',
-        value: s.totalSubmissions,
-        monthly: s.monthlySubmissions,
-        icon: <MessageCircle className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-pink-100 to-pink-200 dark:from-pink-900/20 dark:to-pink-800/20',
-        href: '/admin/messages',
-      },
-      {
-        title: 'Recent Updates',
-        value: s.totalUpdates,
-        monthly: s.monthlyUpdates,
-        icon: <Megaphone className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-purple-100 to-purple-200 dark:from-purple-900/20 dark:to-purple-800/20',
-      },
-    ];
-  }, [data]);
-
-  const userStatusCards: StatCardConfig[] = useMemo(() => {
-    const s = data?.stats;
-    if (!s) return [];
-    return [
       {
         title: 'Active Users',
         value: s.activeUsers,
         monthly: s.monthlyActiveUsers,
-        icon: <UserCheck className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-teal-100 to-teal-200 dark:from-teal-900/20 dark:to-teal-800/20',
+        colors: 'from-[#CEF7F0] via-[#DCFBF6] to-[#B8F2E8] border-[#8EE5D6] hover:border-[#62D5C2] dark:from-teal-950/60 dark:via-teal-950/50 dark:to-teal-900/40 dark:border-teal-800/60',
+        titleClass: 'text-[#0D4D4A] dark:text-teal-200',
+        valueClass: 'text-[#063533] dark:text-white',
+        monthlyClass: 'text-[#0F766E] dark:text-teal-300',
         href: '/admin/users',
       },
       {
         title: 'Inactive Users',
         value: s.inactiveUsers,
-        icon: <UserX className="h-4 w-4 text-muted-foreground" />,
-        colors: 'from-slate-100 to-slate-200 dark:from-slate-900/20 dark:to-slate-800/20',
+        colors: 'from-[#E2E8F2] via-[#EBF0F7] to-[#D6DFEC] border-[#C1CDDF] hover:border-[#A4B5CE] dark:from-slate-800/80 dark:via-slate-800/70 dark:to-slate-900/80 dark:border-slate-700',
+        titleClass: 'text-[#2D3E57] dark:text-slate-200',
+        valueClass: 'text-[#17253B] dark:text-white',
         href: '/admin/users',
+      },
+    ];
+  }, [data]);
+
+  const secondaryStatCards: StatCardConfig[] = useMemo(() => {
+    const s = data?.stats;
+    if (!s) return [];
+    return [
+      {
+        title: 'Recent Updates',
+        value: s.totalUpdates,
+        monthly: s.monthlyUpdates,
+        colors: 'from-[#EBDFFF] via-[#F2E9FF] to-[#E0CEFF] border-[#CAAEFB] hover:border-[#B18BF6] dark:from-violet-950/60 dark:via-violet-950/50 dark:to-violet-900/40 dark:border-violet-800/60',
+        titleClass: 'text-[#4A1D85] dark:text-violet-200',
+        valueClass: 'text-[#310E61] dark:text-white',
+        monthlyClass: 'text-[#6D28D9] dark:text-violet-300',
       },
     ];
   }, [data]);
@@ -488,22 +490,28 @@ export function BranchAdminDashboard() {
   const renderStatCard = (card: StatCardConfig, delayIndex: number) => {
     const inner = (
       <Card
-        className={`h-full bg-gradient-to-br ${card.colors} animate-fade-in-up`}
+        className={`flex h-full min-h-[110px] flex-col rounded-[14px] border bg-gradient-to-br bg-clip-padding ${card.colors} antialiased ring-1 ring-inset ring-white/45 dark:ring-white/10 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_4px_12px_-4px_rgba(15,23,42,0.06)] transition-all duration-200 ease-out hover:-translate-y-[1px] hover:shadow-[0_2px_4px_rgba(15,23,42,0.05),0_10px_20px_-8px_rgba(15,23,42,0.10)] animate-fade-in-up`}
         style={{ animationDelay: `${delayIndex * 0.05}s` }}
       >
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
-          {card.icon}
+        <CardHeader className="space-y-0 px-5 pt-[18px] pb-1.5">
+          <CardTitle
+            style={{ wordSpacing: '0.03em' }}
+            className={`text-[13.5px] font-bold tracking-[0.005em] leading-[1.3] ${card.titleClass}`}
+          >
+            {card.title}
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-1 flex-col px-5 pb-[18px] pt-0">
           <div
             data-testid={`stat-value-${card.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-            className="text-2xl font-bold"
+            className={`text-[28px] sm:text-[30px] font-extrabold leading-[1.12] tracking-[-0.025em] tabular-nums ${card.valueClass}`}
           >
             {card.value}
           </div>
           {card.monthly !== undefined && (
-            <p className="text-xs text-muted-foreground">+{card.monthly} this month</p>
+            <p className={`mt-1.5 text-[11.5px] font-semibold tracking-[0.005em] leading-none opacity-90 ${card.monthlyClass || 'text-[#2864E8] dark:text-blue-300'}`}>
+              +{card.monthly} this month
+            </p>
           )}
         </CardContent>
       </Card>
@@ -511,7 +519,11 @@ export function BranchAdminDashboard() {
 
     if (card.href) {
       return (
-        <Link key={card.title} href={card.href} className="block h-full focus:outline-none">
+        <Link
+          key={card.title}
+          href={card.href}
+          className="block h-full rounded-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2"
+        >
           {inner}
         </Link>
       );
@@ -527,15 +539,17 @@ export function BranchAdminDashboard() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, idx) => (
-            <Skeleton key={idx} className="h-[118px] w-full rounded-xl" />
-          ))}
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 2 }).map((_, idx) => (
-            <Skeleton key={idx} className="h-[118px] w-full rounded-xl" />
-          ))}
+        <div className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <Skeleton key={idx} className="h-[110px] w-full rounded-[14px]" />
+            ))}
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {Array.from({ length: 1 }).map((_, idx) => (
+              <Skeleton key={idx} className="h-[110px] w-full rounded-[14px]" />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -543,15 +557,34 @@ export function BranchAdminDashboard() {
 
   if (errorMsg || !data) {
     return (
-      <Card className="p-6">
+      <Card className={`p-6 ${isBudhViharBranch ? 'antialiased' : ''}`}>
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h2 className="text-base font-semibold">Unable to Load Branch Dashboard</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <h2
+              style={isBudhViharBranch ? { wordSpacing: '0.03em' } : undefined}
+              className={
+                isBudhViharBranch
+                  ? 'text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100'
+                  : 'text-base font-semibold'
+              }
+            >
+              Unable to Load Branch Dashboard
+            </h2>
+            <p
+              className={
+                isBudhViharBranch
+                  ? 'mt-1 text-[13px] font-medium tracking-[0.005em] text-[#475E82] dark:text-slate-400'
+                  : 'mt-1 text-sm text-muted-foreground'
+              }
+            >
               {errorMsg || 'Your branch administrator session could not be verified.'}
             </p>
           </div>
-          <Button variant="outline" onClick={() => loadDashboard(false)}>
+          <Button
+            variant="outline"
+            onClick={() => loadDashboard(false)}
+            className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
+          >
             <RefreshCw className="mr-2 h-4 w-4" />
             Retry
           </Button>
@@ -560,24 +593,40 @@ export function BranchAdminDashboard() {
     );
   }
 
-  return (
-    <div className="space-y-6">
-      {/* Primary 8 Metric Cards (Exact Super Admin visual tiles & gradients) */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-        {statCards.map((card, index) => renderStatCard(card, index))}
-      </div>
+  const sectionTitleClass = isBudhViharBranch
+    ? 'text-[18px] sm:text-[19px] font-extrabold tracking-[-0.015em] leading-snug text-[#173568] dark:text-slate-100'
+    : undefined;
+  const sectionTitleStyle = isBudhViharBranch ? { wordSpacing: '0.03em' } : undefined;
+  const sectionDescClass = isBudhViharBranch
+    ? 'text-[12.5px] sm:text-[13px] font-medium tracking-[0.005em] leading-snug text-[#475E82] dark:text-slate-400'
+    : undefined;
+  const tableHeadClass = isBudhViharBranch
+    ? 'text-[12.5px] font-bold tracking-[0.01em] text-[#173568]/85 dark:text-slate-300'
+    : undefined;
 
-      {/* User Status Cards (Exact Super Admin visual tiles & gradients) */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {userStatusCards.map((card, index) => renderStatCard(card, statCards.length + index))}
+  return (
+    <div className={isBudhViharBranch ? 'space-y-6 antialiased' : 'space-y-6'}>
+      {/* KPI Metric Cards */}
+      <div className="space-y-4">
+        {/* Primary 8 Metric Cards (Exact Super Admin visual tiles & gradients) */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+          {statCards.map((card, index) => renderStatCard(card, index))}
+        </div>
+
+        {/* Third Row Metric Card (Recent Updates) */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {secondaryStatCards.map((card, index) => renderStatCard(card, statCards.length + index))}
+        </div>
       </div>
 
       {/* Pending Teacher Approvals Section (Matching Super Admin UserApproval UI) */}
       <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
         <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
           <CardHeader>
-            <CardTitle>Pending Teacher Approvals</CardTitle>
-            <CardDescription>
+            <CardTitle style={sectionTitleStyle} className={sectionTitleClass}>
+              Pending Teacher Approvals
+            </CardTitle>
+            <CardDescription className={sectionDescClass}>
               Approve or deny new teacher registrations for {data.admin.branchDisplayName}.
             </CardDescription>
           </CardHeader>
@@ -586,10 +635,10 @@ export function BranchAdminDashboard() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Role</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead style={sectionTitleStyle} className={tableHeadClass}>User Name</TableHead>
+                    <TableHead style={sectionTitleStyle} className={tableHeadClass}>Email</TableHead>
+                    <TableHead style={sectionTitleStyle} className={tableHeadClass}>Role</TableHead>
+                    <TableHead style={sectionTitleStyle} className={`text-right ${tableHeadClass || ''}`}>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -598,13 +647,34 @@ export function BranchAdminDashboard() {
                       const isBusy = busyTeacherId === teacher.id;
                       return (
                         <TableRow key={teacher.id}>
-                          <TableCell className="font-medium flex items-center gap-2">
+                          <TableCell
+                            className={
+                              isBudhViharBranch
+                                ? 'flex items-center gap-2 text-[13.5px] font-bold tracking-[0.005em] text-[#0B224D] dark:text-white'
+                                : 'font-medium flex items-center gap-2'
+                            }
+                          >
                             <Briefcase className="h-4 w-4" />
                             {teacher.name}
                           </TableCell>
-                          <TableCell>{teacher.email}</TableCell>
+                          <TableCell
+                            className={
+                              isBudhViharBranch
+                                ? 'text-[13px] font-medium tracking-[0.005em] text-[#334E75] dark:text-slate-300'
+                                : undefined
+                            }
+                          >
+                            {teacher.email}
+                          </TableCell>
                           <TableCell>
-                            <Badge variant="secondary" className="capitalize">
+                            <Badge
+                              variant="secondary"
+                              className={
+                                isBudhViharBranch
+                                  ? 'capitalize text-[11.5px] font-bold tracking-[0.01em] text-[#173568] dark:text-slate-200'
+                                  : 'capitalize'
+                              }
+                            >
                               teacher
                             </Badge>
                           </TableCell>
@@ -613,6 +683,7 @@ export function BranchAdminDashboard() {
                               size="sm"
                               disabled={isBusy}
                               onClick={() => handleTeacherDecision(teacher.id, 'approve')}
+                              className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
                             >
                               <CheckCircle className="mr-2 h-4 w-4" />
                               Approve
@@ -622,6 +693,7 @@ export function BranchAdminDashboard() {
                               variant="destructive"
                               disabled={isBusy}
                               onClick={() => setSelectedTeacherToDeny(teacher)}
+                              className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
                             >
                               <XCircle className="mr-2 h-4 w-4" />
                               Deny
@@ -632,7 +704,14 @@ export function BranchAdminDashboard() {
                     })
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center text-muted-foreground">
+                      <TableCell
+                        colSpan={4}
+                        className={
+                          isBudhViharBranch
+                            ? 'text-center text-[13px] font-semibold tracking-[0.005em] text-[#475E82] dark:text-slate-400'
+                            : 'text-center text-muted-foreground'
+                        }
+                      >
                         No pending teachers.
                       </TableCell>
                     </TableRow>
@@ -651,8 +730,10 @@ export function BranchAdminDashboard() {
           style={{ animationDelay: '0.6s' }}
         >
           <CardHeader>
-            <CardTitle>Users Overview</CardTitle>
-            <CardDescription>
+            <CardTitle style={sectionTitleStyle} className={sectionTitleClass}>
+              Users Overview
+            </CardTitle>
+            <CardDescription className={sectionDescClass}>
               Monthly statistics for user and student engagement.
             </CardDescription>
           </CardHeader>
@@ -671,14 +752,16 @@ export function BranchAdminDashboard() {
                     />
                     <XAxis
                       dataKey="name"
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke={isBudhViharBranch ? '#334E75' : 'hsl(var(--muted-foreground))'}
                       fontSize={12}
+                      fontWeight={isBudhViharBranch ? 600 : 400}
                       tickLine={false}
                       axisLine={false}
                     />
                     <YAxis
-                      stroke="hsl(var(--muted-foreground))"
+                      stroke={isBudhViharBranch ? '#334E75' : 'hsl(var(--muted-foreground))'}
                       fontSize={12}
+                      fontWeight={isBudhViharBranch ? 600 : 400}
                       tickLine={false}
                       axisLine={false}
                       allowDecimals={false}
@@ -690,7 +773,11 @@ export function BranchAdminDashboard() {
                     />
                     <Legend
                       iconSize={12}
-                      wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+                      wrapperStyle={
+                        isBudhViharBranch
+                          ? { fontSize: '12px', fontWeight: 700, letterSpacing: '0.005em', paddingTop: '10px', color: '#173568' }
+                          : { fontSize: '12px', paddingTop: '10px' }
+                      }
                       verticalAlign="top"
                       align="right"
                     />
@@ -748,8 +835,12 @@ export function BranchAdminDashboard() {
           style={{ animationDelay: '0.7s' }}
         >
           <CardHeader>
-            <CardTitle>User Composition</CardTitle>
-            <CardDescription>Distribution of various user statuses.</CardDescription>
+            <CardTitle style={sectionTitleStyle} className={sectionTitleClass}>
+              User Composition
+            </CardTitle>
+            <CardDescription className={sectionDescClass}>
+              Distribution of various user statuses.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="mx-auto aspect-square h-[250px] relative">
@@ -773,9 +864,23 @@ export function BranchAdminDashboard() {
               </ChartContainer>
               {compositionTotal > 0 && (
                 <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center text-center">
-                  <div className="text-2xl font-bold">
+                  <div
+                    className={
+                      isBudhViharBranch
+                        ? 'text-[28px] font-extrabold leading-[1.12] tracking-[-0.025em] tabular-nums text-[#0B224D] dark:text-white'
+                        : 'text-2xl font-bold'
+                    }
+                  >
                     {compositionTotal.toLocaleString()}
-                    <div className="text-sm font-normal text-muted-foreground">Total</div>
+                    <div
+                      className={
+                        isBudhViharBranch
+                          ? 'mt-0.5 text-[12px] font-bold tracking-[0.01em] text-[#475E82] dark:text-slate-400'
+                          : 'text-sm font-normal text-muted-foreground'
+                      }
+                    >
+                      Total
+                    </div>
                   </div>
                 </div>
               )}
@@ -788,12 +893,18 @@ export function BranchAdminDashboard() {
           <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
-                <CardTitle>Recent Updates</CardTitle>
-                <CardDescription>
+                <CardTitle style={sectionTitleStyle} className={sectionTitleClass}>
+                  Recent Updates
+                </CardTitle>
+                <CardDescription className={sectionDescClass}>
                   Latest announcements for {data.admin.branchName}.
                 </CardDescription>
               </div>
-              <Button size="sm" onClick={openNewUpdateModal}>
+              <Button
+                size="sm"
+                onClick={openNewUpdateModal}
+                className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
+              >
                 <PlusCircle className="mr-2 h-4 w-4" />
                 New Post
               </Button>
@@ -808,9 +919,32 @@ export function BranchAdminDashboard() {
                           {getIconForTitle(update.title)}
                         </div>
                         <div className="flex-1">
-                          <h3 className="font-semibold text-sm">{update.title}</h3>
-                          <p className="text-xs text-muted-foreground">{update.description}</p>
-                          <p className="text-xs text-muted-foreground mt-1">
+                          <h3
+                            style={sectionTitleStyle}
+                            className={
+                              isBudhViharBranch
+                                ? 'text-[13.5px] sm:text-[14px] font-bold tracking-[0.005em] leading-snug text-[#173568] dark:text-slate-100'
+                                : 'font-semibold text-sm'
+                            }
+                          >
+                            {update.title}
+                          </h3>
+                          <p
+                            className={
+                              isBudhViharBranch
+                                ? 'mt-0.5 text-[12.5px] font-medium leading-relaxed text-[#334E75] dark:text-slate-300'
+                                : 'text-xs text-muted-foreground'
+                            }
+                          >
+                            {update.description}
+                          </p>
+                          <p
+                            className={
+                              isBudhViharBranch
+                                ? 'mt-1 text-[11.5px] font-semibold tracking-[0.005em] leading-none text-[#2864E8]/85 dark:text-blue-300'
+                                : 'text-xs text-muted-foreground mt-1'
+                            }
+                          >
                             {formatRelativeTime(update.createdAt)}
                           </p>
                         </div>
@@ -822,11 +956,17 @@ export function BranchAdminDashboard() {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => openEditUpdateModal(update)}>
+                            <DropdownMenuItem
+                              className={isBudhViharBranch ? 'text-xs font-semibold' : undefined}
+                              onClick={() => openEditUpdateModal(update)}
+                            >
                               <Edit className="mr-2 h-4 w-4" />
                               Edit
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setDeletingUpdate(update)}>
+                            <DropdownMenuItem
+                              className={isBudhViharBranch ? 'text-xs font-semibold' : undefined}
+                              onClick={() => setDeletingUpdate(update)}
+                            >
                               <Trash2 className="mr-2 h-4 w-4 text-destructive" />
                               <span className="text-destructive">Delete</span>
                             </DropdownMenuItem>
@@ -835,7 +975,15 @@ export function BranchAdminDashboard() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-center text-muted-foreground py-12">No recent updates.</p>
+                    <p
+                      className={
+                        isBudhViharBranch
+                          ? 'py-12 text-center text-[13px] font-semibold tracking-[0.005em] text-[#475E82] dark:text-slate-400'
+                          : 'text-center text-muted-foreground py-12'
+                      }
+                    >
+                      No recent updates.
+                    </p>
                   )}
                 </div>
               </ScrollArea>
@@ -851,20 +999,33 @@ export function BranchAdminDashboard() {
           if (!open) setSelectedTeacherToDeny(null);
         }}
       >
-        <AlertDialogContent>
+        <AlertDialogContent className={isBudhViharBranch ? 'antialiased' : undefined}>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle
+              style={sectionTitleStyle}
+              className={
+                isBudhViharBranch
+                  ? 'text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100'
+                  : undefined
+              }
+            >
+              Are you sure?
+            </AlertDialogTitle>
+            <AlertDialogDescription className={sectionDescClass}>
               This action will deny the registration for{' '}
-              <span className="font-semibold">{selectedTeacherToDeny?.name}</span> and remove their
+              <span className="font-bold text-[#0B224D] dark:text-white">{selectedTeacherToDeny?.name}</span> and remove their
               data. This cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setSelectedTeacherToDeny(null)}>
+            <AlertDialogCancel
+              className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
+              onClick={() => setSelectedTeacherToDeny(null)}
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
+              className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
               onClick={() => {
                 if (selectedTeacherToDeny) {
                   void handleTeacherDecision(selectedTeacherToDeny.id, 'deny');
@@ -879,10 +1040,19 @@ export function BranchAdminDashboard() {
 
       {/* Branch Update Create / Edit Modal */}
       <Dialog open={updateDialogOpen} onOpenChange={setUpdateDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className={`sm:max-w-[425px] ${isBudhViharBranch ? 'antialiased' : ''}`}>
           <DialogHeader>
-            <DialogTitle>{editingUpdate ? 'Edit Post' : 'Create New Post'}</DialogTitle>
-            <DialogDescription>
+            <DialogTitle
+              style={sectionTitleStyle}
+              className={
+                isBudhViharBranch
+                  ? 'text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100'
+                  : undefined
+              }
+            >
+              {editingUpdate ? 'Edit Post' : 'Create New Post'}
+            </DialogTitle>
+            <DialogDescription className={sectionDescClass}>
               {editingUpdate
                 ? 'Make changes to your post here. Click save when you are done.'
                 : `Add a new update or announcement for ${data.admin.branchName}.`}
@@ -891,32 +1061,50 @@ export function BranchAdminDashboard() {
           <form onSubmit={handleSaveUpdate}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="branch-update-title" className="text-right">
+                <Label
+                  htmlFor="branch-update-title"
+                  className={
+                    isBudhViharBranch
+                      ? 'text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200'
+                      : 'text-right'
+                  }
+                >
                   Title
                 </Label>
                 <Input
                   id="branch-update-title"
                   value={updateTitle}
                   onChange={(e) => setUpdateTitle(e.target.value)}
-                  className="col-span-3"
+                  className={`col-span-3 ${isBudhViharBranch ? 'text-[13px] font-medium' : ''}`}
                   placeholder="e.g., New Course Available"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="branch-update-description" className="text-right">
+                <Label
+                  htmlFor="branch-update-description"
+                  className={
+                    isBudhViharBranch
+                      ? 'text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200'
+                      : 'text-right'
+                  }
+                >
                   Description
                 </Label>
                 <Textarea
                   id="branch-update-description"
                   value={updateDescription}
                   onChange={(e) => setUpdateDescription(e.target.value)}
-                  className="col-span-3"
+                  className={`col-span-3 ${isBudhViharBranch ? 'text-[13px] font-medium' : ''}`}
                   placeholder="Enter the details of the announcement."
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={savingUpdate}>
+              <Button
+                type="submit"
+                disabled={savingUpdate}
+                className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
+              >
                 {savingUpdate
                   ? editingUpdate
                     ? 'Saving...'
@@ -937,19 +1125,33 @@ export function BranchAdminDashboard() {
           if (!open) setDeletingUpdate(null);
         }}
       >
-        <AlertDialogContent>
+        <AlertDialogContent className={isBudhViharBranch ? 'antialiased' : undefined}>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogTitle
+              style={sectionTitleStyle}
+              className={
+                isBudhViharBranch
+                  ? 'text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100'
+                  : undefined
+              }
+            >
+              Are you absolutely sure?
+            </AlertDialogTitle>
+            <AlertDialogDescription className={sectionDescClass}>
               This action cannot be undone. This will permanently delete the post titled &ldquo;
-              <span className="font-semibold">{deletingUpdate?.title}</span>&rdquo;.
+              <span className="font-bold text-[#0B224D] dark:text-white">{deletingUpdate?.title}</span>&rdquo;.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel
+              className={isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : undefined}
+              onClick={() => setDeletingUpdate(null)}
+            >
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmDeleteUpdate}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              className={`bg-destructive text-destructive-foreground hover:bg-destructive/90 ${isBudhViharBranch ? 'text-xs font-bold tracking-[0.01em]' : ''}`}
             >
               Delete
             </AlertDialogAction>

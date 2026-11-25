@@ -922,7 +922,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
     <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 antialiased selection:bg-[#142F70]/20 selection:text-[#142F70]">
 
       {/* ── SECTION 01: MAIN HERO SLIDE PROPORTIONS & PREMIUM ROYAL PURPLE-INDIGO THEME (LEFT STUDENT PHOTO + RIGHT DEMO/ENQUIRY FORM) ── */}
-      <section className="relative w-full max-w-full overflow-hidden pt-0 pb-0 bg-white md:bg-[#171442]">
+      <section className="relative w-full max-w-full overflow-hidden pt-0 pb-0 bg-white md:bg-[#14133B]">
         <div className="relative w-full max-w-full overflow-hidden flex items-start md:items-center min-h-0 md:min-h-[560px] lg:min-h-[580px] xl:min-h-[600px] px-0 md:px-12 lg:px-16 pt-0 md:pt-10 lg:pt-8 xl:pt-9 pb-0 md:pb-20 lg:pb-16 xl:pb-16">
           
           {/* Rich Royal Purple, Soft Luminous Violet & Deep Indigo-Navy Dimensional Background (Desktop/Tablet Only so Mobile Form is Full-Bleed Edge-to-Edge) */}
@@ -930,47 +930,47 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
             aria-hidden="true"
             className="hidden md:block absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
           >
-            {/* 1. Sculpted Multi-Stop Base: Rich Royal Purple & Soft Violet Left/Center Flowing Smoothly into Calm Deep Indigo-Navy Right */}
+            {/* 1. Silky Eased Multi-Stop Base: Seamless Royal Purple Left Flowing Smoothly into Calm Deep Navy Right */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'radial-gradient(ellipse 88% 72% at 34% 6%, rgba(174, 138, 255, 0.34) 0%, rgba(124, 78, 232, 0.16) 46%, transparent 78%), radial-gradient(ellipse 76% 96% at 24% 48%, rgba(136, 82, 242, 0.54) 0%, rgba(96, 52, 198, 0.30) 44%, rgba(30, 22, 82, 0) 76%), linear-gradient(118deg, #562DB8 0%, #48249E 24%, #371E80 48%, #24195E 74%, #15143E 100%)',
+                  'radial-gradient(ellipse 75% 65% at 40% 8%, rgba(154, 122, 246, 0.18) 0%, rgba(104, 72, 206, 0.08) 46%, transparent 80%), radial-gradient(ellipse 85% 92% at 24% 46%, rgba(132, 86, 238, 0.30) 0%, rgba(92, 56, 192, 0.16) 40%, rgba(42, 28, 108, 0.05) 68%, transparent 88%), linear-gradient(112deg, #4F28B0 0%, #46249E 15%, #3D218D 30%, #321E79 46%, #271B64 62%, #1D1851 78%, #161542 91%, #13133A 100%)',
               }}
             />
 
             {/* 2. Subtle Silky Top Rim Sheen */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-200/45 to-transparent shadow-[0_1px_12px_rgba(167,139,250,0.28)]" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-200/25 to-transparent" />
 
-            {/* 3. Focused Luminous Radial Backlight Behind Student Image Area (Centered on Tablet, Left-Aligned on Desktop) */}
+            {/* 3. Subtle Studio Radial Backlight Behind Student Image Area (Centered on Tablet, Left-Aligned on Desktop) */}
             <div
-              className="hidden md:block absolute top-[30%] lg:top-[46%] left-[50%] lg:left-[24%] -translate-x-1/2 -translate-y-1/2 w-[520px] lg:w-[680px] h-[360px] lg:h-[440px] rounded-full blur-[72px] opacity-95"
+              className="hidden md:block absolute top-[30%] lg:top-[46%] left-[50%] lg:left-[24%] -translate-x-1/2 -translate-y-1/2 w-[520px] lg:w-[680px] h-[360px] lg:h-[440px] rounded-full blur-[88px] opacity-85"
               style={{
                 background:
-                  'radial-gradient(ellipse at center, rgba(196, 165, 255, 0.48) 0%, rgba(145, 96, 246, 0.32) 34%, rgba(95, 52, 198, 0.14) 64%, transparent 84%)',
+                  'radial-gradient(ellipse at center, rgba(184, 156, 255, 0.30) 0%, rgba(132, 90, 238, 0.18) 38%, rgba(78, 48, 174, 0.07) 66%, transparent 85%)',
               }}
             />
 
-            {/* 4. Silky Diagonal Light Diffusion Across Upper-Center Canvas (Keeps Right Form Side Calmer & Deeper) */}
+            {/* 4. Soft Atmospheric Mid-Bridge Diffusion (Keeps Right Form Side Calm, Deep & High-Contrast) */}
             <div
-              className="absolute top-[22%] left-[44%] lg:left-[42%] -translate-x-1/2 -translate-y-1/2 w-[640px] md:w-[880px] h-[250px] md:h-[310px] -rotate-[8deg] rounded-full blur-[90px] opacity-75"
+              className="absolute top-[22%] left-[44%] lg:left-[42%] -translate-x-1/2 -translate-y-1/2 w-[640px] md:w-[880px] h-[250px] md:h-[310px] -rotate-[8deg] rounded-full blur-[104px] opacity-70"
               style={{
                 background:
-                  'radial-gradient(ellipse at center, rgba(178, 146, 255, 0.26) 0%, rgba(118, 76, 224, 0.14) 48%, transparent 82%)',
+                  'radial-gradient(ellipse at center, rgba(164, 136, 248, 0.15) 0%, rgba(106, 74, 208, 0.08) 48%, transparent 82%)',
               }}
             />
 
-            {/* 5. Soft Violet Stage Floor Luminance (Left) + Calm Deep Indigo Grounding (Right) for White Contact Card */}
+            {/* 5. Calm Lower Grounding Wash for Smooth Student Blend & Overlapping White Contact Strip */}
             <div
               className="absolute bottom-0 inset-x-0 h-44 sm:h-52 md:h-56 pointer-events-none overflow-hidden"
               style={{
                 background:
-                  'radial-gradient(ellipse 64% 88% at 28% 100%, rgba(154, 112, 248, 0.26) 0%, rgba(92, 54, 186, 0.12) 48%, transparent 78%), radial-gradient(ellipse 65% 100% at 80% 100%, rgba(16, 18, 52, 0.34) 0%, transparent 72%)',
+                  'radial-gradient(ellipse 68% 85% at 26% 100%, rgba(98, 62, 192, 0.18) 0%, rgba(48, 30, 118, 0.10) 50%, transparent 80%), linear-gradient(to top, rgba(16, 15, 48, 0.36) 0%, rgba(16, 15, 48, 0.12) 45%, transparent 100%)',
               }}
             />
 
             {/* 6. Crisp Subtle Bottom Horizon Line */}
-            <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-200/35 to-transparent" />
+            <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-violet-200/20 to-transparent" />
           </div>
 
           {/* 2-Column Responsive Layout Matching Main Hero Slide Width (max-w-7xl) */}
@@ -980,24 +980,28 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
             <div className="hidden md:flex w-full lg:max-w-[46%] xl:max-w-[45%] items-end justify-center lg:justify-start relative lg:self-end lg:-mb-5 xl:-mb-6">
               <div className="relative w-[255px] min-[360px]:w-[275px] sm:w-[315px] md:w-[350px] lg:w-[405px] xl:w-[435px] h-[280px] min-[360px]:h-[300px] sm:h-[340px] md:h-[380px] lg:h-[445px] xl:h-[470px] flex items-end justify-center">
                 
-                {/* 1. Luminous Soft-Violet Stage Halo Circle */}
+                {/* 1. Refined Soft-Violet Studio Halo Circle */}
                 <div
                   aria-hidden="true"
                   className="absolute top-4 min-[360px]:top-5 sm:top-6 md:top-7 lg:top-7 xl:top-8 left-[56%] -translate-x-1/2 w-[245px] min-[360px]:w-[265px] sm:w-[305px] md:w-[340px] lg:w-[385px] xl:w-[405px] h-[245px] min-[360px]:h-[265px] sm:h-[305px] md:h-[340px] lg:h-[385px] xl:h-[405px] rounded-full pointer-events-none"
                   style={{
                     background:
-                      'radial-gradient(circle at 46% 36%, rgba(196, 168, 255, 0.36) 0%, rgba(139, 92, 246, 0.22) 45%, rgba(82, 46, 174, 0.08) 72%, transparent 84%)',
-                    border: '1px solid rgba(226, 214, 255, 0.42)',
-                    boxShadow: '0 0 48px rgba(130, 82, 242, 0.34), inset 0 1px 28px rgba(240, 232, 255, 0.20)',
+                      'radial-gradient(circle at 46% 34%, rgba(192, 166, 255, 0.22) 0%, rgba(134, 92, 238, 0.13) 44%, rgba(76, 46, 168, 0.05) 72%, transparent 88%)',
+                    border: '1px solid rgba(226, 214, 255, 0.20)',
+                    boxShadow: '0 0 56px rgba(122, 80, 232, 0.20), inset 0 1px 24px rgba(236, 228, 255, 0.12)',
+                    maskImage: 'linear-gradient(to bottom, black 0%, black 72%, rgba(0,0,0,0.45) 88%, transparent 100%)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 72%, rgba(0,0,0,0.45) 88%, transparent 100%)',
                   }}
                 />
 
-                {/* 2. Student Photo with Soft Feathered Bottom Mask Blending Above Overlapping Strip */}
+                {/* 2. Student Photo with Eased Feathered Bottom Mask Blending Seamlessly into Hero Stage */}
                 <div
                   className="relative w-full h-full pointer-events-none select-none"
                   style={{
-                    maskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
-                    WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
+                    maskImage:
+                      'linear-gradient(to bottom, black 0%, black 70%, rgba(0,0,0,0.92) 77%, rgba(0,0,0,0.68) 84%, rgba(0,0,0,0.34) 91%, rgba(0,0,0,0.10) 96%, transparent 100%)',
+                    WebkitMaskImage:
+                      'linear-gradient(to bottom, black 0%, black 70%, rgba(0,0,0,0.92) 77%, rgba(0,0,0,0.68) 84%, rgba(0,0,0,0.34) 91%, rgba(0,0,0,0.10) 96%, transparent 100%)',
                   }}
                 >
                   <Image
@@ -1006,7 +1010,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
                     fill
                     priority
                     sizes="(max-width: 640px) 275px, (max-width: 1024px) 350px, 435px"
-                    className="object-contain object-bottom drop-shadow-[0_16px_36px_rgba(0,0,0,0.6)]"
+                    className="object-contain object-bottom drop-shadow-[0_18px_32px_rgba(14,12,44,0.42)]"
                   />
                 </div>
 
