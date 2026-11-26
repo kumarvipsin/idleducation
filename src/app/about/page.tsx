@@ -16,22 +16,29 @@ export default function AboutPage() {
 
   const team = [
     {
+      name: "Vijay Verma",
+      department: "Branch Head - Mangolpuri",
+      imageUrl: "/vijay.png",
+      imageAlt: "Vijay Verma",
+      hoverBorder: "hover:border-[#155EEF]/30",
+    },
+    {
       name: "Manish Kumar",
-      department: "Innovation & Technology",
+      department: "Branch Head - Krishan Vihar",
       imageUrl: "/manish.png",
       imageAlt: "Manish Kumar",
       hoverBorder: "hover:border-[#1D4ED8]/30",
     },
     {
       name: "Chandra Prakash",
-      department: "Creative Vision",
+      department: "Branch Head - Budh Vihar",
       imageUrl: "/chandu.png",
       imageAlt: "Chandra Prakash",
       hoverBorder: "hover:border-[#EA580C]/30",
     },
     {
       name: "Vidhi Sharma",
-      department: "Stories & Ideas",
+      department: "Branch Head - Mukherjee Nagar",
       imageUrl: "/vidhi.png",
       imageAlt: "Vidhi Sharma",
       hoverBorder: "hover:border-emerald-600/30",
@@ -46,30 +53,28 @@ export default function AboutPage() {
           member.hoverBorder
         )}
       >
-        {/* Portrait Frame: Compact framed square on mobile (controlled height without cropping head or hands), full-bleed square on tablet/desktop */}
-        <div className="w-full bg-[#F1F5F9]/80 dark:bg-slate-800/60 px-4 pt-4 pb-3 md:p-0 border-b border-slate-100 dark:border-slate-800/80">
-          <div className="relative w-full max-w-[216px] sm:max-w-[232px] md:max-w-none mx-auto aspect-square overflow-hidden rounded-xl md:rounded-none bg-slate-100 dark:bg-slate-800/80 ring-1 ring-slate-900/[0.06] md:ring-0">
-            <Image
-              src={member.imageUrl}
-              alt={member.imageAlt}
-              fill
-              priority
-              sizes="(max-width: 640px) 216px, (max-width: 768px) 232px, (max-width: 1200px) 32vw, 320px"
-              className="object-cover object-[50%_20%] grayscale contrast-[1.04] transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-            />
-          </div>
+        {/* Full-Bleed Square Portrait Frame (Consistent across mobile horizontal scroll & desktop 4-col grid without cropping head or hands) */}
+        <div className="relative w-full aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-800/80">
+          <Image
+            src={member.imageUrl}
+            alt={member.imageAlt}
+            fill
+            priority
+            sizes="(max-width: 768px) 268px, (max-width: 1024px) 45vw, 280px"
+            className="object-cover object-[50%_20%] grayscale contrast-[1.04] transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+          />
         </div>
 
         {/* Clean, Minimal Profile Info Area */}
-        <div className="flex flex-1 flex-col items-center p-4 sm:p-5 md:p-4 lg:p-5 text-center">
+        <div className="flex flex-1 flex-col items-center p-4 lg:px-3.5 lg:py-4 xl:p-5 text-center">
           {/* Member Name */}
-          <h3 className="text-[18px] sm:text-[19px] md:text-[18px] lg:text-[20px] font-extrabold tracking-[-0.015em] leading-snug text-[#0B224D] dark:text-white">
+          <h3 className="text-[18px] sm:text-[19px] lg:text-[17.5px] xl:text-[19px] font-extrabold tracking-[-0.015em] leading-snug text-[#0B224D] dark:text-white">
             {member.name}
           </h3>
 
           {/* Department Label */}
           <div className="mt-auto pt-3 w-full">
-            <p className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-[12.5px] md:text-[12px] lg:text-[13px] font-medium tracking-[0.005em] text-[#475E82] dark:text-slate-400 truncate">
+            <p className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80 text-[12.5px] lg:text-[11.5px] xl:text-[12.5px] font-medium tracking-[0.005em] text-[#475E82] dark:text-slate-400 truncate">
               {member.department}
             </p>
           </div>
@@ -168,19 +173,19 @@ export default function AboutPage() {
                 }}
               />
 
-              {/* Proportionate Natural-Ratio 3D Visual Container */}
+              {/* Proportionate Natural-Ratio Hero Visual Container (1536x1024 -> 3:2) */}
               <motion.div
                 animate={{ y: [0, -3, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-full max-w-[260px] min-[390px]:max-w-[285px] sm:max-w-[330px] md:max-w-[360px] lg:w-[410px] lg:max-w-none xl:w-[445px] aspect-[901/767] flex items-center justify-center"
+                className="relative w-full max-w-[300px] min-[390px]:max-w-[325px] sm:max-w-[380px] md:max-w-[420px] lg:w-[460px] lg:max-w-none xl:w-[500px] aspect-[3/2] flex items-center justify-center"
               >
                 <Image
-                  src="/about-growth-hero.png"
+                  src="/about.png"
                   alt="Transforming Student Potential - IDL Education"
                   fill
                   priority
-                  sizes="(max-width: 640px) 285px, (max-width: 1024px) 360px, 445px"
-                  className="object-contain object-center select-none"
+                  sizes="(max-width: 640px) 325px, (max-width: 1024px) 420px, 500px"
+                  className="object-contain object-center select-none dark:invert dark:opacity-90"
                 />
               </motion.div>
             </motion.div>
@@ -209,7 +214,7 @@ export default function AboutPage() {
       </div>
 
       {/* 2B. MEET OUR FOUNDER — FULL-WIDTH DARK NAVY PROFILE SECTION */}
-      <section className="w-full relative overflow-hidden bg-gradient-to-b from-[#040B1C] via-[#06122B] to-[#030918] py-9 sm:py-11 md:py-14 lg:py-16 border-y border-white/[0.06]">
+      <section className="w-full relative overflow-hidden bg-gradient-to-b from-[#040B1C] via-[#06122B] to-[#030918] py-7 sm:py-9 md:py-14 lg:py-16 border-y border-white/[0.06]">
         {/* Subtle IDL Navy/Blue Ambient Depth */}
         <div
           aria-hidden="true"
@@ -223,17 +228,17 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Balanced Horizontal Founder Profile Composition */}
           <div className="max-w-[980px] mx-auto">
-            <div className="relative rounded-2xl bg-gradient-to-br from-[#0B1938]/90 via-[#08142E]/95 to-[#061026]/95 border border-white/[0.08] shadow-[0_18px_44px_-16px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.07)] p-5 sm:p-7 md:p-9 lg:p-10">
-              <div className="flex flex-col md:flex-row items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10">
+            <div className="relative rounded-2xl bg-gradient-to-br from-[#0B1938]/90 via-[#08142E]/95 to-[#061026]/95 border border-white/[0.08] shadow-[0_18px_44px_-16px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.07)] p-4 sm:p-6 md:p-9 lg:p-10">
+              <div className="flex flex-col md:flex-row items-center gap-3.5 sm:gap-5 md:gap-8 lg:gap-10">
                 {/* Left: Natural-Aspect Founder Portrait Frame */}
-                <div className="w-[215px] min-[390px]:w-[228px] sm:w-[248px] md:w-[270px] lg:w-[295px] shrink-0">
+                <div className="w-[230px] min-[390px]:w-[244px] sm:w-[264px] md:w-[270px] lg:w-[295px] shrink-0">
                   <div className="relative w-full aspect-[11/12] overflow-hidden rounded-xl bg-[#EBF3FF] ring-1 ring-white/15 shadow-[0_12px_28px_-10px_rgba(2,6,23,0.75)]">
                     <Image
                       src="/director.png"
                       alt="Amod Sharma"
                       fill
                       priority
-                      sizes="(max-width: 640px) 228px, (max-width: 1024px) 270px, 295px"
+                      sizes="(max-width: 640px) 244px, (max-width: 1024px) 270px, 295px"
                       className="object-cover object-top"
                     />
                     <div
@@ -249,21 +254,21 @@ export default function AboutPage() {
                     <h3 className="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[30px] font-extrabold uppercase tracking-[0.025em] leading-tight text-white">
                       AMOD SHARMA
                     </h3>
-                    <p className="mt-1.5 text-[13.5px] sm:text-[14.5px] lg:text-[16px] font-semibold tracking-[0.05em] text-[#60A5FA]">
+                    <p className="mt-1 md:mt-1.5 text-[13.5px] sm:text-[14.5px] lg:text-[16px] font-semibold tracking-[0.05em] text-[#60A5FA]">
                       Founder & CEO
                     </p>
                   </div>
 
                   {/* Integrated Editorial Quote Block */}
-                  <blockquote className="mt-4 sm:mt-5 relative border-l-[2.5px] border-[#3B82F6] bg-gradient-to-r from-[#3B82F6]/[0.07] via-white/[0.02] to-transparent rounded-r-lg pl-4 pr-3 py-2.5 sm:pl-5 sm:pr-4 sm:py-3.5 text-left">
+                  <blockquote className="mt-3 sm:mt-4 md:mt-5 relative border-l-[2.5px] border-[#3B82F6] bg-gradient-to-r from-[#3B82F6]/[0.07] via-white/[0.02] to-transparent rounded-r-lg pl-3.5 pr-2.5 py-2 sm:pl-5 sm:pr-4 sm:py-3 md:py-3.5 text-left">
                     <svg
                       aria-hidden="true"
-                      className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#60A5FA]/50 mb-1.5 fill-current"
+                      className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#60A5FA]/50 mb-1 md:mb-1.5 fill-current"
                       viewBox="0 0 24 24"
                     >
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
-                    <p className="text-[14.5px] sm:text-[15.5px] lg:text-[17px] font-medium text-slate-200/95 leading-[1.7] tracking-[0.005em]">
+                    <p className="text-[14px] sm:text-[15.5px] lg:text-[17px] font-medium text-slate-200/95 leading-[1.62] md:leading-[1.7] tracking-[0.005em]">
                       &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
                     </p>
                   </blockquote>
@@ -295,10 +300,15 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          {/* Responsive Leadership Grid: Compact vertical stack on mobile, balanced 3-column grid on tablet/desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 lg:gap-7 max-w-[340px] sm:max-w-[380px] md:max-w-5xl mx-auto items-stretch">
+          {/* Responsive Leadership Showcase: Smooth horizontal scroll on mobile, 2x2 on tablet, 4-column single row on desktop */}
+          <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-auto md:px-0 pt-1 pb-3 md:py-0 flex md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 md:max-w-2xl lg:max-w-[1180px] overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-4 sm:scroll-px-6 items-stretch [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {team.map((member) => (
-              <TeamCard key={member.name} member={member} />
+              <div
+                key={member.name}
+                className="w-[74vw] max-w-[268px] sm:w-[280px] md:w-auto md:max-w-none shrink-0 snap-start"
+              >
+                <TeamCard member={member} />
+              </div>
             ))}
           </div>
         </div>
