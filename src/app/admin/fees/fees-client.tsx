@@ -518,7 +518,7 @@ export function FeesClient({
   const FORM_CARD_SUBMIT_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-[0.06em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_-1px_rgba(40,100,232,0.26),0_1px_2px_rgba(23,32,51,0.08)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.3),0_1px_3px_rgba(23,32,51,0.1)] flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-[0.995]";
 
   // Shared Student Profile / Enroll / Edit Modal Tokens (1:1 Visual Consistency)
-  const STUDENT_MODAL_DIALOG_CLS = "max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]";
+  const STUDENT_MODAL_DIALOG_CLS = "max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-sans";
   const STUDENT_MODAL_LABEL_CLS = "text-[11px] font-normal text-slate-400 dark:text-slate-500 block truncate";
   const STUDENT_MODAL_INPUT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12.5px] font-medium text-slate-700 dark:text-slate-200 placeholder:font-normal placeholder:text-slate-400/80 p-0 m-0 mt-0.5 h-[19px] leading-tight transition-colors";
   const STUDENT_MODAL_MONO_INPUT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums placeholder:font-normal placeholder:text-slate-400/80 p-0 m-0 mt-0.5 h-[19px] leading-tight transition-colors";
@@ -5272,7 +5272,7 @@ export function FeesClient({
           {/* ------------------------------------------------------------------ */}
           {/* TAB 1: OVERVIEW & DASHBOARD */}
           {/* ------------------------------------------------------------------ */}
-          <TabsContent value="overview" className="space-y-6 font-['Inter_Tight',sans-serif]">
+          <TabsContent value="overview" className="space-y-6 font-sans">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Class-wise Revenue Breakdown */}
               <div className="lg:col-span-2 space-y-4">
@@ -5910,8 +5910,8 @@ export function FeesClient({
           {/* ------------------------------------------------------------------ */}
           {/* TAB 2: MONTHLY LEDGER & FEE COLLECTION */}
           {/* ------------------------------------------------------------------ */}
-          <TabsContent value="ledger" className="space-y-4 font-['Inter_Tight',sans-serif]">
-            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-['Inter_Tight',sans-serif]">
+          <TabsContent value="ledger" className="space-y-4 font-sans">
+            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-sans">
               <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
@@ -6378,7 +6378,7 @@ export function FeesClient({
           {/* ------------------------------------------------------------------ */}
           {/* TAB 3: CLASS & BATCH MANAGEMENT */}
           {/* ------------------------------------------------------------------ */}
-          <TabsContent value="classes" className="space-y-4 font-['Inter_Tight',sans-serif]">
+          <TabsContent value="classes" className="space-y-4 font-sans">
             {!hasBranchSelection ? (
               <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
                 <Building2 className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
@@ -6946,8 +6946,8 @@ export function FeesClient({
           {/* ------------------------------------------------------------------ */}
           {/* TAB 4: STUDENT DIRECTORY & PROFILES */}
           {/* ------------------------------------------------------------------ */}
-          <TabsContent value="students" className="space-y-4 font-['Inter_Tight',sans-serif]">
-            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-['Inter_Tight',sans-serif]">
+          <TabsContent value="students" className="space-y-4 font-sans">
+            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-sans">
               <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div>
@@ -7369,8 +7369,8 @@ export function FeesClient({
           {/* ------------------------------------------------------------------ */}
           {/* TAB 5: BRANCH FINANCIAL REPORTS */}
           {/* ------------------------------------------------------------------ */}
-          <TabsContent value="reports" className="space-y-4 font-['Inter_Tight',sans-serif]">
-            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-['Inter_Tight',sans-serif]">
+          <TabsContent value="reports" className="space-y-4 font-sans">
+            <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-sans">
               <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div>
@@ -9839,7 +9839,7 @@ export function FeesClient({
             setShowAddSubjectInput(false);
           }
         }}>
-          <DialogContent overlayClassName="z-[120]" onOpenAutoFocus={(e) => e.preventDefault()} className="z-[121] max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]">
+          <DialogContent overlayClassName="z-[120]" onOpenAutoFocus={(e) => e.preventDefault()} className="z-[121] max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-sans">
             <form onSubmit={handleUpdateStudent} className="flex flex-col flex-1 min-h-0 overflow-hidden text-left" autoComplete="off">
               {/* Header: Student Name / Edit Title + Compact Student ID & Joined Date matching Profile */}
               <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
@@ -10240,7 +10240,7 @@ export function FeesClient({
             }
           }}
         >
-          <DialogContent className="max-w-[440px] w-[94vw] rounded-2xl p-5 bg-white dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18),0_4px_16px_rgba(15,23,42,0.06)] font-['Inter_Tight',sans-serif]">
+          <DialogContent className="max-w-[440px] w-[94vw] rounded-2xl p-5 bg-white dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18),0_4px_16px_rgba(15,23,42,0.06)] font-sans">
             <DialogHeader className="pb-3 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
               <div>
                 <DialogTitle className="text-[16px] sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight">
@@ -10544,7 +10544,7 @@ export function FeesClient({
             }
           }}
         >
-          <DialogContent overlayClassName="z-[130]" className="z-[131] max-w-md w-[94vw] rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18),0_4px_16px_rgba(15,23,42,0.06)] text-left font-['Inter_Tight',sans-serif]">
+          <DialogContent overlayClassName="z-[130]" className="z-[131] max-w-md w-[94vw] rounded-2xl p-5 sm:p-6 bg-white dark:bg-slate-950 border border-slate-200/90 dark:border-slate-800 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18),0_4px_16px_rgba(15,23,42,0.06)] text-left font-sans">
             <DialogHeader className="sr-only">
               <DialogTitle>Student Fee Receipt</DialogTitle>
               <DialogDescription>Official student fee receipt details</DialogDescription>
@@ -10682,7 +10682,7 @@ export function FeesClient({
             }
           }}
         >
-          <DialogContent className="max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]">
+          <DialogContent className="max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-sans">
             {selectedStudentProfile && (
               <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
                 {/* Header: Student Name + Highlighted ID & Joined Date */}
@@ -11161,7 +11161,7 @@ export function FeesClient({
             }
           }}
         >
-          <DialogContent className="max-w-[960px] w-[95vw] rounded-2xl p-4 sm:p-6 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[92vh] flex flex-col font-['Inter_Tight',sans-serif]">
+          <DialogContent className="max-w-[960px] w-[95vw] rounded-2xl p-4 sm:p-6 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[92vh] flex flex-col font-sans">
             {/* Accessible Radix UI Header */}
             <DialogHeader className="sr-only">
               <DialogTitle>
@@ -11702,7 +11702,7 @@ export function FeesClient({
             }
           }}
         >
-          <DialogContent overlayClassName="z-[120]" className="z-[121] max-w-[450px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden font-['Inter_Tight',sans-serif]">
+          <DialogContent overlayClassName="z-[120]" className="z-[121] max-w-[450px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden font-sans">
             <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0 space-y-1">
               <DialogTitle className="pr-9 text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white leading-snug">
                 Fee Mark as Unpaid / Revert

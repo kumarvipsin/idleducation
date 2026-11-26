@@ -179,12 +179,7 @@ export function BranchAdminDashboard() {
     normalizedBranchId && normalizedBranchId !== 'all' ? normalizedBranchId : undefined;
 
   const [data, setData] = useState<BranchDashboardPayload | null>(null);
-  const resolvedBranchId = normalizeBranchId(data?.admin?.branchId);
-  const styledBranchIds = new Set(['budh-vihar', 'krishan-vihar', 'mangolpuri']);
-  const isBudhViharBranch = Boolean(
-    (normalizedBranchId && styledBranchIds.has(normalizedBranchId)) ||
-    (resolvedBranchId && styledBranchIds.has(resolvedBranchId))
-  );
+  const isBudhViharBranch = true;
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [busyTeacherId, setBusyTeacherId] = useState<string | null>(null);

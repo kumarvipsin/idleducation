@@ -86,8 +86,8 @@ function TeacherLayout({
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="font-bold text-xs text-slate-900 truncate">{user?.name || 'Faculty Member'}</span>
-                <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                <span className="font-extrabold text-[13.5px] tracking-[-0.01em] text-[#0B224D] truncate">{user?.name || 'Faculty Member'}</span>
+                <span className="text-[11px] text-emerald-700 font-semibold tracking-[0.005em] flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   Verified Faculty
                 </span>
@@ -96,7 +96,7 @@ function TeacherLayout({
 
             {/* Navigation Section */}
             <div className="space-y-1">
-              <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <div className="px-3 py-1.5 text-[10.5px] font-extrabold text-[#475E82]/85 uppercase tracking-[0.08em]">
                 Instructor Portal
               </div>
               <SidebarMenu>
@@ -111,14 +111,14 @@ function TeacherLayout({
                       <SidebarMenuButton
                         asChild
                         isActive={isActive}
-                        className={`h-10 px-3 rounded-lg text-xs font-semibold transition-all ${
+                        className={`relative h-10 px-3 rounded-lg text-[13.5px] font-bold tracking-[0.005em] [word-spacing:0.03em] transition-all duration-150 ${
                           isActive 
-                            ? 'bg-primary text-white hover:bg-primary/95 hover:text-white shadow-xs font-bold' 
-                            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                            ? "bg-[#E8F0FE] text-[#1D4ED8] ring-1 ring-inset ring-[#C7DBFC] shadow-[0_1px_2px_rgba(23,53,104,0.06)] hover:bg-[#E1ECFE] hover:text-[#1D4ED8] before:content-[''] before:absolute before:left-0 before:top-1.5 before:bottom-1.5 before:w-[3px] before:rounded-r-full before:bg-[#2864E8]" 
+                            : 'text-[#173568] hover:bg-[#E8EEF7]/75 hover:text-[#0B224D]'
                         }`}
                       >
-                        <Link href={item.href} className="flex items-center gap-3">
-                          <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                        <Link href={item.href} className="flex items-center gap-2.5">
+                          <Icon className={`h-4 w-4 ${isActive ? 'text-[#2864E8]' : 'text-[#475E82]'}`} />
                           <span>{item.label}</span>
                         </Link>
                       </SidebarMenuButton>
@@ -148,13 +148,13 @@ function TeacherLayout({
             <div className="flex items-center gap-3">
               <SidebarTrigger className="text-slate-600 hover:text-primary cursor-pointer" />
               <div>
-                <h1 className="text-base md:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+                <h1 className="text-[17px] md:text-[19px] font-extrabold text-[#173568] tracking-[-0.015em] [word-spacing:0.03em] flex items-center gap-2">
                   <span>Instructor Dashboard</span>
-                  <Badge variant="outline" className="hidden sm:inline-flex text-[10px] font-bold text-primary border-primary/20 bg-primary/5">
+                  <Badge variant="outline" className="hidden sm:inline-flex text-[10.5px] font-bold text-[#1D4ED8] border-[#C7DBFC] bg-[#E8F0FE]">
                     Faculty Suite
                   </Badge>
                 </h1>
-                <p className="text-[11px] text-slate-500 hidden md:block">
+                <p className="text-[12px] font-medium text-[#475E82] hidden md:block">
                   Manage your batches, review submissions, and conduct live lectures.
                 </p>
               </div>

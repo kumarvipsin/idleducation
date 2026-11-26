@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=Dancing+Script:wght@600;700&family=Inter+Tight:ital,wght@0,600;0,700;0,800;0,900;1,700;1,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Source+Code+Pro:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Noto+Sans+Devanagari:wght@500;600;700;800&family=Source+Code+Pro:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,17 +7,17 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --foreground: 219 75% 17%;
     --card: 210 40% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 219 75% 17%;
     --popover: 210 40% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 219 75% 17%;
     --primary: 222 84% 20%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11.2%;
+    --secondary-foreground: 218 64% 25%;
     --muted: 210 40% 96.1%;
-    --muted-foreground: 217 19% 38%;
+    --muted-foreground: 217 29% 39%;
     --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
@@ -94,6 +94,7 @@
   html {
     font-family: var(--font-sans), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -104,64 +105,91 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-weight: 500;
     font-feature-settings: "rlig" 1, "calt" 1;
-    letter-spacing: -0.01em;
-    line-height: 1.6;
+    letter-spacing: 0.002em;
+    line-height: 1.58;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
     overflow-x: clip;
   }
 
-  /* Headings: Smooth, balanced, premium weights */
+  /* Headings: Crisp, bold Super Admin typography across entire website */
   h1, h2, h3, h4, h5, h6 {
     @apply text-foreground;
     font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    word-spacing: 0.03em;
     text-wrap: balance;
   }
 
   h1 {
     font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-  }
-
-  h2 {
-    font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.18;
     letter-spacing: -0.02em;
   }
 
-  h3 {
-    font-weight: 600;
-    line-height: 1.3;
+  h2 {
+    font-weight: 800;
+    line-height: 1.24;
     letter-spacing: -0.015em;
   }
 
-  h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.35;
+  h3 {
+    font-weight: 700;
+    line-height: 1.3;
     letter-spacing: -0.01em;
   }
 
-  p {
-    line-height: 1.65;
-    letter-spacing: -0.005em;
+  h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.005em;
   }
 
-  /* Smooth button styling */
+  p {
+    font-weight: 500;
+    line-height: 1.62;
+    letter-spacing: 0.005em;
+  }
+
+  strong, b {
+    font-weight: 700;
+  }
+
+  /* Smooth crisp bold UI controls & tables */
   button, [role="button"] {
     font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
-    letter-spacing: -0.005em;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  label {
+    font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.005em;
+  }
+
+  th {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    word-spacing: 0.02em;
+  }
+
+  td {
+    font-weight: 500;
+    letter-spacing: 0.005em;
   }
 
   /* Inputs & form elements */
   input, textarea, select {
     font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.002em;
   }
 
   /* =====================================================================
@@ -185,12 +213,12 @@
      10 tokens → well under the target of ≤12 distinct colours.
      ===================================================================== */
   :root {
-    --color-text-primary:   #0B1F4B;   /* IDL navy   — primary headings    */
-    --color-text-secondary: #3B5EA6;   /* IDL blue   — secondary headings  */
+    --color-text-primary:   #0B224D;   /* IDL navy   — primary headings    */
+    --color-text-secondary: #173568;   /* IDL blue   — secondary headings  */
     --color-text-accent:    #155EEF;   /* IDL vivid  — links, highlights   */
     --color-text-orange:    #FF6B21;   /* IDL orange — CTAs, badges        */
-    --color-text-body:      #1E293B;   /* slate-800  — body copy           */
-    --color-text-muted:     #64748B;   /* slate-500  — captions, helpers   */
+    --color-text-body:      #334E75;   /* slate-blue — body copy           */
+    --color-text-muted:     #475E82;   /* slate-navy — captions, helpers   */
     --color-text-disabled:  #94A3B8;   /* slate-400  — disabled states     */
     --color-text-inverse:   #FFFFFF;   /* white      — on dark backgrounds */
     --color-text-success:   #059669;   /* emerald-600 – success states     */
@@ -393,6 +421,41 @@
   .idl-section-stack {
     @apply space-y-12 sm:space-y-14 md:space-y-16 lg:space-y-[72px];
   }
+}
+
+/* ==========================================================================
+   GLOBAL SUPER ADMIN TYPOGRAPHY CONSISTENCY (FULL WEBSITE)
+   Ensures crisp Plus Jakarta Sans rendering, Super Admin boldness hierarchy,
+   and clean heading word-spacing across every public & admin page.
+   ========================================================================== */
+body,
+h1, h2, h3, h4, h5, h6,
+p, a, span, li, button, label, th, td, input, textarea, select {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2 {
+  font-weight: 800;
+  word-spacing: 0.03em;
+}
+
+h3, h4, h5, h6 {
+  word-spacing: 0.025em;
+}
+
+h1.font-bold,
+h2.font-bold,
+h1.font-semibold,
+h2.font-semibold {
+  font-weight: 800;
+}
+
+h3.font-normal,
+h3.font-medium,
+h4.font-normal,
+h4.font-medium {
+  font-weight: 700;
 }
 
 @media print {

@@ -64,7 +64,7 @@ export function Footer() {
               />
             </Link>
 
-            <p className="text-[11.5px] min-[380px]:text-[12px] sm:text-[12.5px] text-slate-600 dark:text-slate-400 font-normal leading-[1.58] antialiased tracking-normal text-left max-w-[320px]">
+            <p className="text-[11.5px] min-[380px]:text-[12px] sm:text-[12.5px] text-[#334E75] dark:text-slate-400 font-medium leading-[1.58] antialiased tracking-[0.005em] text-left max-w-[320px]">
               We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
             </p>
 
@@ -74,10 +74,10 @@ export function Footer() {
 
           {/* Group 2: Quick Links (Col 1 on mobile Row 1, Col 2 on desktop) */}
           <div className="flex flex-col items-start w-full col-span-1">
-            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+            <h3 className="text-[11px] sm:text-[11.5px] font-extrabold text-[#173568] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Quick Links
             </h3>
-            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-medium pl-2" suppressHydrationWarning>
+            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-semibold tracking-[0.005em] pl-2" suppressHydrationWarning>
               {quickLinks.map(link => (
                 <li key={link.label}>
                   <Link 
@@ -86,7 +86,7 @@ export function Footer() {
                       e.preventDefault();
                       setIsContactOpen(true);
                     } : undefined}
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
+                    className="text-[#334E75] dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -97,17 +97,17 @@ export function Footer() {
 
           {/* Group 3: Resources (Col 2 on mobile Row 1, Col 3 on desktop) */}
           <div className="flex flex-col items-start w-full col-span-1">
-            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+            <h3 className="text-[11px] sm:text-[11.5px] font-extrabold text-[#173568] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Resources
             </h3>
-            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-medium pl-2">
+            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-semibold tracking-[0.005em] pl-2">
               {resourceLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
+                    className="text-[#334E75] dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -118,15 +118,15 @@ export function Footer() {
 
           {/* Group 4: Apply For (Col 1 on mobile Row 2, Col 4 on desktop) */}
           <div className="flex flex-col items-start w-full col-span-1">
-            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+            <h3 className="text-[11px] sm:text-[11.5px] font-extrabold text-[#173568] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Apply For
             </h3>
-            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-medium pl-2">
+            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-semibold tracking-[0.005em] pl-2">
               {programLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
+                    className="text-[#334E75] dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -137,17 +137,17 @@ export function Footer() {
 
           {/* Group 5: Foundation (Col 2 on mobile Row 2, Col 5 on desktop) */}
           <div className="flex flex-col items-start w-full col-span-1">
-            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+            <h3 className="text-[11px] sm:text-[11.5px] font-extrabold text-[#173568] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Foundation
             </h3>
-            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-medium pl-2">
+            <ul className="space-y-1 sm:space-y-2 lg:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-semibold tracking-[0.005em] pl-2">
               {foundationLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
+                    className="text-[#334E75] dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -158,26 +158,26 @@ export function Footer() {
 
           {/* Group 6: Get in Touch (Full width on mobile below grid, Col 6 on desktop) */}
           <div className="flex flex-col items-start w-full col-span-2 lg:col-span-1 pt-3 sm:pt-4 lg:pt-0 border-t border-slate-200/80 dark:border-white/[0.06] lg:border-t-0">
-            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+            <h3 className="text-[11px] sm:text-[11.5px] font-extrabold text-[#173568] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Get in Touch
             </h3>
             <div className="space-y-2 sm:space-y-2.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] pl-2 text-left w-full">
               <div className="space-y-0.5">
-                <p className="text-[10.5px] min-[360px]:text-[11px] text-slate-500 dark:text-slate-400 font-normal">Have questions?</p>
-                <p className="text-[#081B4B] dark:text-white font-semibold tracking-tight text-[12px] min-[360px]:text-[12.5px] sm:text-[13px]">Talk to our team</p>
+                <p className="text-[10.5px] min-[360px]:text-[11px] text-[#475E82] dark:text-slate-400 font-medium">Have questions?</p>
+                <p className="text-[#0B224D] dark:text-white font-bold tracking-[0.005em] text-[12px] min-[360px]:text-[12.5px] sm:text-[13px]">Talk to our team</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-0.5">
                 <a 
                   href="tel:8860040010" 
-                  className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 hover:text-[#0A5CFF] font-medium transition-colors duration-150 py-0.5 whitespace-nowrap"
+                  className="flex items-center gap-1.5 text-[#334E75] dark:text-slate-300 hover:text-[#0A5CFF] font-semibold transition-colors duration-150 py-0.5 whitespace-nowrap"
                 >
                   <Phone className="w-3.5 h-3.5 text-[#0A5CFF] shrink-0" />
                   <span>8860040010</span>
                 </a>
                 <a 
                   href="mailto:info@idleducation.in" 
-                  className="flex items-center gap-1.5 text-slate-700 dark:text-slate-300 hover:text-[#0A5CFF] font-medium transition-colors duration-150 py-0.5 whitespace-nowrap sm:whitespace-normal break-words"
+                  className="flex items-center gap-1.5 text-[#334E75] dark:text-slate-300 hover:text-[#0A5CFF] font-semibold transition-colors duration-150 py-0.5 whitespace-nowrap sm:whitespace-normal break-words"
                 >
                   <Mail className="w-3.5 h-3.5 text-[#0A5CFF] shrink-0" />
                   <span>info@idleducation.in</span>
@@ -203,16 +203,16 @@ export function Footer() {
       {/* Subtle Divider & Bottom Copyright Bar */}
       <div className="border-t border-[#E2ECF8] dark:border-white/[0.08] pt-3 pb-3.5 sm:pt-3.5 sm:pb-3.5">
         <div className="max-w-[1240px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex flex-row justify-between items-center text-[11px] min-[360px]:text-[11.5px] sm:text-[12px] font-normal text-slate-500 dark:text-slate-400 gap-2">
+          <div className="flex flex-row justify-between items-center text-[11px] min-[360px]:text-[11.5px] sm:text-[12px] font-medium text-[#475E82] dark:text-slate-400 gap-2">
             <p className="truncate min-w-0" suppressHydrationWarning>
               &copy; 2026 IDL All Rights Reserved.
             </p>
-            <nav aria-label="Legal Links" className="flex items-center gap-2 min-[360px]:gap-2.5 sm:gap-3.5 shrink-0">
-              <Link href="/terms" className="text-slate-500 hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
+            <nav aria-label="Legal Links" className="flex items-center gap-2 min-[360px]:gap-2.5 sm:gap-3.5 shrink-0 font-semibold">
+              <Link href="/terms" className="text-[#475E82] hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
                 Terms
               </Link>
               <span className="text-slate-300 dark:text-slate-600 select-none">·</span>
-              <Link href="/privacy" className="text-slate-500 hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
+              <Link href="/privacy" className="text-[#475E82] hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
                 Privacy
               </Link>
             </nav>

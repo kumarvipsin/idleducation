@@ -86,7 +86,7 @@ const RESULTS_DATA: CategoryResultData[] = [
     headlineTitle: 'CLASS 10',
     headlineHighlight: '2026 RESULTS',
     subheading: 'Outstanding Board Performance',
-    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
+    description: 'STRONG CBSE FOUNDATIONS & TOP SCORES',
     stats: {
       highestScore: {
         value: '99.4%',
@@ -209,7 +209,7 @@ const RESULTS_DATA: CategoryResultData[] = [
     headlineTitle: 'CLASS 12',
     headlineHighlight: '2026 RESULTS',
     subheading: 'Outstanding Board Performance',
-    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
+    description: 'PROVEN BOARD MASTERY ACROSS ALL STREAMS',
     stats: {
       highestScore: {
         value: '99.2%',
@@ -334,7 +334,7 @@ const RESULTS_DATA: CategoryResultData[] = [
     headlineTitle: 'CUET (UG)',
     headlineHighlight: '2026 RESULTS',
     subheading: 'Outstanding NTA CUET Performance',
-    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
+    description: 'TOP NTA PERCENTILES FOR DREAM COLLEGES',
     stats: {
       highestScore: {
         value: '100%ile',
@@ -610,8 +610,8 @@ export function AcademicExcellence() {
           {/* ----------------- TOP SECTION: SUMMARY + 3 STATS ----------------- */}
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 lg:gap-5 pb-2 sm:pb-2.5">
             
-            {/* Left: Heading + Refined Description */}
-            <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 flex flex-col justify-center">
+            {/* Left: Heading + Single-line Description */}
+            <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 flex flex-col justify-center min-w-0">
               <h3 className="text-[22px] sm:text-[25px] lg:text-[27px] font-[950] tracking-tight flex items-center gap-2 leading-tight">
                 <span className="text-[#062B67] dark:text-white">
                   {activeCategory.headlineTitle}
@@ -621,11 +621,7 @@ export function AcademicExcellence() {
                   {activeCategory.headlineHighlight}
                 </span>
               </h3>
-
-              <p 
-                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-[1.56] font-semibold max-w-sm break-words"
-                style={{ fontWeight: 620, WebkitTextStroke: '0.12px currentColor' }}
-              >
+              <p className="mt-1.5 text-[11px] sm:text-[11.5px] lg:text-[11px] xl:text-[12px] font-semibold uppercase tracking-[0.04em] text-[#475E82] dark:text-slate-400 leading-snug whitespace-nowrap truncate">
                 {activeCategory.description}
               </p>
             </div>

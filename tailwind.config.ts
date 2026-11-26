@@ -12,8 +12,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', "'Noto Sans Devanagari'", 'Inter', 'Plus Jakarta Sans', ...fontFamily.sans],
+        sans: ['var(--font-sans)', "'Plus Jakarta Sans'", "'Noto Sans Devanagari'", ...fontFamily.sans],
         hindi: ["'Noto Sans Devanagari'", "'Kohinoor Devanagari'", "'Nirmala UI'", 'var(--font-sans)', ...fontFamily.sans],
+      },
+      fontWeight: {
+        thin: '500',
+        extralight: '500',
+        light: '500',
+        normal: '500',
+        medium: '600',
+        semibold: '700',
+        bold: '700',
+        extrabold: '800',
+        black: '800',
       },
       colors: {
         // Shadcn UI theme tokens

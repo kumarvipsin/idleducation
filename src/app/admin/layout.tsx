@@ -42,10 +42,7 @@ function AdminLayout({
 
   const normalizedBranchId = normalizeBranchId(user?.branchId);
   const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
-  const isBudhViharBranch =
-    normalizedBranchId === 'budh-vihar' ||
-    normalizedBranchId === 'krishan-vihar' ||
-    normalizedBranchId === 'mangolpuri';
+  const isBudhViharBranch = true;
   const branchName = isBranchAdmin
     ? (user?.branchName || getBranchDisplayName(normalizedBranchId, true))
     : '';

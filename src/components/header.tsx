@@ -718,8 +718,8 @@ export function Header() {
         { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true), icon: Award, iconColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60" },
     ];
 
-    const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
-    const navAuthButtonClass = "px-3 min-[360px]:px-3.5 md:px-[19px] py-0 rounded-[8px] md:rounded-[6px] bg-[#EEF3FB] hover:bg-[#E0EAFB] active:bg-[#D0DEFA] border border-[#B8CFF5] hover:border-[#93B4EF] text-[#0B2A6B] h-[32px] md:h-[34px] flex items-center justify-center cursor-pointer whitespace-nowrap font-semibold text-[11.5px] md:text-[12.5px] leading-none tracking-[0.04em] transition-colors duration-150 shadow-none";
+    const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-extrabold tracking-[0.01em] [word-spacing:0.03em] text-[#173568] dark:text-slate-100 hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
+    const navAuthButtonClass = "px-3 min-[360px]:px-3.5 md:px-[19px] py-0 rounded-[8px] md:rounded-[6px] bg-[#EEF3FB] hover:bg-[#E0EAFB] active:bg-[#D0DEFA] border border-[#B8CFF5] hover:border-[#93B4EF] text-[#0B224D] h-[32px] md:h-[34px] flex items-center justify-center cursor-pointer whitespace-nowrap font-bold text-[11.5px] md:text-[12.5px] leading-none tracking-[0.04em] transition-colors duration-150 shadow-none";
 
     const renderAuthSection = () => {
         if (loading) return <Skeleton className="h-[32px] md:h-[34px] w-[76px] rounded-[8px] md:rounded-[6px]" />;
@@ -809,10 +809,10 @@ export function Header() {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="min-w-0 flex-1">
-                                        <p className="truncate text-[15.5px] font-semibold text-[#0B1B43] leading-snug">
+                                        <p className="truncate text-[15px] font-extrabold tracking-[-0.01em] text-[#0B224D] leading-snug">
                                             {displayName}
                                         </p>
-                                        <p className="truncate text-[12px] font-medium text-[#64748B] leading-snug mt-0.5">
+                                        <p className="truncate text-[12px] font-semibold tracking-[0.005em] text-[#475E82] leading-snug mt-0.5">
                                             {roleLabel}
                                         </p>
                                     </div>
@@ -824,7 +824,7 @@ export function Header() {
                                     href={dashboardHref}
                                     role="menuitem"
                                     onClick={() => setActiveMenu(null)}
-                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[14px] font-medium text-[#172033] hover:bg-[#EAF2FF] active:bg-[#DBEAFE] focus:bg-[#EAF2FF] focus:text-[#0B1B43] outline-none transition-colors cursor-pointer"
+                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[13.5px] font-bold tracking-[0.005em] text-[#173568] hover:bg-[#EAF2FF] active:bg-[#DBEAFE] focus:bg-[#EAF2FF] focus:text-[#0B224D] outline-none transition-colors cursor-pointer"
                                 >
                                     <LayoutDashboard className="!h-[17px] !w-[17px] text-[#2864E8] shrink-0" />
                                     <span>{dashboardLabel}</span>
@@ -841,7 +841,7 @@ export function Header() {
                                         setActiveMenu(null);
                                         await handleLogout();
                                     }}
-                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[14px] font-medium text-[#DC2626] hover:bg-[#FEECEC] active:bg-[#FEE2E2] focus:bg-[#FEECEC] focus:text-[#B91C1C] outline-none transition-colors cursor-pointer"
+                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[13.5px] font-bold tracking-[0.005em] text-[#DC2626] hover:bg-[#FEECEC] active:bg-[#FEE2E2] focus:bg-[#FEECEC] focus:text-[#B91C1C] outline-none transition-colors cursor-pointer"
                                 >
                                     <LogOut className="!h-[17px] !w-[17px] text-[#DC2626] shrink-0" />
                                     <span>Logout</span>

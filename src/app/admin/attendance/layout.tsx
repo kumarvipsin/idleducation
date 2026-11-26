@@ -2,16 +2,8 @@
 
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { Inter } from 'next/font/google';
 import { AttendanceProvider, useAttendance } from '@/context/attendance-context';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  weight: ['300', '400', '500', '600', '700', '800'],
-  display: 'swap',
-});
 
 function ToastContainer() {
   const { toasts, removeToast } = useAttendance();
@@ -72,13 +64,7 @@ function MainAttendanceShell({ children }: { children: React.ReactNode }) {
     pathname?.startsWith('/admin/attendance/subjects');
 
   return (
-    <div
-      className={`${inter.variable} ${inter.className} min-h-[calc(100svh-68px)] flex-1 min-w-0 bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased`}
-      style={{
-        fontFamily: `'Inter', ${inter.style.fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`,
-        ['--font-sans' as string]: `'Inter', ${inter.style.fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`,
-      }}
-    >
+    <div className="min-h-[calc(100svh-68px)] flex-1 min-w-0 bg-[#F8FAFC] dark:bg-slate-950 flex flex-col font-sans text-[#0B224D] dark:text-slate-100 antialiased">
       <div className={`flex-1 min-w-0 overflow-x-hidden ${isEdgeToEdge ? 'p-0' : 'p-4 sm:p-6 lg:p-8'}`}>
         {children}
       </div>

@@ -231,14 +231,9 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
           <div className="w-8 h-8 rounded-lg bg-blue-50/90 dark:bg-blue-950/60 text-[#2864E8] border border-blue-100/80 dark:border-blue-900/60 flex items-center justify-center shrink-0">
             <CreditCard className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
-              Pay Student Fee
-            </h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5">
-              Secure Online Fee Payment via Razorpay
-            </p>
-          </div>
+          <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
+            Pay Student Fee
+          </h3>
         </div>
         {onClose && (
           <button
@@ -291,21 +286,6 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
                 placeholder="e.g. 9990099900"
                 className="w-full h-11 px-3.5 rounded-[5px] border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 focus:bg-white dark:focus:bg-slate-950 text-xs sm:text-[13px] font-mono font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
               />
-            </div>
-
-            {/* Privacy Information Section: Tinted subtle background with soft blue icon container */}
-            <div className="p-2.5 rounded-[5px] bg-blue-50/50 dark:bg-blue-950/25 border border-blue-100/70 dark:border-blue-900/40 flex items-start gap-2.5 leading-relaxed">
-              <div className="w-5 h-5 rounded-[4px] bg-blue-100/70 dark:bg-blue-900/50 text-[#2864E8] flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldCheck className="w-3.5 h-3.5" />
-              </div>
-              <div className="space-y-0.5 min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-800 dark:text-slate-200 block">
-                  YOUR DETAILS ARE SECURE
-                </span>
-                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
-                  Your Admission No. and register number must match to securely access your fee details.
-                </p>
-              </div>
             </div>
 
             {errorMessage && (
