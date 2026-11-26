@@ -224,7 +224,13 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
   };
 
   return (
-    <div className={`bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl p-4 sm:p-5 text-left text-slate-800 dark:text-slate-100 ${isMobile ? 'w-full' : ''}`}>
+    <div
+      className={
+        isMobile
+          ? 'w-full bg-transparent border border-slate-200/55 dark:border-slate-800/80 rounded-xl shadow-none p-3.5 text-left text-slate-800 dark:text-slate-100'
+          : 'bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl p-4 sm:p-5 text-left text-slate-800 dark:text-slate-100'
+      }
+    >
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
         <div className="flex items-center gap-2.5">
@@ -235,7 +241,7 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
             Pay Student Fee
           </h3>
         </div>
-        {onClose && (
+        {onClose && !isMobile && (
           <button
             type="button"
             onClick={onClose}

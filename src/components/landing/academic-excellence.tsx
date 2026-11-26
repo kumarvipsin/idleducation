@@ -120,7 +120,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '99/100' },
         ],
         dreamCollege: 'Science Stream (PCM+CS)',
-        testimonial: 'IDL Education structured test series and mentorship turned complex topics into my strongest strengths.'
+        testimonial: 'IDL’s structured test series and mentorship turned tough concepts into my biggest strengths.'
       },
       {
         id: 'c10-2',
@@ -136,7 +136,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '98/100' },
         ],
         dreamCollege: 'Commerce Stream',
-        testimonial: 'Daily practice papers and immediate doubt solving made board preparation stress-free.'
+        testimonial: 'Daily practice papers and instant doubt solving made my board prep calm and stress-free.'
       },
       {
         id: 'c10-3',
@@ -152,7 +152,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '98/100' },
         ],
         dreamCollege: 'IIT JEE Foundation',
-        testimonial: 'The teachers at IDL never let us leave any concept half-understood. Truly indebted to their support.'
+        testimonial: 'Teachers at IDL never left a single concept unclear—their guidance built my confidence.'
       },
       {
         id: 'c10-4',
@@ -168,7 +168,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Hindi', marks: '97/100' },
         ],
         dreamCollege: 'Medical Stream (PCB)',
-        testimonial: 'The weekly assessments gave me real exam temperament months before the actual boards.'
+        testimonial: 'Weekly assessments and paper reviews gave me real exam readiness well before boards.'
       },
       {
         id: 'c10-5',
@@ -182,7 +182,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Science', marks: '96/100' },
           { name: 'Social Science', marks: '97/100' },
         ],
-        testimonial: 'Consistent revision modules kept all my revision notes crystal clear.'
+        testimonial: 'Consistent revision modules and concise notes kept my entire syllabus crystal clear.'
       },
       {
         id: 'c10-6',
@@ -196,7 +196,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Science', marks: '96/100' },
           { name: 'Social Science', marks: '96/100' },
         ],
-        testimonial: 'Focused doubt-solving sessions resolved every problem step-by-step.'
+        testimonial: 'Step-by-step doubt sessions removed exam fear and helped me stay disciplined all year.'
       }
     ]
   },
@@ -243,7 +243,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Computer Science', marks: '98/100' },
         ],
         dreamCollege: 'IIT Delhi / B.Tech Computer Science',
-        testimonial: 'The conceptual clarity and mock question analysis at IDL Education gave me the winning edge.'
+        testimonial: 'Conceptual clarity and mock analysis at IDL gave me a strong edge for boards and JEE.'
       },
       {
         id: 'c12-2',
@@ -259,7 +259,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Applied Math', marks: '96/100' },
         ],
         dreamCollege: 'SRCC Delhi / B.Com (Hons)',
-        testimonial: 'Solving past 10 years papers with targeted feedback made the difference between 90% and 98%.'
+        testimonial: 'Past-paper drills with targeted teacher feedback pushed my score well past 97%.'
       },
       {
         id: 'c12-3',
@@ -275,7 +275,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '96/100' },
         ],
         dreamCollege: 'BITS Pilani / Mechanical Engg',
-        testimonial: 'IDL’s personalized mentorship guided me whenever I felt overwhelmed with dual board and entrance prep.'
+        testimonial: 'Personalized mentorship and Physics doubt clinics helped me achieve a perfect 100/100.'
       },
       {
         id: 'c12-4',
@@ -291,7 +291,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'History', marks: '95/100' },
         ],
         dreamCollege: 'Lady Shri Ram College / BA Psychology',
-        testimonial: 'Writing skills workshops and structured answer keys elevated my presentation completely.'
+        testimonial: 'Answer-writing workshops and structured reviews completely elevated my exam presentation.'
       },
       {
         id: 'c12-5',
@@ -306,7 +306,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Physics', marks: '95/100' },
         ],
         dreamCollege: 'AIIMS / MBBS',
-        testimonial: 'Rigorous revision drills and teacher encouragement gave me unwavering confidence.'
+        testimonial: 'Rigorous NCERT drills and constant faculty support kept my confidence high all year.'
       },
       {
         id: 'c12-6',
@@ -321,7 +321,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Business Studies', marks: '95/100' },
         ],
         dreamCollege: 'Hansraj College / Economics Hons',
-        testimonial: 'Systematic study schedule created by my mentor kept me consistent throughout the year.'
+        testimonial: 'My mentor’s weekly study schedule kept me consistent and well-prepared for boards.'
       }
     ]
   },
@@ -368,7 +368,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Accountancy', marks: '99.8%ile' },
         ],
         dreamCollege: 'Shri Ram College of Commerce (SRCC)',
-        testimonial: 'Getting into my dream course at SRCC was made possible by IDL’s domain-specific practice modules.'
+        testimonial: 'IDL’s domain practice modules and CBT mocks helped me reach 100%ile and secure SRCC.'
       },
       {
         id: 'cuet-2',
@@ -383,7 +383,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '99.6%ile' },
         ],
         dreamCollege: 'Hindu College, Delhi University',
-        testimonial: 'The computerized mock test interface reflected the actual NTA portal exactly.'
+        testimonial: 'Realistic NTA mock tests and NCERT mastery made Political Science and History my strengths.'
       },
       {
         id: 'cuet-3',
@@ -398,7 +398,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'General Test', marks: '99.4%ile' },
         ],
         dreamCollege: 'Hansraj College / B.Sc Physics',
-        testimonial: 'The General Test reasoning and current affairs capsules were concise and immensely high-yielding.'
+        testimonial: 'Concise General Test capsules and daily MCQ sprints gave me the exact speed for CUET.'
       },
       {
         id: 'cuet-4',
@@ -412,7 +412,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'Mathematics', marks: '99.2%ile' },
         ],
         dreamCollege: 'Banaras Hindu University (BHU)',
-        testimonial: 'Targeted chapterwise speed tests boosted my question accuracy significantly.'
+        testimonial: 'Chapter-wise speed tests and mock reviews boosted my accuracy before exam day.'
       },
       {
         id: 'cuet-5',
@@ -426,7 +426,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'General Test', marks: '98.8%ile' },
         ],
         dreamCollege: 'Jamia Millia Islamia',
-        testimonial: 'Expert faculty guided us on university course preference mapping meticulously.'
+        testimonial: 'Strong coaching and careful course preference guidance made my CUET journey smooth.'
       },
       {
         id: 'cuet-6',
@@ -440,7 +440,7 @@ const RESULTS_DATA: CategoryResultData[] = [
           { name: 'English', marks: '98.4%ile' },
         ],
         dreamCollege: 'Kirori Mal College (KMC)',
-        testimonial: 'Comprehensive study materials saved countless hours searching across textbooks.'
+        testimonial: 'NCERT-aligned revision sheets and regular mock feedback saved hours in the final weeks.'
       }
     ]
   }
@@ -454,6 +454,22 @@ function BarChartIcon({ className }: { className?: string }) {
       <rect x="11.5" y="5" width="3" height="11" rx="1" />
     </svg>
   );
+}
+
+function getStudentMotivation(student: StudentPerformer): string {
+  const firstName = student.name.split(' ')[0] || student.name;
+  const isPercentile = student.score.toLowerCase().includes('ile');
+  const perfectSubject = student.subjects?.find(
+    (s) => s.marks.startsWith('100/') || s.marks.toLowerCase().startsWith('100%')
+  );
+
+  if (isPercentile) {
+    return `Focused prep and consistency earned ${firstName} ${student.score} in ${student.grade}—a proud step toward a bright future.`;
+  }
+  if (perfectSubject) {
+    return `Discipline and clarity earned ${firstName} ${student.score}—including ${perfectSubject.marks} in ${perfectSubject.name}.`;
+  }
+  return `Steady dedication and clarity earned ${firstName} ${student.score} in ${student.grade}—reflecting bright future potential.`;
 }
 
 export function AcademicExcellence() {
@@ -507,17 +523,23 @@ export function AcademicExcellence() {
     }
   }, [activeCategoryIndex, carouselApi]);
 
-  // Lock body scroll and handle Escape key for student profile popup
+  // Lock body & html scroll/overscroll and handle Escape key for student profile popup
   useEffect(() => {
     if (selectedStudent) {
-      const originalOverflow = document.body.style.overflow;
+      const originalBodyOverflow = document.body.style.overflow;
+      const originalHtmlOverflow = document.documentElement.style.overflow;
+      const originalHtmlOverscroll = document.documentElement.style.overscrollBehavior;
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.documentElement.style.overscrollBehavior = 'none';
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') setSelectedStudent(null);
       };
       window.addEventListener('keydown', handleKeyDown);
       return () => {
-        document.body.style.overflow = originalOverflow;
+        document.body.style.overflow = originalBodyOverflow;
+        document.documentElement.style.overflow = originalHtmlOverflow;
+        document.documentElement.style.overscrollBehavior = originalHtmlOverscroll;
         window.removeEventListener('keydown', handleKeyDown);
       };
     }
@@ -847,8 +869,8 @@ export function AcademicExcellence() {
 
                           </div>
 
-                          {/* Bottom Row: View Profile Action + Achievement Badge */}
-                          <div className="mt-3 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                          {/* Bottom Row: View Profile Action */}
+                          <div className="mt-3 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -861,12 +883,6 @@ export function AcademicExcellence() {
                               <span>View Profile</span>
                               <ArrowRight className="w-3.5 h-3.5 sm:w-3 sm:h-3 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                             </button>
-
-                            {student.badge && (
-                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2.5 py-1 sm:py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 shrink-0 truncate max-w-[130px]">
-                                {student.badge}
-                              </span>
-                            )}
                           </div>
 
                         </div>
@@ -904,141 +920,262 @@ export function AcademicExcellence() {
 
       </div>
 
-      {/* ===================== STUDENT PROFILE FLOATING POPUP (PREMIUM IDL DESIGN) ===================== */}
-      {selectedStudent && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-5 md:p-6" 
-          role="dialog" 
-          aria-modal="true"
-          aria-labelledby="student-profile-title"
-        >
-          {/* Dimmed & Blurred Backdrop */}
-          <div 
-            className="absolute inset-0 bg-slate-950/45 backdrop-blur-[3px] transition-opacity" 
-            onClick={() => setSelectedStudent(null)} 
-          />
-          
-          {/* Centered Floating Modal Card */}
+      {/* ===================== STUDENT ACHIEVEMENT PROFILE MODAL ===================== */}
+      {selectedStudent && (() => {
+        const isModalPercentile = selectedStudent.score.toLowerCase().includes('ile');
+        const modalScoreValue = selectedStudent.score.replace('%ile', '').replace('%', '');
+        const motivationalMessage = getStudentMotivation(selectedStudent);
+
+        return (
           <div
-            className="relative w-[92vw] max-w-[460px] sm:max-w-[480px] bg-white dark:bg-slate-950 rounded-[24px] sm:rounded-[26px] shadow-[0_8px_24px_-6px_rgba(11,46,107,0.08),0_20px_56px_-12px_rgba(11,46,107,0.13)] border border-[#D7E4F5] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto my-auto"
-            style={{ animation: 'studentModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+            className="fixed inset-0 z-[100] flex items-center justify-center px-3.5 py-3 md:p-4 overscroll-none"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="student-profile-title"
           >
-            <style dangerouslySetInnerHTML={{ __html: `
-              @keyframes studentModalIn {
-                from { opacity: 0; transform: scale(0.96) translateY(6px); }
-                to   { opacity: 1; transform: scale(1) translateY(0); }
-              }
-            ` }} />
-
-            {/* Close button */}
-            <button
-              type="button"
+            {/* Dimmed & Blurred Backdrop */}
+            <div
+              className="absolute inset-0 bg-slate-950/45 backdrop-blur-[3px] transition-opacity overscroll-none"
               onClick={() => setSelectedStudent(null)}
-              className="absolute top-3 right-3.5 sm:top-4 sm:right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-[#0B2E6B] hover:bg-[#F5F8FD] dark:text-slate-500 dark:hover:text-white dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer"
-              aria-label="Close"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            />
 
-            {/* Header: Student Identity */}
-            <div className="flex items-center justify-between px-5 sm:px-6 pt-5 sm:pt-6 pb-4 sm:pb-5 bg-white dark:bg-slate-950 border-b border-[#E8EFF8] dark:border-slate-800/80 shrink-0 pr-12 sm:pr-14">
-              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0 flex-1">
-                {/* Circular Profile Photo */}
-                <div className="relative w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full shrink-0">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#155EEF]/20 to-[#155EEF]/5 p-[2.5px]">
-                    <div className="w-full h-full rounded-full overflow-hidden bg-[#EAF2FC]">
+            {/* Balanced Compact Minimal White Editorial Modal (mobile-optimized stack, desktop unchanged) */}
+            <div
+              className="relative w-full md:w-[92vw] max-w-[600px] h-auto bg-white dark:bg-slate-950 rounded-2xl shadow-[0_18px_48px_-14px_rgba(10,30,74,0.19)] border border-slate-200/90 dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-1.5rem)] md:max-h-[calc(100dvh-2rem)] flex flex-col pointer-events-auto my-auto overscroll-none"
+              style={{ animation: 'studentModalIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+            >
+              <style dangerouslySetInnerHTML={{ __html: `
+                @keyframes studentModalIn {
+                  from { opacity: 0; transform: scale(0.97) translateY(5px); }
+                  to   { opacity: 1; transform: scale(1) translateY(0); }
+                }
+              ` }} />
+
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setSelectedStudent(null)}
+                className="absolute top-2.5 right-2.5 md:top-3.5 md:right-3.5 z-10 w-7 h-7 rounded-full flex items-center justify-center bg-white/90 md:bg-transparent text-slate-400 hover:text-[#0A1E4A] hover:bg-slate-100 dark:bg-slate-950/90 md:dark:bg-transparent dark:text-slate-500 dark:hover:text-white dark:hover:bg-slate-800 transition-colors duration-200 cursor-pointer"
+                aria-label="Close"
+              >
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+
+              {/* Editorial Body (Smooth mobile scroll if needed; no desktop scroll stretch) */}
+              <div className="overflow-y-auto md:overflow-y-visible overscroll-contain md:overscroll-none p-3.5 sm:p-4 md:p-6">
+
+                {/* ==================== MOBILE LAYOUT (< md) ==================== */}
+                <div className="flex flex-col md:hidden text-left">
+                  {/* Top Row: Larger Photo on Left + Name, Class & Overall Score on Right */}
+                  <div className="grid grid-cols-[128px_minmax(0,1fr)] min-[390px]:grid-cols-[138px_minmax(0,1fr)] sm:grid-cols-[152px_minmax(0,1fr)] gap-3.5 items-center pr-6">
+                    <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-900 ring-1 ring-slate-900/[0.06] dark:ring-white/10 shrink-0">
                       <Image
                         src={selectedStudent.image}
                         alt={selectedStudent.name}
                         fill
                         unoptimized
-                        sizes="68px"
+                        sizes="(max-width: 640px) 138px, 152px"
                         className="object-cover object-top"
                       />
                     </div>
-                  </div>
-                </div>
-                
-                {/* Name & Class */}
-                <div className="min-w-0 text-left">
-                  <h4 id="student-profile-title" className="text-[18px] sm:text-[19px] font-[800] text-[#0A1E4A] dark:text-white leading-tight tracking-[-0.01em]" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                    {selectedStudent.name}
-                  </h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal mt-0.5 tracking-[0.01em]">
-                    {selectedStudent.grade}
-                  </p>
-                </div>
-              </div>
 
-              {/* Percentage on the right in warm yellow badge */}
-              <div className="shrink-0 ml-3 text-right">
-                <div className="px-3 py-1.5 rounded-full bg-[#FEF08A] text-[#0A1E4A] font-[900] text-[16px] sm:text-[18px] leading-none inline-flex items-baseline">
-                  {selectedStudent.score}
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Body */}
-            <div className="px-5 sm:px-6 py-4 sm:py-5 space-y-3.5 sm:space-y-4 overflow-y-auto overscroll-contain text-left">
-              {/* Subject Scores / Breakdown */}
-              {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
-                <div>
-                  <h6 className="text-[10px] sm:text-[10.5px] font-bold text-[#0A1E4A]/70 dark:text-slate-400 uppercase tracking-[0.08em] mb-2 sm:mb-2.5">
-                    Subject Performance
-                  </h6>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
-                    {selectedStudent.subjects.map((sub, i) => (
-                      <div 
-                        key={i} 
-                        className="bg-[#F8FAFD] dark:bg-slate-900/60 px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-slate-800 flex items-center justify-between gap-1.5 sm:gap-2 min-h-[44px] sm:min-h-[46px] transition-colors duration-200 hover:border-[#B4CCE8]"
+                    <div className="min-w-0 flex flex-col justify-center">
+                      <h4
+                        id="student-profile-title"
+                        className="text-[16.5px] min-[390px]:text-[17.5px] font-extrabold text-[#0A1E4A] dark:text-white leading-tight tracking-[-0.02em]"
+                        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
                       >
-                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0A1E4A] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
-                          {sub.name}
+                        {selectedStudent.name}
+                      </h4>
+                      <p className="mt-0.5 text-[11.5px] font-medium text-slate-500 dark:text-slate-400">
+                        {selectedStudent.grade}
+                      </p>
+
+                      <div className="mt-2.5 pt-2 border-t border-slate-200/80 dark:border-slate-800">
+                        <div className="text-[8.5px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                          Overall Score
+                        </div>
+                        <div className="mt-0.5 inline-flex items-baseline leading-none tabular-nums">
+                          <span className="text-[28px] min-[390px]:text-[32px] font-black tracking-[-0.03em] text-[#0A1E4A] dark:text-white">
+                            {modalScoreValue}
+                          </span>
+                          <span className="text-[15px] min-[390px]:text-[17px] font-extrabold text-[#155EEF] dark:text-blue-400 ml-0.5">
+                            {isModalPercentile ? '%ile' : '%'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Motivational Note */}
+                  <p className="mt-3 text-[11.5px] text-slate-600 dark:text-slate-300 leading-[1.48] font-medium border-l-2 border-[#155EEF]/35 pl-2.5">
+                    {motivationalMessage}
+                  </p>
+
+                  {/* Subject Performance (Below Overall Score) */}
+                  {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
+                    <div className="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800">
+                      <h6 className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 mb-1">
+                        Subject Performance
+                      </h6>
+                      <ul className="divide-y divide-slate-100 dark:divide-slate-800/80">
+                        {selectedStudent.subjects.map((sub, i) => (
+                          <li
+                            key={i}
+                            className="py-1.5 flex items-center justify-between gap-2.5"
+                          >
+                            <span className="text-[12px] font-medium text-[#0A1E4A] dark:text-slate-200">
+                              {sub.name}
+                            </span>
+                            <span className="text-[13px] font-extrabold text-[#155EEF] dark:text-blue-400 tabular-nums tracking-tight shrink-0">
+                              {sub.marks}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Student Experience (Below Subject Performance) */}
+                  {selectedStudent.testimonial && (
+                    <div className="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800">
+                      <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                        Student Experience
+                      </div>
+                      <p className="mt-1 text-[11.5px] text-slate-600 dark:text-slate-300 leading-[1.5] italic font-normal">
+                        &ldquo;{selectedStudent.testimonial}&rdquo;
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Target / Accomplishment */}
+                  {selectedStudent.dreamCollege && (
+                    <div className="mt-3 pt-2.5 border-t border-slate-200/80 dark:border-slate-800">
+                      <div className="text-[9px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                        Target / Accomplishment
+                      </div>
+                      <div
+                        className="mt-0.5 text-[13px] font-bold text-[#0A1E4A] dark:text-white leading-snug"
+                        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                      >
+                        {selectedStudent.dreamCollege}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* ==================== DESKTOP LAYOUT (md+, UNCHANGED) ==================== */}
+                <div className="hidden md:grid md:grid-cols-[204px_minmax(0,1fr)] md:gap-6 items-stretch">
+
+                  {/* LEFT SECTION: Student Portrait, Identity & Compact Student Experience */}
+                  <div className="flex flex-col items-start text-left border-r border-slate-200/80 dark:border-slate-800 pr-5">
+                    <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-slate-900 ring-1 ring-slate-900/[0.06] dark:ring-white/10 shrink-0">
+                      <Image
+                        src={selectedStudent.image}
+                        alt={selectedStudent.name}
+                        fill
+                        unoptimized
+                        sizes="184px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+
+                    <div className="mt-3 w-full">
+                      <h4
+                        id="student-profile-title-desktop"
+                        className="text-[18px] font-extrabold text-[#0A1E4A] dark:text-white leading-tight tracking-[-0.02em]"
+                        style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                      >
+                        {selectedStudent.name}
+                      </h4>
+                      <p className="mt-0.5 text-[12.5px] font-medium text-slate-500 dark:text-slate-400">
+                        {selectedStudent.grade}
+                      </p>
+                    </div>
+
+                    {/* Compact Student Experience */}
+                    {selectedStudent.testimonial && (
+                      <div className="mt-3 pt-3 border-t border-slate-200/80 dark:border-slate-800 w-full text-left">
+                        <div className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                          Student Experience
+                        </div>
+                        <p className="mt-1.5 text-[12px] text-slate-600 dark:text-slate-300 leading-[1.55] italic font-normal">
+                          &ldquo;{selectedStudent.testimonial}&rdquo;
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* RIGHT SECTION: Overall Score, Motivation, Subject Marks & Target/Accomplishment */}
+                  <div className="min-w-0 flex flex-col text-left pr-2">
+
+                    {/* Achievement Score & Student-Specific Motivational Message */}
+                    <div>
+                      <div className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                        Overall Score
+                      </div>
+                      <div className="mt-1 inline-flex items-baseline leading-none tabular-nums">
+                        <span className="text-[34px] font-black tracking-[-0.03em] text-[#0A1E4A] dark:text-white">
+                          {modalScoreValue}
                         </span>
-                        <span className="text-[12px] sm:text-[13.5px] font-extrabold text-[#155EEF] shrink-0 text-right tabular-nums tracking-tight">
-                          {sub.marks}
+                        <span className="text-[19px] font-extrabold text-[#155EEF] dark:text-blue-400 ml-0.5">
+                          {isModalPercentile ? '%ile' : '%'}
                         </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
-              {/* Target / Accomplishment */}
-              {selectedStudent.dreamCollege && (
-                <div className="bg-[#FFFDF5] dark:bg-amber-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#FDE68A] text-left">
-                  <div className="text-[9.5px] sm:text-[10px] font-bold text-[#D97706] uppercase tracking-[0.1em] leading-none mb-1.5">
-                    Target / Accomplishment
-                  </div>
-                  <div className="text-[13.5px] sm:text-[14.5px] text-[#0A1E4A] dark:text-slate-100 font-bold leading-snug" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
-                    {selectedStudent.dreamCollege}
-                  </div>
-                </div>
-              )}
-
-              {/* Student Experience */}
-              {selectedStudent.testimonial && (
-                <div className="relative bg-[#F0F6FE] dark:bg-blue-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#CCE3FB] text-left overflow-hidden">
-                  {/* Oversized quotation watermark */}
-                  <div className="absolute top-1 right-2 text-[52px] sm:text-[60px] leading-none font-serif text-[#0A1E4A]/[0.04] select-none pointer-events-none" aria-hidden="true">
-                    &ldquo;
-                  </div>
-                  <div className="relative z-[1]">
-                    <div className="text-[9.5px] sm:text-[10px] font-bold text-[#155EEF] uppercase tracking-[0.1em] leading-none mb-2">
-                      Student Experience
+                      <p className="mt-2 text-[12.5px] text-slate-600 dark:text-slate-300 leading-[1.55] font-medium border-l-2 border-[#155EEF]/35 pl-3">
+                        {motivationalMessage}
+                      </p>
                     </div>
-                    <p className="text-[12px] sm:text-[13px] text-slate-600 dark:text-slate-300 leading-[1.65] italic font-normal">
-                      &ldquo;{selectedStudent.testimonial}&rdquo;
-                    </p>
+
+                    {/* Subject Performance (Clean Plain-White Rows with Subtle Dividers) */}
+                    {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
+                      <div className="mt-3.5 pt-3 border-t border-slate-200/80 dark:border-slate-800">
+                        <h6 className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500 mb-1.5">
+                          Subject Performance
+                        </h6>
+                        <ul className="divide-y divide-slate-100 dark:divide-slate-800/80">
+                          {selectedStudent.subjects.map((sub, i) => (
+                            <li
+                              key={i}
+                              className="py-1.5 flex items-center justify-between gap-3"
+                            >
+                              <span className="text-[13px] font-medium text-[#0A1E4A] dark:text-slate-200">
+                                {sub.name}
+                              </span>
+                              <span className="text-[14.5px] font-extrabold text-[#155EEF] dark:text-blue-400 tabular-nums tracking-tight shrink-0">
+                                {sub.marks}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Target / Accomplishment (Compact Plain Text Section) */}
+                    {selectedStudent.dreamCollege && (
+                      <div className="mt-3.5 pt-3 border-t border-slate-200/80 dark:border-slate-800">
+                        <div className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500">
+                          Target / Accomplishment
+                        </div>
+                        <div
+                          className="mt-1 text-[14px] font-bold text-[#0A1E4A] dark:text-white leading-snug"
+                          style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                        >
+                          {selectedStudent.dreamCollege}
+                        </div>
+                      </div>
+                    )}
+
                   </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ===================== VIEW ALL RESULTS MODAL ===================== */}
       <Dialog open={showAllResultsModal} onOpenChange={setShowAllResultsModal}>

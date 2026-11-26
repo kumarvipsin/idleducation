@@ -163,8 +163,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           <div className="relative z-10 w-full text-center">
             {/* Teacher Name — Centered with comfortable breathing room */}
             <h3 
-              onClick={() => setIsProfileOpen(true)}
-              className="font-extrabold text-[16px] min-[380px]:text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors text-center w-full"
+              className="font-extrabold text-[16px] min-[380px]:text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate text-center w-full select-none"
               title={teacher.name}
             >
               {teacher.name}
@@ -191,18 +190,15 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             </div>
           </div>
 
-          {/* ── CARD FOOTER: View Profile CTA ── */}
+          {/* ── CARD FOOTER: View Profile CTA (temporarily non-interactive) ── */}
           <div className="relative mt-2.5 min-[380px]:mt-3 sm:mt-4 pt-2 min-[380px]:pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
-            {/* View Profile Action */}
-            <button
-              type="button"
-              onClick={() => setIsProfileOpen(true)}
-              aria-label={`View profile of ${teacher.name}`}
-              className="relative z-10 w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[13px] min-[380px]:text-[13.5px] sm:text-[14px] font-bold text-[#155EEF] hover:text-[#0A1E4A] dark:hover:text-blue-400 transition-colors py-0.5 sm:py-1"
+            <div
+              aria-disabled="true"
+              className="relative z-10 w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-default select-none pointer-events-none text-[13px] min-[380px]:text-[13.5px] sm:text-[14px] font-bold text-[#155EEF] py-0.5 sm:py-1"
             >
               <span>View Profile</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[2.4] text-[#155EEF] group-hover/cta:text-[#0A1E4A] dark:group-hover/cta:text-blue-400 group-hover/cta:translate-x-1 transition-all duration-200" />
-            </button>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.4] text-[#155EEF]" />
+            </div>
           </div>
 
           {/* Subtle soft-blue atmospheric wash in lower background — understated, kept strictly below metadata */}

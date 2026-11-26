@@ -307,31 +307,31 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                 return (
                 <CarouselItem key={slide.id} className="min-w-0 shrink-0 grow-0 basis-full pl-0 rounded-none">
                   
-                  {/* Clean Luminous Slide with Left-Aligned Content & Right Integrated Student Visual */}
-                  <div className="relative w-full max-w-full overflow-hidden flex items-center min-h-[500px] sm:min-h-[540px] md:min-h-[560px] lg:min-h-[580px] xl:min-h-[600px] px-4 sm:px-8 md:px-12 lg:px-16 pt-20 min-[380px]:pt-24 sm:pt-28 md:pt-24 lg:pt-14 xl:pt-16 pb-12 sm:pb-16 md:pb-20 lg:pb-0">
+                  {/* Clean Luminous Slide with Left-Aligned Content & Right Integrated Student Visual (Rectangular landscape layout on mobile & desktop) */}
+                  <div className="relative w-full max-w-full overflow-hidden flex items-center min-h-[245px] min-[390px]:min-h-[260px] sm:min-h-[320px] md:min-h-[400px] lg:min-h-[580px] xl:min-h-[600px] px-3.5 min-[390px]:px-4 sm:px-8 md:px-12 lg:px-16 pt-4 sm:pt-7 md:pt-10 lg:pt-14 xl:pt-16 pb-11 min-[390px]:pb-12 sm:pb-14 md:pb-16 lg:pb-0">
                     <LuminousHeroBackground />
 
-                    {/* 2-Column Responsive Layout */}
-                    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10">
+                    {/* 2-Column Side-by-Side Rectangular Layout (Mobile through Desktop) */}
+                    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-row items-center justify-between gap-2 sm:gap-5 md:gap-8 lg:gap-10">
                       
                       {/* LEFT COLUMN: All text & buttons strictly LEFT-ALIGNED */}
                       <div 
                         key={`${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
-                        className="w-full lg:max-w-[58%] xl:max-w-[60%] flex flex-col items-start text-left pt-1 sm:pt-2 lg:pt-0"
+                        className="w-[62%] sm:w-[58%] lg:w-full lg:max-w-[58%] xl:max-w-[60%] flex flex-col items-start text-left relative z-20 pt-0 pb-2 sm:pb-3 lg:pb-0"
                       >
                         
                         {/* 1. Top Pill Badge (if any) */}
                         {slide.badgeTag && (
                           <div className={cn(
-                            "inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-amber-400/50 backdrop-blur-md shadow-[0_0_24px_rgba(251,191,36,0.35)] mb-3 sm:mb-4 transition-all duration-300 cursor-default",
+                            "inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-amber-400/50 backdrop-blur-md shadow-[0_0_24px_rgba(251,191,36,0.35)] mb-1.5 sm:mb-3 lg:mb-4 transition-all duration-300 cursor-default",
                             isActive && "animate-hero-badge"
                           )}>
-                            <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
-                            <span className="text-xs sm:text-[13px] font-bold text-white tracking-wide">
+                            <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300 fill-amber-300" />
+                            <span className="text-[10px] sm:text-xs lg:text-[13px] font-bold text-white tracking-wide">
                               {slide.badgeTag}
                             </span>
                             {slide.badgeYear && (
-                              <span className="text-xs sm:text-[13px] font-black text-amber-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]">
+                              <span className="text-[10px] sm:text-xs lg:text-[13px] font-black text-amber-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]">
                                 {slide.badgeYear}
                               </span>
                             )}
@@ -339,7 +339,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                         )}
 
                         {/* 2. Main Headline (Left Aligned with balanced spacing) */}
-                        <h1 className="text-[26px] min-[360px]:text-[28px] min-[400px]:text-[32px] sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[54px] font-black tracking-tight leading-[1.2] mb-3 sm:mb-4 text-left">
+                        <h1 className="text-[15.5px] min-[360px]:text-[16.5px] min-[390px]:text-[18px] sm:text-3xl md:text-4xl lg:text-[48px] xl:text-[54px] font-black tracking-tight leading-[1.14] lg:leading-[1.2] mb-1.5 sm:mb-2.5 lg:mb-4 text-left">
                           <span className={cn(
                             "block text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]",
                             isActive && "animate-hero-line1"
@@ -347,7 +347,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                             {slide.headlineLine1}
                           </span>
                           <span className={cn(
-                            "block mt-1 sm:mt-1.5 pb-2 sm:pb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8C5] via-[#FFD233] to-[#F59E0B] drop-shadow-[0_2px_16px_rgba(250,204,21,0.45)] font-black",
+                            "block mt-0.5 sm:mt-1 lg:mt-1.5 pb-0.5 sm:pb-1.5 lg:pb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8C5] via-[#FFD233] to-[#F59E0B] drop-shadow-[0_2px_16px_rgba(250,204,21,0.45)] font-black",
                             isActive && "animate-hero-line2"
                           )}>
                             {slide.headlineLine2}
@@ -357,10 +357,10 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                         {/* 3. Supporting Subtitle / Stream Tag (Left Aligned) */}
                         {slide.streamText && (
                           <div className={cn(
-                            "mb-5 sm:mb-7 text-left max-w-xl",
+                            "mb-2.5 sm:mb-4 md:mb-5 lg:mb-7 text-left max-w-xl",
                             isActive && "animate-hero-subtitle"
                           )}>
-                            <p className={slide.streamClass || "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"}>
+                            <p className="text-slate-100/95 font-medium text-[9.5px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base leading-[1.35] sm:leading-normal tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
                               {slide.streamText}
                             </p>
                           </div>
@@ -368,17 +368,17 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
 
                         {/* 4. Two CTA Buttons (Left Aligned) */}
                         <div className={cn(
-                          "flex flex-wrap items-center justify-start gap-3 sm:gap-4",
+                          "flex flex-wrap items-center justify-start gap-1.5 min-[390px]:gap-2 sm:gap-3 lg:gap-4",
                           isActive && "animate-hero-cta"
                         )}>
                           {/* Primary Golden CTA Button */}
                           <button
                             type="button"
                             onClick={() => setIsEnrollOpen(true)}
-                            className="group relative inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-6 sm:px-8 md:px-9 rounded-[5px] bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#D97706] hover:brightness-105 active:scale-95 text-slate-950 font-black text-xs sm:text-sm md:text-base shadow-[0_0_24px_rgba(245,158,11,0.4),0_4px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] border-t border-amber-200/60 transition-all duration-200 cursor-pointer overflow-hidden"
+                            className="group relative inline-flex items-center justify-center gap-1 sm:gap-2 h-[28px] min-[390px]:h-[30px] sm:h-10 md:h-11 lg:h-12 px-2.5 min-[390px]:px-3 sm:px-6 md:px-7 lg:px-9 rounded-[5px] bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#D97706] hover:brightness-105 active:scale-95 text-slate-950 font-black text-[10px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base shadow-[0_0_24px_rgba(245,158,11,0.4),0_4px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] border-t border-amber-200/60 transition-all duration-200 cursor-pointer overflow-hidden whitespace-nowrap"
                           >
                             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-700 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform ease-out pointer-events-none" />
-                            <Zap className="w-4 h-4 fill-slate-950 text-slate-950 shrink-0" />
+                            <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 fill-slate-950 text-slate-950 shrink-0" />
                             <span className="tracking-wide">{slide.buttonText}</span>
                           </button>
 
@@ -386,9 +386,9 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                           <button
                             type="button"
                             onClick={() => setIsBookDemoOpen(true)}
-                            className="inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-5 sm:px-7 md:px-8 rounded-[5px] bg-[#0E3584]/65 hover:bg-[#154AC7]/80 border border-sky-300/50 hover:border-sky-200 text-white font-bold text-xs sm:text-sm md:text-base backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.30)] hover:shadow-[0_0_28px_rgba(59,130,246,0.45)] active:scale-95 transition-all duration-200 cursor-pointer"
+                            className="inline-flex items-center justify-center gap-1 sm:gap-2 h-[28px] min-[390px]:h-[30px] sm:h-10 md:h-11 lg:h-12 px-2 min-[390px]:px-2.5 sm:px-5 md:px-6 lg:px-8 rounded-[5px] bg-[#0E3584]/65 hover:bg-[#154AC7]/80 border border-sky-300/50 hover:border-sky-200 text-white font-bold text-[10px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.30)] hover:shadow-[0_0_28px_rgba(59,130,246,0.45)] active:scale-95 transition-all duration-200 cursor-pointer whitespace-nowrap"
                           >
-                            <Phone className="w-4 h-4 text-cyan-300 shrink-0" />
+                            <Phone className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-cyan-300 shrink-0" />
                             <span>{slide.secondaryButtonText}</span>
                           </button>
                         </div>
@@ -396,11 +396,11 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                       </div>
 
                       {/* RIGHT COLUMN: Naturally Integrated Student Visual (Circle centered behind student & grounded to floor) */}
-                      <div className="w-full lg:max-w-[42%] xl:max-w-[40%] flex items-end justify-center lg:justify-end relative mt-4 sm:mt-6 lg:mt-0 lg:self-end">
+                      <div className="w-[38%] sm:w-[42%] lg:w-full lg:max-w-[42%] xl:max-w-[40%] flex items-end justify-end relative self-end -mr-2 sm:mr-0 -mb-6 sm:-mb-8 md:-mb-10 lg:mb-0">
                         <div 
                           key={`student-${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
                           className={cn(
-                            "relative w-[270px] min-[360px]:w-[290px] sm:w-[330px] md:w-[370px] lg:w-[420px] xl:w-[460px] h-[300px] min-[360px]:h-[320px] sm:h-[360px] md:h-[410px] lg:h-[480px] xl:h-[510px] flex items-end justify-center",
+                            "relative w-[142px] min-[360px]:w-[152px] min-[390px]:w-[166px] sm:w-[235px] md:w-[300px] lg:w-[420px] xl:w-[460px] h-[176px] min-[360px]:h-[188px] min-[390px]:h-[202px] sm:h-[268px] md:h-[340px] lg:h-[480px] xl:h-[510px] flex items-end justify-center shrink-0",
                             isActive && "animate-hero-student"
                           )}
                         >
@@ -408,7 +408,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                           {/* 1. Luminous Stage Halo Circle Perfectly Centered on Student's Head & Torso */}
                           <div 
                             aria-hidden="true" 
-                            className="absolute top-4 min-[360px]:top-6 sm:top-7 md:top-8 lg:top-8 xl:top-9 left-[56%] -translate-x-1/2 w-[260px] min-[360px]:w-[280px] sm:w-[320px] md:w-[360px] lg:w-[410px] xl:w-[430px] h-[260px] min-[360px]:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[410px] xl:h-[430px] rounded-full pointer-events-none"
+                            className="absolute top-2 min-[390px]:top-2.5 sm:top-4 md:top-6 lg:top-8 xl:top-9 left-[56%] -translate-x-1/2 w-[130px] min-[360px]:w-[138px] min-[390px]:w-[152px] sm:w-[215px] md:w-[275px] lg:w-[410px] xl:w-[430px] h-[130px] min-[360px]:h-[138px] min-[390px]:h-[152px] sm:h-[215px] md:h-[275px] lg:h-[410px] xl:h-[430px] rounded-full pointer-events-none"
                             style={{
                               background: 'radial-gradient(circle, rgba(29, 78, 216, 0.55) 0%, rgba(59, 130, 246, 0.28) 55%, transparent 75%)',
                               border: '1.5px solid rgba(147, 197, 253, 0.55)',
@@ -428,7 +428,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                               src={slide.studentImage}
                               alt={slide.studentAlt}
                               fill
-                              sizes="(max-width: 640px) 290px, (max-width: 1024px) 370px, 460px"
+                              sizes="(max-width: 640px) 166px, (max-width: 1024px) 300px, 460px"
                               className="object-contain object-bottom drop-shadow-[0_16px_36px_rgba(0,0,0,0.6)]"
                               priority
                             />
@@ -447,13 +447,13 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
             </CarouselContent>
           </Carousel>
 
-          {/* Bottom Slider Controls: Left Animated Progress Line + Right Circular Outline Buttons */}
-          <div className="absolute bottom-14 sm:bottom-16 lg:bottom-20 left-0 right-0 z-30 pointer-events-auto px-4 sm:px-8 md:px-12 lg:px-16">
-            <div className="max-w-7xl mx-auto flex items-center justify-between sm:justify-start lg:justify-start gap-4 sm:gap-6">
+          {/* Bottom Slider Controls: Left Animated Progress Line + Circular Outline Buttons (positioned cleanly under left text like desktop) */}
+          <div className="absolute bottom-7 min-[390px]:bottom-9 sm:bottom-11 md:bottom-14 lg:bottom-20 left-0 right-0 z-30 pointer-events-auto px-3.5 min-[390px]:px-4 sm:px-8 md:px-12 lg:px-16">
+            <div className="max-w-7xl mx-auto flex items-center justify-start gap-2.5 sm:gap-5 lg:gap-6">
               
               {/* Progress Line Track (Starting to end color fill, transitions slide when full) */}
               <div 
-                className="flex-1 max-w-[180px] min-[360px]:max-w-[220px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[380px] h-[2.5px] sm:h-[3px] bg-white/40 rounded-full overflow-hidden relative shadow-[0_0_6px_rgba(0,0,0,0.5)]"
+                className="flex-1 max-w-[115px] min-[390px]:max-w-[135px] sm:max-w-[230px] md:max-w-[310px] lg:max-w-[380px] h-[2px] sm:h-[2.5px] lg:h-[3px] bg-white/40 rounded-full overflow-hidden relative shadow-[0_0_6px_rgba(0,0,0,0.5)]"
                 aria-label="Slide transition progress"
               >
                 <div 
@@ -463,23 +463,23 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
               </div>
 
               {/* Circular Outline Navigation Buttons (Bina background, only circular outline & shape) */}
-              <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+              <div className="flex items-center gap-1.5 sm:gap-2.5 lg:gap-3 shrink-0">
                 <button
                   type="button"
                   onClick={handlePrev}
                   aria-label="Previous slide"
-                  className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
+                  className="w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
                 >
-                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+                  <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 stroke-[2.2]" />
                 </button>
 
                 <button
                   type="button"
                   onClick={handleNext}
                   aria-label="Next slide"
-                  className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
+                  className="w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
                 >
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+                  <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-5 lg:h-5 stroke-[2.2]" />
                 </button>
               </div>
 
