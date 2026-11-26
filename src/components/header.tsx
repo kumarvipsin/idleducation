@@ -51,8 +51,8 @@ const megaMenuBg = "bg-white shadow-2xl";
 
 const BRANCH_LINKS = [
     { name: "Budh Vihar", area: "A-1/6, Phase -1, Delhi-110086", href: "/branches/budh-vihar", active: true },
-    { name: "Krishna Vihar", area: "Opp. Sec-24 Rohini, Delhi-110086", href: "/branches/krishna-vihar", active: false },
-    { name: "Mangolpuri", area: "Block-D, Delhi-110083", href: "/branches/mangolpuri", active: true },
+    { name: "Krishna Vihar", area: "E-18 Krishan Vihar, Delhi-110086", href: "/branches/krishna-vihar", active: true },
+    { name: "Mangolpuri", area: "D-945 Mangolpuri, Delhi-110083", href: "/branches/mangolpuri", active: true },
     { name: "Mukherjee Nagar", area: "Near Batra Cinema, Delhi-110009", href: "/branches/mukherjee-nagar", active: false },
 ];
 

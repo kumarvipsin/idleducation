@@ -63,16 +63,19 @@ export function OverviewChart() {
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border) / 0.5)" />
         <XAxis
           dataKey="name"
-          stroke="hsl(var(--muted-foreground))"
+          stroke="#334E75"
           fontSize={12}
+          fontWeight={600}
           tickLine={false}
           axisLine={false}
         />
         <YAxis
-          stroke="hsl(var(--muted-foreground))"
+          stroke="#334E75"
           fontSize={12}
+          fontWeight={600}
           tickLine={false}
           axisLine={false}
+          allowDecimals={false}
           tickFormatter={(value) => `${value}`}
         />
         <ChartTooltip
@@ -81,7 +84,7 @@ export function OverviewChart() {
         />
         <Legend 
             iconSize={12} 
-            wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+            wrapperStyle={{ fontSize: '12px', fontWeight: 700, letterSpacing: '0.005em', paddingTop: '10px', color: '#173568' }}
             verticalAlign="top" 
             align="right"
             />

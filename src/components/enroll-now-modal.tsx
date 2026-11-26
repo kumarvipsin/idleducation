@@ -213,6 +213,15 @@ export const isBranchAvailableForCourse = ({
     return branchId === 'mukherjee-nagar' || branchId === 'mangolpuri' || branchId === 'budh-vihar';
   }
 
+  // Check if it's Primary Junior (Classes 1 to 3 — Mangolpuri)
+  const isPrimaryJunior =
+    pTitle.includes('1–8') || pTitle.includes('1-8') ||
+    ['1st', '2nd', '3rd'].some(j => cLevel.includes(j));
+
+  if (isPrimaryJunior) {
+    return branchId === 'mangolpuri';
+  }
+
   // Check if it's Junior Foundation (Classes 4 to 8)
   const isJunior = 
     pTitle.includes('junior') || pTitle.includes('4–8') || pTitle.includes('4-8') ||
@@ -220,7 +229,7 @@ export const isBranchAvailableForCourse = ({
     (allowedClasses && allowedClasses.some(c => ['4th', '5th', '6th', '7th', '8th'].some(j => c.includes(j))));
 
   if (isJunior) {
-    return branchId === 'mangolpuri' || branchId === 'budh-vihar';
+    return branchId === 'mangolpuri' || branchId === 'budh-vihar' || branchId === 'krishan-vihar';
   }
 
   // All other CBSE Board (Class 9, 10, 11, 12) & Commerce are available across all 4 branches

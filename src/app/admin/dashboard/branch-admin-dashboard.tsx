@@ -179,9 +179,12 @@ export function BranchAdminDashboard() {
     normalizedBranchId && normalizedBranchId !== 'all' ? normalizedBranchId : undefined;
 
   const [data, setData] = useState<BranchDashboardPayload | null>(null);
-  const isBudhViharBranch =
-    normalizedBranchId === 'budh-vihar' ||
-    normalizeBranchId(data?.admin?.branchId) === 'budh-vihar';
+  const resolvedBranchId = normalizeBranchId(data?.admin?.branchId);
+  const styledBranchIds = new Set(['budh-vihar', 'krishan-vihar', 'mangolpuri']);
+  const isBudhViharBranch = Boolean(
+    (normalizedBranchId && styledBranchIds.has(normalizedBranchId)) ||
+    (resolvedBranchId && styledBranchIds.has(resolvedBranchId))
+  );
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [busyTeacherId, setBusyTeacherId] = useState<string | null>(null);
@@ -258,6 +261,8 @@ export function BranchAdminDashboard() {
       'users',
       'deniedUsers',
       'sessionBookings',
+      'enrollments',
+      'studentEnquiries',
       'contactSubmissions',
       'updates',
     ] as const;
@@ -411,29 +416,22 @@ export function BranchAdminDashboard() {
         href: '/admin/teachers',
       },
       {
+        title: 'Enroll Students',
+        value: s.totalEnrollments ?? 0,
+        monthly: s.monthlyEnrollments ?? 0,
+        colors: 'from-[#FFE7D6] via-[#FFF0E6] to-[#FFD9BF] border-[#F8BF98] hover:border-[#F0A472] dark:from-orange-950/60 dark:via-orange-950/50 dark:to-orange-900/40 dark:border-orange-800/60',
+        titleClass: 'text-[#7C2D12] dark:text-orange-200',
+        valueClass: 'text-[#551B07] dark:text-white',
+        monthlyClass: 'text-[#C2410C] dark:text-orange-300',
+        href: '/admin/enrollments',
+      },
+      {
         title: 'Approved Students',
         value: s.approvedStudents,
         colors: 'from-[#D4F0FF] via-[#E2F5FF] to-[#C2E9FF] border-[#9CD9FA] hover:border-[#72C5F4] dark:from-sky-950/60 dark:via-sky-950/50 dark:to-sky-900/40 dark:border-sky-800/60',
         titleClass: 'text-[#0E4366] dark:text-sky-200',
         valueClass: 'text-[#072E4A] dark:text-white',
         href: '/admin/users',
-      },
-      {
-        title: 'Deny Users',
-        value: s.deniedUsers,
-        colors: 'from-[#FFDDE2] via-[#FFE6EA] to-[#FFCDD5] border-[#F9B4C0] hover:border-[#F291A3] dark:from-rose-950/60 dark:via-rose-950/50 dark:to-rose-900/40 dark:border-rose-800/60',
-        titleClass: 'text-[#7A1C2E] dark:text-rose-200',
-        valueClass: 'text-[#570E1E] dark:text-white',
-      },
-      {
-        title: 'Free Demo',
-        value: s.totalBookings,
-        monthly: s.monthlyBookings,
-        colors: 'from-[#DFE3FF] via-[#E8EBFF] to-[#D0D6FF] border-[#B4BFFA] hover:border-[#93A3F5] dark:from-indigo-950/60 dark:via-indigo-950/50 dark:to-indigo-900/40 dark:border-indigo-800/60',
-        titleClass: 'text-[#232B74] dark:text-indigo-200',
-        valueClass: 'text-[#151B54] dark:text-white',
-        monthlyClass: 'text-[#3B49C4] dark:text-indigo-300',
-        href: '/admin/demo',
       },
       {
         title: 'Active Users',
@@ -453,6 +451,13 @@ export function BranchAdminDashboard() {
         valueClass: 'text-[#17253B] dark:text-white',
         href: '/admin/users',
       },
+      {
+        title: 'Deny Users',
+        value: s.deniedUsers,
+        colors: 'from-[#FFDDE2] via-[#FFE6EA] to-[#FFCDD5] border-[#F9B4C0] hover:border-[#F291A3] dark:from-rose-950/60 dark:via-rose-950/50 dark:to-rose-900/40 dark:border-rose-800/60',
+        titleClass: 'text-[#7A1C2E] dark:text-rose-200',
+        valueClass: 'text-[#570E1E] dark:text-white',
+      },
     ];
   }, [data]);
 
@@ -460,6 +465,26 @@ export function BranchAdminDashboard() {
     const s = data?.stats;
     if (!s) return [];
     return [
+      {
+        title: 'Student Enquiries',
+        value: s.totalEnquiries ?? 0,
+        monthly: s.monthlyEnquiries ?? 0,
+        colors: 'from-[#FCE0F3] via-[#FDEBF7] to-[#F8CEEA] border-[#F0B0DC] hover:border-[#E68ECA] dark:from-pink-950/60 dark:via-pink-950/50 dark:to-pink-900/40 dark:border-pink-800/60',
+        titleClass: 'text-[#7A1958] dark:text-pink-200',
+        valueClass: 'text-[#520B3A] dark:text-white',
+        monthlyClass: 'text-[#B8257E] dark:text-pink-300',
+        href: '/admin/enquiries',
+      },
+      {
+        title: 'Free Demo',
+        value: s.totalBookings,
+        monthly: s.monthlyBookings,
+        colors: 'from-[#DFE3FF] via-[#E8EBFF] to-[#D0D6FF] border-[#B4BFFA] hover:border-[#93A3F5] dark:from-indigo-950/60 dark:via-indigo-950/50 dark:to-indigo-900/40 dark:border-indigo-800/60',
+        titleClass: 'text-[#232B74] dark:text-indigo-200',
+        valueClass: 'text-[#151B54] dark:text-white',
+        monthlyClass: 'text-[#3B49C4] dark:text-indigo-300',
+        href: '/admin/demo',
+      },
       {
         title: 'Recent Updates',
         value: s.totalUpdates,
@@ -546,7 +571,7 @@ export function BranchAdminDashboard() {
             ))}
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {Array.from({ length: 1 }).map((_, idx) => (
+            {Array.from({ length: 3 }).map((_, idx) => (
               <Skeleton key={idx} className="h-[110px] w-full rounded-[14px]" />
             ))}
           </div>

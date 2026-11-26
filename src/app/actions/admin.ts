@@ -32,9 +32,15 @@ export async function getPendingUsers(narrowBranchId?: string) {
     if (!adminCtx) {
       return { success: false, message: "Unauthorized: Valid administrator session required.", data: [] };
     }
-    const usersQuery = query(collection(db, "users"), where("status", "==", "pending"), orderBy("createdAt", "desc"));
+    const usersQuery = query(collection(db, "users"), where("status", "==", "pending"));
     const querySnapshot = await getDocs(usersQuery);
-    const users = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    const users = querySnapshot.docs
+      .map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }))
+      .sort((a: any, b: any) => {
+        const tA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const tB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+        return tB - tA;
+      });
     const scoped = scopeRecordsToBranchAdmin(users, adminCtx, { narrowBranchId }).filter((u: any) =>
       adminCtx.isBranchAdmin ? String(u.role || '').toLowerCase() !== 'admin' : true
     );

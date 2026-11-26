@@ -571,8 +571,8 @@ async function getBranchScopedCount(
 
 async function getCount(q: any) {
     try {
-        const snapshot = await getCountFromServer(q);
-        return { success: true, count: snapshot.data().count };
+        const snapshot = await getDocs(q);
+        return { success: true, count: snapshot.size };
     } catch (error) {
         console.error("Error getting count from server: ", error);
         return { success: false, message: "Failed to fetch count." };
@@ -687,6 +687,66 @@ export async function getMonthlySessionBookingsCount() {
     return getCount(q);
 }
 
+export async function getTotalEnrollmentsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("enrollments", adminCtx.branchId);
+    }
+    const q = query(collection(db, "enrollments"));
+    return getCount(q);
+}
+
+export async function getMonthlyEnrollmentsCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("enrollments", adminCtx.branchId, (d) => {
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
+
+    const q = query(
+        collection(db, "enrollments"),
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
+    );
+    return getCount(q);
+}
+
+export async function getTotalStudentEnquiriesCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("studentEnquiries", adminCtx.branchId);
+    }
+    const q = query(collection(db, "studentEnquiries"));
+    return getCount(q);
+}
+
+export async function getMonthlyStudentEnquiriesCount() {
+    const now = new Date();
+    const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("studentEnquiries", adminCtx.branchId, (d) => {
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
+
+    const q = query(
+        collection(db, "studentEnquiries"),
+        where("createdAt", ">=", startDate),
+        where("createdAt", "<", endDate)
+    );
+    return getCount(q);
+}
+
 export async function getTotalContactSubmissionsCount() {
     const adminCtx = await getServerAdminContext();
     if (adminCtx?.isBranchAdmin) {
@@ -779,8 +839,17 @@ export async function getMonthlyActiveUsersCount() {
       });
     }
 
-    const q = query(collection(db, "users"), where("status", "==", "approved"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
-    return getCount(q);
+    try {
+      const snap = await getDocs(query(collection(db, "users"), where("status", "==", "approved")));
+      const count = snap.docs.filter((docSnap) => {
+        const dt = toJsDate(docSnap.data().createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      }).length;
+      return { success: true, count };
+    } catch (error) {
+      console.error("Error getting monthly active users count:", error);
+      return { success: false, message: "Failed to fetch count." };
+    }
 }
 
 

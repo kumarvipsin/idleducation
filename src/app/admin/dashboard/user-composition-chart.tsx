@@ -1,7 +1,7 @@
 
 'use client';
 import * as React from 'react';
-import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { getNewStudentsCount, getDeniedUsersCount, getActiveUsersCount, getInactiveUsersCount } from '@/app/actions';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -71,30 +71,37 @@ export function UserCompositionChart() {
   }
 
   return (
-    <ChartContainer config={chartConfig} className="mx-auto aspect-square h-[250px] relative">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
+    <div className="mx-auto aspect-square h-[250px] relative">
+      <ChartContainer config={chartConfig} className="h-full w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
             <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
             <Pie
-                data={data}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={60}
-                strokeWidth={5}
-                >
-            </Pie>
-        </PieChart>
-      </ResponsiveContainer>
-       {total > 0 && (
-            <div
-                className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center text-center"
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={60}
+              strokeWidth={5}
             >
-                <div className="text-2xl font-bold">
-                    {total.toLocaleString()}
-                    <div className="text-sm font-normal text-muted-foreground">Total</div>
-                </div>
+              {data.map((entry) => (
+                <Cell key={entry.name} fill={entry.fill} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+      </ChartContainer>
+      {total > 0 && (
+        <div
+          className="pointer-events-none absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center text-center antialiased"
+        >
+          <div className="text-[28px] font-extrabold leading-[1.12] tracking-[-0.025em] tabular-nums text-[#0B224D] dark:text-white">
+            {total.toLocaleString()}
+            <div className="mt-0.5 text-[12px] font-bold tracking-[0.01em] text-[#475E82] dark:text-slate-400">
+              Total
             </div>
-        )}
-    </ChartContainer>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

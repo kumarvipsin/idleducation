@@ -89,32 +89,42 @@ const AddPostForm = ({ onPostAdded }: { onPostAdded: () => void }) => {
     <>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="add-title" className="text-right">
+          <Label
+            htmlFor="add-title"
+            className="text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200"
+          >
             Title
           </Label>
           <Input
             id="add-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="col-span-3"
+            className="col-span-3 text-[13px] font-medium"
             placeholder="e.g., New Course Available"
           />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="add-description" className="text-right">
+          <Label
+            htmlFor="add-description"
+            className="text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200"
+          >
             Description
           </Label>
           <Textarea
             id="add-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="col-span-3"
+            className="col-span-3 text-[13px] font-medium"
             placeholder="Enter the details of the announcement."
           />
         </div>
       </div>
       <DialogFooter>
-        <Button onClick={handleAddPost} disabled={isSubmitting}>
+        <Button
+          onClick={handleAddPost}
+          disabled={isSubmitting}
+          className="text-xs font-bold tracking-[0.01em]"
+        >
           {isSubmitting ? 'Posting...' : 'Post Update'}
         </Button>
       </DialogFooter>
@@ -146,32 +156,42 @@ const EditPostForm = ({ update, onPostEdited }: { update: Update, onPostEdited: 
      <>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor={`edit-title-${update.id}`} className="text-right">
+          <Label
+            htmlFor={`edit-title-${update.id}`}
+            className="text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200"
+          >
             Title
           </Label>
           <Input
             id={`edit-title-${update.id}`}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="col-span-3"
+            className="col-span-3 text-[13px] font-medium"
             placeholder="e.g., New Course Available"
           />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor={`edit-description-${update.id}`} className="text-right">
+          <Label
+            htmlFor={`edit-description-${update.id}`}
+            className="text-right text-[13px] font-bold tracking-[0.005em] text-[#173568] dark:text-slate-200"
+          >
             Description
           </Label>
           <Textarea
             id={`edit-description-${update.id}`}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="col-span-3"
+            className="col-span-3 text-[13px] font-medium"
             placeholder="Enter the details of the announcement."
           />
         </div>
       </div>
       <DialogFooter>
-        <Button onClick={handleEditPost} disabled={isSubmitting}>
+        <Button
+          onClick={handleEditPost}
+          disabled={isSubmitting}
+          className="text-xs font-bold tracking-[0.01em]"
+        >
           {isSubmitting ? 'Saving...' : 'Save Changes'}
         </Button>
       </DialogFooter>
@@ -237,25 +257,40 @@ export function RecentUpdates() {
     </div>
   );
 
+  const sectionTitleStyle = { wordSpacing: '0.03em' };
+  const sectionTitleClass =
+    'text-[18px] sm:text-[19px] font-extrabold tracking-[-0.015em] leading-snug text-[#173568] dark:text-slate-100';
+  const sectionDescClass =
+    'text-[12.5px] sm:text-[13px] font-medium tracking-[0.005em] leading-snug text-[#475E82] dark:text-slate-400';
+
   return (
     <AlertDialog>
-      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
+      <Card className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 antialiased">
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
-            <CardTitle>Recent Updates</CardTitle>
-            <CardDescription>Latest platform announcements.</CardDescription>
+            <CardTitle style={sectionTitleStyle} className={sectionTitleClass}>
+              Recent Updates
+            </CardTitle>
+            <CardDescription className={sectionDescClass}>
+              Latest platform announcements.
+            </CardDescription>
           </div>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button size="sm">
+              <Button size="sm" className="text-xs font-bold tracking-[0.01em]">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 New Post
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] antialiased">
                 <DialogHeader>
-                <DialogTitle>Create New Post</DialogTitle>
-                <DialogDescription>
+                <DialogTitle
+                  style={sectionTitleStyle}
+                  className="text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100"
+                >
+                  Create New Post
+                </DialogTitle>
+                <DialogDescription className={sectionDescClass}>
                     Add a new update or announcement for all users to see.
                 </DialogDescription>
                 </DialogHeader>
@@ -276,9 +311,16 @@ export function RecentUpdates() {
                           {getIconForTitle(update.title)}
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-sm">{update.title}</h3>
-                        <p className="text-xs text-muted-foreground">{update.description}</p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <h3
+                          style={sectionTitleStyle}
+                          className="text-[13.5px] sm:text-[14px] font-bold tracking-[0.005em] leading-snug text-[#173568] dark:text-slate-100"
+                        >
+                          {update.title}
+                        </h3>
+                        <p className="mt-0.5 text-[12.5px] font-medium leading-relaxed text-[#334E75] dark:text-slate-300">
+                          {update.description}
+                        </p>
+                        <p className="mt-1 text-[11.5px] font-semibold tracking-[0.005em] leading-none text-[#2864E8]/85 dark:text-blue-300">
                           {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                         </p>
                       </div>
@@ -292,16 +334,25 @@ export function RecentUpdates() {
                         <DropdownMenuContent>
                           <Dialog>
                             <DialogTrigger asChild>
-                               <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setEditingUpdate(update)}>
+                               <DropdownMenuItem
+                                  className="text-xs font-semibold"
+                                  onSelect={(e) => e.preventDefault()}
+                                  onClick={() => setEditingUpdate(update)}
+                                >
                                   <Edit className="mr-2 h-4 w-4" />
                                   Edit
                                 </DropdownMenuItem>
                             </DialogTrigger>
                              {editingUpdate && editingUpdate.id === update.id && (
-                               <DialogContent className="sm:max-w-[425px]">
+                               <DialogContent className="sm:max-w-[425px] antialiased">
                                   <DialogHeader>
-                                    <DialogTitle>Edit Post</DialogTitle>
-                                    <DialogDescription>
+                                    <DialogTitle
+                                      style={sectionTitleStyle}
+                                      className="text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100"
+                                    >
+                                      Edit Post
+                                    </DialogTitle>
+                                    <DialogDescription className={sectionDescClass}>
                                       Make changes to your post here. Click save when you're done.
                                     </DialogDescription>
                                   </DialogHeader>
@@ -310,7 +361,11 @@ export function RecentUpdates() {
                             )}
                           </Dialog>
                           <AlertDialogTrigger asChild>
-                            <DropdownMenuItem onSelect={(e) => e.preventDefault()} onClick={() => setDeletingUpdate(update)}>
+                            <DropdownMenuItem
+                              className="text-xs font-semibold"
+                              onSelect={(e) => e.preventDefault()}
+                              onClick={() => setDeletingUpdate(update)}
+                            >
                               <Trash2 className="mr-2 h-4 w-4 text-destructive" />
                               <span className="text-destructive">Delete</span>
                             </DropdownMenuItem>
@@ -321,7 +376,9 @@ export function RecentUpdates() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-muted-foreground py-12">No recent updates.</p>
+                  <p className="py-12 text-center text-[13px] font-semibold tracking-[0.005em] text-[#475E82] dark:text-slate-400">
+                    No recent updates.
+                  </p>
                 )}
               </div>
             )}
@@ -329,16 +386,29 @@ export function RecentUpdates() {
         </CardContent>
       </Card>
 
-      <AlertDialogContent>
+      <AlertDialogContent className="antialiased">
           <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the post titled "<span className="font-semibold">{deletingUpdate?.title}</span>".
+          <AlertDialogTitle
+            style={sectionTitleStyle}
+            className="text-[17px] font-extrabold tracking-[-0.015em] text-[#173568] dark:text-slate-100"
+          >
+            Are you absolutely sure?
+          </AlertDialogTitle>
+          <AlertDialogDescription className={sectionDescClass}>
+              This action cannot be undone. This will permanently delete the post titled &ldquo;<span className="font-bold text-[#0B224D] dark:text-white">{deletingUpdate?.title}</span>&rdquo;.
           </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setDeletingUpdate(null)}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeletePost} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+          <AlertDialogCancel
+            className="text-xs font-bold tracking-[0.01em]"
+            onClick={() => setDeletingUpdate(null)}
+          >
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDeletePost}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 text-xs font-bold tracking-[0.01em]"
+          >
               Delete
           </AlertDialogAction>
           </AlertDialogFooter>

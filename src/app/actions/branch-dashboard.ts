@@ -53,6 +53,10 @@ export interface BranchDashboardPayload {
     deniedUsers: number;
     totalBookings: number;
     monthlyBookings: number;
+    totalEnrollments: number;
+    monthlyEnrollments: number;
+    totalEnquiries: number;
+    monthlyEnquiries: number;
     totalSubmissions: number;
     monthlySubmissions: number;
     totalUpdates: number;
@@ -118,10 +122,12 @@ export async function getBranchDashboardData(narrowBranchId?: string): Promise<{
       return Boolean(dt && dt >= monthStart && dt < nextMonthStart);
     };
 
-    const [usersSnap, deniedSnap, bookingsSnap, contactsSnap, updatesSnap] = await Promise.all([
+    const [usersSnap, deniedSnap, bookingsSnap, enrollmentsSnap, enquiriesSnap, contactsSnap, updatesSnap] = await Promise.all([
       getDocs(collection(db, 'users')),
       getDocs(collection(db, 'deniedUsers')),
       getDocs(collection(db, 'sessionBookings')),
+      getDocs(collection(db, 'enrollments')),
+      getDocs(collection(db, 'studentEnquiries')),
       getDocs(collection(db, 'contactSubmissions')),
       getDocs(collection(db, 'updates')),
     ]);
@@ -136,6 +142,14 @@ export async function getBranchDashboardData(narrowBranchId?: string): Promise<{
     const deniedCount = deniedSnap.docs.filter((d) => recordMatchesBranch(d.data(), branchId)).length;
 
     const branchBookings = bookingsSnap.docs
+      .map((d) => d.data())
+      .filter((raw) => recordMatchesBranch(raw, branchId));
+
+    const branchEnrollments = enrollmentsSnap.docs
+      .map((d) => d.data())
+      .filter((raw) => recordMatchesBranch(raw, branchId));
+
+    const branchEnquiries = enquiriesSnap.docs
       .map((d) => d.data())
       .filter((raw) => recordMatchesBranch(raw, branchId));
 
@@ -274,6 +288,10 @@ export async function getBranchDashboardData(narrowBranchId?: string): Promise<{
           deniedUsers: deniedCount,
           totalBookings: branchBookings.length,
           monthlyBookings: branchBookings.filter((b) => isInCurrentMonth(b.createdAt)).length,
+          totalEnrollments: branchEnrollments.length,
+          monthlyEnrollments: branchEnrollments.filter((e) => isInCurrentMonth(e.createdAt)).length,
+          totalEnquiries: branchEnquiries.length,
+          monthlyEnquiries: branchEnquiries.filter((e) => isInCurrentMonth(e.createdAt)).length,
           totalSubmissions: branchContacts.length,
           monthlySubmissions: branchContacts.filter((c) => isInCurrentMonth(c.createdAt)).length,
           totalUpdates: updates.length,
@@ -290,6 +308,233 @@ export async function getBranchDashboardData(narrowBranchId?: string): Promise<{
   } catch (error) {
     console.error('Error loading branch dashboard data:', error);
     return { success: false, message: 'Failed to load branch dashboard data.' };
+  }
+}
+
+/**
+ * Fetches complete platform-wide dashboard statistics and operational lists
+ * across ALL branches for the currently authenticated Super Administrator.
+ * Uses direct getDocs reads (avoiding Firestore aggregation quota limits and composite index failures).
+ */
+export async function getSuperAdminDashboardData(): Promise<{
+  success: boolean;
+  message?: string;
+  data?: BranchDashboardPayload;
+}> {
+  try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx || !adminCtx.isSuperAdmin) {
+      return { success: false, message: 'Unauthorized: Super administrator session required.' };
+    }
+
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    const { fiscalYearStart, fiscalYearEnd } = getFiscalYearBoundaries(now);
+
+    const isInCurrentMonth = (rawDate: unknown): boolean => {
+      const dt = toJsDate(rawDate);
+      return Boolean(dt && dt >= monthStart && dt < nextMonthStart);
+    };
+
+    const [
+      usersSnap,
+      deniedSnap,
+      bookingsSnap,
+      enrollmentsSnap,
+      enquiriesSnap,
+      contactsSnap,
+      updatesSnap,
+    ] = await Promise.all([
+      getDocs(collection(db, 'users')),
+      getDocs(collection(db, 'deniedUsers')),
+      getDocs(collection(db, 'sessionBookings')),
+      getDocs(collection(db, 'enrollments')),
+      getDocs(collection(db, 'studentEnquiries')),
+      getDocs(collection(db, 'contactSubmissions')),
+      getDocs(collection(db, 'updates')),
+    ]);
+
+    const allUsers = usersSnap.docs.map((d) => ({
+      id: d.id,
+      raw: d.data(),
+      serialized: serializeFirestoreData(d.data()),
+    }));
+
+    const deniedCount = deniedSnap.size;
+    const allBookings = bookingsSnap.docs.map((d) => d.data());
+    const allEnrollments = enrollmentsSnap.docs.map((d) => d.data());
+    const allEnquiries = enquiriesSnap.docs.map((d) => d.data());
+    const allContacts = contactsSnap.docs.map((d) => d.data());
+
+    const allUpdates = updatesSnap.docs
+      .map((d) => ({
+        id: d.id,
+        raw: d.data(),
+        serialized: serializeFirestoreData(d.data()),
+      }))
+      .sort((a, b) => {
+        const tA = toJsDate(a.raw.createdAt)?.getTime() || 0;
+        const tB = toJsDate(b.raw.createdAt)?.getTime() || 0;
+        return tB - tA;
+      });
+
+    const totalUsers = allUsers.length;
+    const totalStudents = allUsers.filter(
+      ({ raw }) => String(raw.role || '').trim().toLowerCase() === 'student'
+    ).length;
+    const totalTeachers = allUsers.filter(
+      ({ raw }) => String(raw.role || '').trim().toLowerCase() === 'teacher'
+    ).length;
+    const approvedStudents = allUsers.filter(({ raw }) => {
+      const role = String(raw.role || '').trim().toLowerCase();
+      const status = String(raw.status || '').trim().toLowerCase();
+      return role === 'student' && (status === 'approved' || status === 'approve');
+    }).length;
+    const activeUsers = allUsers.filter(({ raw }) => {
+      const status = String(raw.status || '').trim().toLowerCase();
+      return status === 'approved' || status === 'approve';
+    }).length;
+    const monthlyActiveUsers = allUsers.filter(({ raw }) => {
+      const status = String(raw.status || '').trim().toLowerCase();
+      return (status === 'approved' || status === 'approve') && isInCurrentMonth(raw.createdAt);
+    }).length;
+    const inactiveUsers = allUsers.filter(
+      ({ raw }) => String(raw.status || '').trim().toLowerCase() === 'inactive'
+    ).length;
+
+    const pendingTeachers: BranchPendingTeacher[] = allUsers
+      .filter(({ raw }) => {
+        const role = String(raw.role || '').trim().toLowerCase();
+        const status = String(raw.status || '').trim().toLowerCase();
+        return role === 'teacher' && status === 'pending';
+      })
+      .sort((a, b) => {
+        const tA = toJsDate(a.raw.createdAt)?.getTime() || 0;
+        const tB = toJsDate(b.raw.createdAt)?.getTime() || 0;
+        return tB - tA;
+      })
+      .map(({ id, serialized }) => ({
+        id,
+        name: String(serialized.name || 'Unnamed Teacher'),
+        email: String(serialized.email || ''),
+        phone: serialized.phone ? String(serialized.phone) : undefined,
+        designation: serialized.designation ? String(serialized.designation) : undefined,
+        experience: serialized.experience ? String(serialized.experience) : undefined,
+        branchId: serialized.branchId,
+        branchName: serialized.branchName,
+        createdAt: serialized.createdAt || null,
+      }));
+
+    // Build Apr-Mar cumulative fiscal year chart series across all branches
+    const monthNames = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+    const monthlyBuckets: Record<
+      string,
+      { newStudents: number; totalUsers: number; totalStudents: number; trainedStudents: number; totalTeachers: number }
+    > = {};
+    for (const m of monthNames) {
+      monthlyBuckets[m] = {
+        newStudents: 0,
+        totalUsers: 0,
+        totalStudents: 0,
+        trainedStudents: 0,
+        totalTeachers: 0,
+      };
+    }
+
+    for (const { raw } of allUsers) {
+      const createdAt = toJsDate(raw.createdAt);
+      if (!createdAt || createdAt < fiscalYearStart || createdAt > fiscalYearEnd) {
+        continue;
+      }
+      const mIdx = createdAt.getMonth();
+      const fiscalMonthName = mIdx >= 3 ? monthNames[mIdx - 3] : monthNames[mIdx + 9];
+      const bucket = monthlyBuckets[fiscalMonthName];
+      if (!bucket) continue;
+
+      const role = String(raw.role || '').trim().toLowerCase();
+      const status = String(raw.status || '').trim().toLowerCase();
+      bucket.totalUsers += 1;
+      if (role === 'student') {
+        bucket.totalStudents += 1;
+        if (status === 'approved' || status === 'approve') {
+          bucket.newStudents += 1;
+          if (Array.isArray(raw.teacherIds) && raw.teacherIds.length > 0) {
+            bucket.trainedStudents += 1;
+          }
+        }
+      } else if (role === 'teacher') {
+        bucket.totalTeachers += 1;
+      }
+    }
+
+    let cumUsers = 0;
+    let cumStudents = 0;
+    let cumTrained = 0;
+    let cumTeachers = 0;
+    const monthlyStats: BranchMonthlyStatPoint[] = monthNames.map((m) => {
+      cumUsers += monthlyBuckets[m].totalUsers;
+      cumStudents += monthlyBuckets[m].totalStudents;
+      cumTrained += monthlyBuckets[m].trainedStudents;
+      cumTeachers += monthlyBuckets[m].totalTeachers;
+      return {
+        name: m,
+        newStudents: monthlyBuckets[m].newStudents,
+        totalUsers: cumUsers,
+        totalStudents: cumStudents,
+        trainedStudents: cumTrained,
+        totalTeachers: cumTeachers,
+      };
+    });
+
+    const updates: BranchUpdateItem[] = allUpdates.map(({ id, serialized }) => ({
+      id,
+      title: String(serialized.title || ''),
+      description: String(serialized.description || ''),
+      branchId: serialized.branchId,
+      branchName: serialized.branchName,
+      createdAt: serialized.createdAt || null,
+    }));
+
+    return {
+      success: true,
+      data: {
+        admin: {
+          uid: adminCtx.uid,
+          name: adminCtx.name,
+          email: adminCtx.email,
+          branchId: 'all',
+          branchName: 'All Branches',
+          branchDisplayName: 'All Branches',
+        },
+        stats: {
+          totalUsers,
+          totalStudents,
+          totalTeachers,
+          approvedStudents,
+          deniedUsers: deniedCount,
+          totalBookings: allBookings.length,
+          monthlyBookings: allBookings.filter((b) => isInCurrentMonth(b.createdAt)).length,
+          totalEnrollments: allEnrollments.length,
+          monthlyEnrollments: allEnrollments.filter((e) => isInCurrentMonth(e.createdAt)).length,
+          totalEnquiries: allEnquiries.length,
+          monthlyEnquiries: allEnquiries.filter((e) => isInCurrentMonth(e.createdAt)).length,
+          totalSubmissions: allContacts.length,
+          monthlySubmissions: allContacts.filter((c) => isInCurrentMonth(c.createdAt)).length,
+          totalUpdates: updates.length,
+          monthlyUpdates: updates.filter((u) => isInCurrentMonth(u.createdAt)).length,
+          activeUsers,
+          monthlyActiveUsers,
+          inactiveUsers,
+        },
+        pendingTeachers,
+        monthlyStats,
+        updates,
+      },
+    };
+  } catch (error) {
+    console.error('Error loading super admin dashboard data:', error);
+    return { success: false, message: 'Failed to load super admin dashboard data.' };
   }
 }
 

@@ -420,7 +420,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(203, 213, 225);
-      doc.text('A-1/6 Budh Vihar, Phase -1, Delhi-110086 | Helpline: +91 9058350731', 14, 21);
+      doc.text('A-1/6 Budh Vihar, Phase -1, Delhi-110086 | Helpline: +91 8860040083', 14, 21);
       doc.text('Official Weekly Class Timetable (Academic Session 2026–2027)', 14, 27);
 
       let y = 42;
@@ -737,8 +737,8 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
   };
 
   const isBudhVihar = branch.id === 'budh-vihar' || branch.slug === 'budh-vihar';
-  const heroPhone = isBudhVihar ? "+91 9058350731" : (branch.altPhone || branch.phone || "+91 9058350731");
-  const heroTel = isBudhVihar ? "+919058350731" : (branch.phone?.replace(/[^0-9+]/g, '') || "+919058350731");
+  const heroPhone = isBudhVihar ? "+91 8860040083" : (branch.altPhone || branch.phone || "+91 8860040083");
+  const heroTel = isBudhVihar ? "+918860040083" : (branch.phone?.replace(/[^0-9+]/g, '') || "+918860040083");
 
   const handleHeroDemoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -2000,7 +2000,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
               <div className="relative w-full max-w-[390px] aspect-[10/10.8] rounded-2xl overflow-hidden border border-slate-200/75 shadow-[0_12px_32px_-12px_rgba(15,23,42,0.12)] bg-slate-100">
                 <Image
                   src="/budhvihar/chandu.png"
-                  alt="Chandra Prakash - Academic Head & Branch Director"
+                  alt="Chandra Prakash - Academic & Branch Director"
                   fill
                   sizes="400px"
                   className="object-cover object-center select-none pointer-events-none"
@@ -2101,7 +2101,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
                     Chandra Prakash
                   </h4>
                   <p className="text-[11px] xl:text-[11.5px] font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-1 leading-snug">
-                    Academic Head &amp; Branch Director
+                    Academic &amp; Branch Director
                   </p>
                 </div>
 
@@ -2118,7 +2118,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
               <div className="relative w-full aspect-[10/10.8] rounded-2xl overflow-hidden border border-slate-200/75 shadow-[0_10px_28px_-12px_rgba(15,23,42,0.12)] bg-slate-100">
                 <Image
                   src="/budhvihar/chandu.png"
-                  alt="Chandra Prakash - Academic Head & Branch Director"
+                  alt="Chandra Prakash - Academic & Branch Director"
                   fill
                   sizes="(max-width: 640px) 268px, 310px"
                   className="object-cover object-center select-none pointer-events-none"
@@ -2133,7 +2133,7 @@ export default function BudhviharBranchClient({ branch }: BranchDetailClientProp
                 Chandra Prakash
               </h3>
               <p className="text-[11px] sm:text-[11.5px] font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-1 leading-snug">
-                Academic Head &amp; Branch Director
+                Academic &amp; Branch Director
               </p>
             </div>
 
