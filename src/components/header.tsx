@@ -30,7 +30,6 @@ import { cn } from "@/lib/utils";
 import { GcsImage } from "./gcs-image";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
-import { PayFeeCard } from "./pay-fee-card";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
@@ -39,10 +38,7 @@ import { Skeleton } from "./ui/skeleton";
 import { formatDistanceToNow } from 'date-fns';
 import { AuthModal } from "./auth-modal";
 import { AdmissionModal } from "./admission-modal";
-import { BookDemoModal } from "./book-demo-modal";
 import { FeedbackModal } from "./feedback-modal";
-import { StudentEnquiryModal } from "./student-enquiry-modal";
-import { ScholarshipModal } from "./scholarship-modal";
 import { ContactModal } from "./contact-modal";
 import { RecentUpdatesModal } from "./recent-updates-modal";
 import { getAllCoursesCategories, type CourseCategory } from "@/app/actions/course-categories";
@@ -519,10 +515,7 @@ export function Header() {
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authDefaultMode, setAuthDefaultMode] = useState<'login' | 'signup'>('login');
     const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
-    const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
     const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
-    const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-    const [isScholarshipOpen, setIsScholarshipOpen] = useState(false);
     const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
 
     // Auto-open updates modal if redirected from /updates or ?updates=open
@@ -538,22 +531,13 @@ export function Header() {
     useEffect(() => {
         if (typeof window === 'undefined') return;
         const handleOpenAdmission = () => setIsAdmissionOpen(true);
-        const handleOpenBookDemo = () => setIsBookDemoOpen(true);
-        const handleOpenEnquiry = () => setIsEnquiryOpen(true);
-        const handleOpenScholarship = () => setIsScholarshipOpen(true);
         const handleOpenContact = () => setIsContactOpen(true);
 
         window.addEventListener('open-admission-modal', handleOpenAdmission);
-        window.addEventListener('open-book-demo-modal', handleOpenBookDemo);
-        window.addEventListener('open-enquiry-modal', handleOpenEnquiry);
-        window.addEventListener('open-scholarship-modal', handleOpenScholarship);
         window.addEventListener('open-contact-modal', handleOpenContact);
 
         return () => {
             window.removeEventListener('open-admission-modal', handleOpenAdmission);
-            window.removeEventListener('open-book-demo-modal', handleOpenBookDemo);
-            window.removeEventListener('open-enquiry-modal', handleOpenEnquiry);
-            window.removeEventListener('open-scholarship-modal', handleOpenScholarship);
             window.removeEventListener('open-contact-modal', handleOpenContact);
         };
     }, []);
@@ -710,11 +694,17 @@ export function Header() {
         },
     ];
 
-    const applyForLinks = [
-        { href: "#", label: "Admission Form", onClick: () => setIsAdmissionOpen(true), icon: FileText, iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60" },
-        { href: "#", label: "Book Free Demo", onClick: () => setIsBookDemoOpen(true), icon: PlayCircle, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
-        { href: "#", label: "Student Enquiry", onClick: () => setIsEnquiryOpen(true), icon: HelpCircle, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
-        { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true), icon: Award, iconColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60" },
+    const applyForLinks: {
+        href: string;
+        label: string;
+        onClick?: () => void;
+        icon: typeof FileText;
+        iconColor: string;
+    }[] = [
+        { href: "/admission", label: "Admission Form", icon: FileText, iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60" },
+        { href: "/book-demo", label: "Book Free Demo", icon: PlayCircle, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
+        { href: "/student-enquiry", label: "Student Enquiry", icon: HelpCircle, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
+        { href: "/scholarship", label: "Scholarship", icon: Award, iconColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60" },
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[14px] font-extrabold tracking-[0.005em] [word-spacing:0.03em] text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8] hover:bg-transparent rounded-none antialiased transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-[#1D4ED8] after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -1138,7 +1128,7 @@ export function Header() {
                                                     handleMouseEnter('apply');
                                                 }
                                             }}
-                                            className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}
+                                            className={cn(navItemClass, (activeMenu === 'apply' || pathname === '/admission' || pathname === '/book-demo' || pathname === '/student-enquiry' || pathname === '/scholarship') && "after:scale-x-100 text-primary")}
                                         >
                                             Apply For
                                         </Button>
@@ -1154,6 +1144,7 @@ export function Header() {
                                                         label={l.label}
                                                         href={l.href}
                                                         onClick={l.onClick}
+                                                        isActive={l.href !== '#' && pathname === l.href}
                                                         onSelect={() => setActiveMenu(null)}
                                                     />
                                                 ))}
@@ -1250,48 +1241,10 @@ export function Header() {
                                     </div>
 
                                     {/* PAY FEE NAV ITEM */}
-                                    <div 
-                                        suppressHydrationWarning
-                                        onMouseEnter={() => handleMouseEnter('pay-fee')}
-                                        onMouseLeave={handleMouseLeave}
-                                        className="h-full flex items-center relative"
-                                    >
-                                        <Button 
-                                            variant="ghost" 
-                                            onClick={() => {
-                                                if (activeMenu === 'pay-fee') {
-                                                    setActiveMenu(null);
-                                                } else {
-                                                    handleMouseEnter('pay-fee');
-                                                }
-                                            }}
-                                            className={cn(navItemClass, (activeMenu === 'pay-fee') && "after:scale-x-100 text-primary")}
-                                        >
-                                            Pay Fee
+                                    <div className="h-full flex items-center">
+                                        <Button asChild variant="ghost" className={cn(navItemClass, pathname === '/pay-fee' && "after:scale-x-100 text-primary")}>
+                                            <Link href="/pay-fee">Pay Fee</Link>
                                         </Button>
-                                        <div 
-                                            suppressHydrationWarning
-                                            onMouseEnter={() => {
-                                                if (menuTimeoutRef.current) {
-                                                    clearTimeout(menuTimeoutRef.current);
-                                                    menuTimeoutRef.current = null;
-                                                }
-                                            }}
-                                            onMouseMove={() => {
-                                                if (menuTimeoutRef.current) {
-                                                    clearTimeout(menuTimeoutRef.current);
-                                                    menuTimeoutRef.current = null;
-                                                }
-                                            }}
-                                            onMouseLeave={handleMouseLeave}
-                                            className={cn(
-                                                "absolute top-full right-0 sm:left-1/2 sm:-translate-x-1/2 transition-all duration-200 ease-in-out z-50 pt-2",
-                                                "w-[94vw] sm:w-[420px] max-w-[430px]",
-                                                activeMenu === 'pay-fee' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
-                                            )}
-                                        >
-                                            <PayFeeCard onClose={() => setActiveMenu(null)} />
-                                        </div>
                                     </div>
 
                                     <div onMouseEnter={() => handleMouseEnter('more')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
@@ -1632,30 +1585,46 @@ export function Header() {
                                             >
                                                 <div className="overflow-hidden min-h-0">
                                                     <div className="ml-1.5 pl-4 border-l-[1.5px] border-[#155EEF]/30 dark:border-blue-500/30 py-0.5 mb-3.5 space-y-0.5">
-                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
-                                                            <button
-                                                                key={label}
-                                                                type="button"
-                                                                suppressHydrationWarning
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    setIsMobileMenuOpen(false);
-                                                                    setTimeout(() => {
-                                                                        if (linkOnClick) {
+                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) =>
+                                                            linkOnClick ? (
+                                                                <button
+                                                                    key={label}
+                                                                    type="button"
+                                                                    suppressHydrationWarning
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        setIsMobileMenuOpen(false);
+                                                                        setTimeout(() => {
                                                                             linkOnClick();
-                                                                        } else if (href && href !== '#') {
-                                                                            router.push(href);
-                                                                        }
-                                                                    }, 100);
-                                                                }}
-                                                                className="touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#173568] dark:text-slate-200 hover:text-[#1D4ED8] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40"
-                                                            >
-                                                                <span className="text-[13.5px] font-semibold tracking-[0.005em] [word-spacing:0.02em] leading-snug truncate">
-                                                                    {label}
-                                                                </span>
-                                                                <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
-                                                            </button>
-                                                        ))}
+                                                                        }, 100);
+                                                                    }}
+                                                                    className="touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#173568] dark:text-slate-200 hover:text-[#1D4ED8] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40"
+                                                                >
+                                                                    <span className="text-[13.5px] font-semibold tracking-[0.005em] [word-spacing:0.02em] leading-snug truncate">
+                                                                        {label}
+                                                                    </span>
+                                                                    <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
+                                                                </button>
+                                                            ) : (
+                                                                <Link
+                                                                    key={label}
+                                                                    href={href}
+                                                                    suppressHydrationWarning
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className={cn(
+                                                                        "touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none",
+                                                                        pathname === href
+                                                                            ? "bg-[#155EEF]/[0.08] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
+                                                                            : "text-[#173568] dark:text-slate-200 hover:text-[#1D4ED8] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40"
+                                                                    )}
+                                                                >
+                                                                    <span className="text-[13.5px] font-semibold tracking-[0.005em] [word-spacing:0.02em] leading-snug truncate">
+                                                                        {label}
+                                                                    </span>
+                                                                    <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
+                                                                </Link>
+                                                            )
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1765,41 +1734,19 @@ export function Header() {
                                         </div>
 
                                         {/* 6. PAY FEE */}
-                                        <div className="flex flex-col">
-                                            <button 
-                                                type="button" 
-                                                onClick={() => {
-                                                    const isCurrentlyOpen = openMobileAccordion === 'pay-fee';
-                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'pay-fee');
-                                                    setOpenMobileSubAccordion(null);
-                                                    setOpenMobileThirdAccordion(null);
-                                                }}
-                                                aria-expanded={openMobileAccordion === 'pay-fee'}
+                                        <div className="flex items-center">
+                                            <Link
+                                                href="/pay-fee"
+                                                onClick={() => setIsMobileMenuOpen(false)}
                                                 className={cn(
-                                                    "touch-manipulation group min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
-                                                    openMobileAccordion === 'pay-fee' 
-                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                    "touch-manipulation min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 cursor-pointer select-none outline-none focus-visible:outline-none",
+                                                    pathname === '/pay-fee'
+                                                        ? "text-[#1D4ED8] dark:text-blue-400"
                                                         : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>Pay Fee</span>
-                                                <span className={cn(
-                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
-                                                    openMobileAccordion === 'pay-fee'
-                                                        ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
-                                                )}>
-                                                    <ChevronDown className={cn(
-                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
-                                                        openMobileAccordion === 'pay-fee' && "rotate-180"
-                                                    )} shapeRendering="geometricPrecision" />
-                                                </span>
-                                            </button>
-                                            {openMobileAccordion === 'pay-fee' && (
-                                                <div className="w-full pt-0.5 pb-4">
-                                                    <PayFeeCard onClose={() => setIsMobileMenuOpen(false)} isMobile />
-                                                </div>
-                                            )}
+                                            </Link>
                                         </div>
 
                                         {/* 7. MORE */}
@@ -1953,24 +1900,9 @@ export function Header() {
                 onOpenChange={setIsAdmissionOpen}
             />
 
-            <BookDemoModal
-                isOpen={isBookDemoOpen}
-                onOpenChange={setIsBookDemoOpen}
-            />
-
             <FeedbackModal
                 isOpen={isFeedbackOpen}
                 onOpenChange={setIsFeedbackOpen}
-            />
-
-            <StudentEnquiryModal
-                isOpen={isEnquiryOpen}
-                onOpenChange={setIsEnquiryOpen}
-            />
-
-            <ScholarshipModal
-                isOpen={isScholarshipOpen}
-                onOpenChange={setIsScholarshipOpen}
             />
 
             <ContactModal

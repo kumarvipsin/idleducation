@@ -9,9 +9,9 @@ export function GetAppSection() {
     <section 
       id="idl-learning-app"
       aria-label="IDL Learning App"
-      className="w-full pt-6 sm:pt-7 md:pt-8 lg:pt-9 pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-white dark:bg-background relative z-10"
+      className="w-full pt-3 sm:pt-4 md:pt-5 lg:pt-6 pb-8 sm:pb-10 md:pb-12 lg:pb-14 bg-white dark:bg-background relative z-10"
     >
-      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-6 max-w-7xl">
+      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl">
         
         {/* Main Section Card: Clean, Calm & Minimal Showcase */}
         <div className="relative rounded-[20px] min-[380px]:rounded-[22px] sm:rounded-[30px] lg:rounded-[32px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 px-4 pt-4 pb-2 min-[380px]:px-5 min-[380px]:pt-4.5 min-[380px]:pb-2.5 sm:px-8 sm:pt-8 sm:pb-9 lg:px-10 lg:py-7 xl:px-12 xl:py-8 overflow-hidden shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] sm:shadow-[0_4px_30px_-6px_rgba(6,43,103,0.04)]">
@@ -69,16 +69,15 @@ export function GetAppSection() {
                 <span>IDL LEARNING APP</span>
               </div>
 
-              {/* Main Headline */}
-              <h2 className="text-[28px] lg:text-[30px] xl:text-[34px] 2xl:text-[38px] font-bold text-[#062B67] dark:text-white leading-[1.16] tracking-tight">
-                Best Exam Prep App{' '}
-                <span className="text-[#0A5CFF] dark:text-blue-400">for</span>
-              </h2>
-
-              {/* Target Exams Subtitle */}
-              <p className="text-[13.5px] xl:text-[15px] font-semibold text-slate-600 dark:text-slate-300 tracking-normal">
-                JEE | NEET | Foundation | Olympiad
-              </p>
+              {/* Main Headline & Target Exams Lockup */}
+              <div className="space-y-1">
+                <h2 className="text-[26px] lg:text-[28px] xl:text-[33px] 2xl:text-[36px] font-[800] text-[#062B67] dark:text-white leading-[1.2] tracking-tight">
+                  Best Exam Prep App for
+                </h2>
+                <p className="text-[16px] lg:text-[17.5px] xl:text-[20px] 2xl:text-[22px] font-[800] text-[#0A5CFF] dark:text-blue-400 tracking-tight leading-snug">
+                  JEE | NEET | Foundation | Olympiad
+                </p>
+              </div>
 
               {/* Download Section with Official Badges */}
               <div className="pt-1.5 w-full">
@@ -140,16 +139,15 @@ export function GetAppSection() {
               </div>
             </div>
 
-            {/* 2. Main Headline */}
-            <h2 className="text-[21px] min-[380px]:text-[23px] sm:text-[26px] font-extrabold text-[#062B67] dark:text-white leading-[1.18] tracking-tight text-left mb-1">
-              Best Exam Prep App{' '}
-              <span className="text-[#0A5CFF] dark:text-blue-400">for</span>
-            </h2>
-
-            {/* 3. Subtitle */}
-            <p className="text-[12.5px] min-[380px]:text-[13.5px] sm:text-[14px] font-bold text-slate-700 dark:text-slate-200 tracking-wide text-left mb-2.5 min-[380px]:mb-3">
-              JEE | NEET | Foundation | Olympiad
-            </p>
+            {/* 2. Main Headline & Target Exams Lockup */}
+            <div className="space-y-0.5 text-left mb-2.5 min-[380px]:mb-3">
+              <h2 className="text-[19px] min-[380px]:text-[21px] sm:text-[25px] font-extrabold text-[#062B67] dark:text-white leading-[1.22] tracking-tight">
+                Best Exam Prep App for
+              </h2>
+              <p className="text-[13.5px] min-[380px]:text-[14.5px] sm:text-[17px] font-extrabold text-[#0A5CFF] dark:text-blue-400 tracking-tight leading-snug">
+                JEE | NEET | Foundation | Olympiad
+              </p>
+            </div>
 
             {/* 4. Download Area with Badges */}
             <div className="w-full">

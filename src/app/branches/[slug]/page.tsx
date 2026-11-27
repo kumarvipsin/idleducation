@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { BRANCHES_DATA, getBranchBySlug } from '@/data/branches-data';
+import { getPublicBranchClassCatalog } from '@/app/actions/fee-management';
 import BranchDetailClient from './branch-detail-client';
+
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -55,5 +58,7 @@ export default async function BranchPage({ params }: PageProps) {
     notFound();
   }
 
-  return <BranchDetailClient branch={branch} />;
+  const catalogRes = await getPublicBranchClassCatalog();
+
+  return <BranchDetailClient branch={branch} initialCatalog={catalogRes.data} />;
 }

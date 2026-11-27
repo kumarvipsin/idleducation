@@ -86,7 +86,7 @@ export default function AboutPage() {
   return (
     <div className="bg-white dark:bg-background">
       {/* 1. WHO WE ARE SECTION — PREMIUM FOCUS + 3D GROWTH-PATH VISUAL */}
-      <section className="relative overflow-hidden pt-6 pb-7 sm:pt-8 sm:pb-9 lg:pt-14 lg:pb-8 bg-gradient-to-b from-[#FFFFFF] via-[#F9FBFE] via-65% to-[#F1F6FD] dark:from-[#070C18] dark:to-[#0B132B] flex items-center">
+      <section className="relative overflow-hidden pt-6 pb-4 sm:pt-8 sm:pb-5 lg:pt-14 lg:pb-6 bg-gradient-to-b from-[#FFFFFF] via-[#F9FBFE] via-65% to-[#FFFFFF] dark:from-[#070C18] dark:to-background flex items-center">
         {/* Subtle Pale-Blue Ambient Wash behind right-side 3D visual */}
         <div
           aria-hidden="true"
@@ -197,8 +197,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 2. MEET OUR FOUNDER HEADER (SEAMLESS TOP MATCH WITH #F1F6FD ABOVE, WHITE BEHIND HEADING & BOTTOM) */}
-      <div className="w-full bg-gradient-to-b from-[#F1F6FD] via-[#FFFFFF] via-40% to-[#FFFFFF] dark:from-[#0B132B] dark:via-background dark:to-background pt-7 sm:pt-7 md:pt-7 pb-5 sm:pb-5">
+      {/* 2. MEET OUR FOUNDER HEADER (PURE WHITE MATCHING MEET OUR TEAM TOP WHITE GAP) */}
+      <div className="w-full bg-white dark:bg-background pt-9 pb-5 sm:pt-12 sm:pb-6 md:pt-14 lg:pt-16 lg:pb-7">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center text-center">
             <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1.5 min-[390px]:mb-2 select-none">
@@ -285,8 +285,24 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. MEET OUR TEAM SECTION — PREMIUM MINIMAL LEADERSHIP SHOWCASE */}
-      <section className="w-full pt-9 pb-10 sm:py-12 md:py-14 lg:py-16 bg-gradient-to-b from-[#FFFFFF] via-[#F6F9FE] via-25% to-[#F8FAFD] md:from-[#F8FAFD] md:via-[#F4F7FC] md:to-[#F8FAFD] dark:from-[#060A12] dark:via-[#090E1A] dark:to-[#060A12] relative overflow-hidden border-b border-slate-200/70 dark:border-slate-800/60">
+      {/* 3. MEET OUR TEAM SECTION — CONTACT US 1ST SECTION VISUAL PARITY */}
+      <section className="w-full pt-9 pb-10 sm:py-12 md:py-14 lg:py-16 bg-gradient-to-b from-[#FFFFFF] via-[#F9FBFE] via-65% to-[#FFFFFF] dark:from-[#070C18] dark:to-background relative overflow-hidden border-b border-slate-200/70 dark:border-slate-800/60">
+        {/* Subtle Pale-Blue Ambient Wash (Matching Contact Us 1st Section) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 58% 54% at 50% 58%, rgba(219, 234, 254, 0.30) 0%, rgba(239, 246, 255, 0.12) 48%, transparent 72%)",
+          }}
+        />
+
+        {/* Restrained Low-Opacity Dot Grid Texture (Matching Contact Us 1st Section) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(#0B1F4B0a_1.2px,transparent_1.2px)] dark:bg-[radial-gradient(#ffffff09_1.2px,transparent_1.2px)] [background-size:24px_24px] pointer-events-none [mask-image:radial-gradient(ellipse_80%_68%_at_50%_56%,#000_34%,transparent_92%)] opacity-50"
+        />
+
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Section Heading & Subtitle (Landing page header style, no underline) */}
           <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-8 md:mb-9 lg:mb-10">
@@ -321,15 +337,15 @@ export default function AboutPage() {
       </section>
 
       {/* 5. CONTACT / CLOSING CTA */}
-      <section className="py-12 sm:py-14 md:py-16 bg-gradient-to-b from-[#FFFFFF] to-[#FAFCFF] dark:from-slate-900/35 dark:to-slate-900/60 border-b border-slate-200/60 dark:border-slate-800/60">
+      <section className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-[#FFFFFF] to-[#FAFCFF] dark:from-slate-900/35 dark:to-slate-900/60 border-b border-slate-200/60 dark:border-slate-800/60">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-2xl">
-          <h2 className="text-[22px] sm:text-[28px] md:text-[32px] font-extrabold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-[1.2]">
-            Let’s Build Better Learning Together.
+          <h2 className="text-[15.5px] min-[360px]:text-[17.5px] min-[390px]:text-[19px] min-[425px]:text-[21px] sm:text-[28px] md:text-[32px] font-extrabold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-[1.2] whitespace-nowrap">
+            Ready to Start Your Learning Journey?
           </h2>
-          <p className="mt-2.5 sm:mt-3 text-[14px] sm:text-[15.5px] text-[#475E82] dark:text-slate-400 font-medium leading-[1.6] mx-auto [text-wrap:balance]">
-            Have questions about our courses or admissions? Reach out to our team.
+          <p className="mt-2 sm:mt-2.5 text-[12px] min-[360px]:text-[12.5px] min-[390px]:text-[13.5px] sm:text-[15.5px] text-[#526789] dark:text-slate-400 font-medium leading-[1.55] mx-auto min-[360px]:whitespace-nowrap">
+            Have questions? Reach out to our team.
           </p>
-          <div className="mt-6 sm:mt-7 grid grid-cols-2 sm:inline-flex items-center justify-center gap-2.5 sm:gap-3.5 max-w-[330px] sm:max-w-none mx-auto">
+          <div className="mt-5 sm:mt-6 grid grid-cols-2 sm:inline-flex items-center justify-center gap-2.5 sm:gap-3.5 max-w-[330px] sm:max-w-none mx-auto">
             <Link
               href="/contact"
               className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-[#0A1E4A] hover:bg-[#122D68] text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_2px_8px_rgba(11,34,77,0.16)] hover:shadow-[0_6px_16px_rgba(11,34,77,0.22)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,box-shadow,transform] duration-200 cursor-pointer"

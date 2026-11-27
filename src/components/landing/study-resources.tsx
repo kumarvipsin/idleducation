@@ -52,7 +52,7 @@ export function StudyResources() {
       aria-label="Study Resources"
       className="w-full idl-section-y scroll-mt-24 bg-white dark:bg-slate-950 relative overflow-hidden"
     >
-      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-8 max-w-[1260px] relative z-10">
+      <div className="w-full md:container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl relative z-10">
 
         {/* ══════════════════════════════════════════════════
             HEADER: "Study Resources"

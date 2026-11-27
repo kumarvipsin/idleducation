@@ -25,6 +25,8 @@ import { toast } from '@/hooks/use-toast';
 interface PayFeeCardProps {
   onClose?: () => void;
   isMobile?: boolean;
+  /** When true, omits the outer floating card wrapper and header for inline page embedding. */
+  embedded?: boolean;
 }
 
 interface StudentData {
@@ -60,8 +62,10 @@ interface SuccessData {
   monthLabel: string;
 }
 
-export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
+export function PayFeeCard({ onClose, isMobile = false, embedded = false }: PayFeeCardProps) {
   const [studentIdInput, setStudentIdInput] = useState('');
+  const [studentNameInput, setStudentNameInput] = useState('');
+  const [fatherNameInput, setFatherNameInput] = useState('');
   const [phoneInput, setPhoneInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [studentData, setStudentData] = useState<StudentData | null>(null);
@@ -69,14 +73,29 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
   const [isPaying, setIsPaying] = useState(false);
   const [successData, setSuccessData] = useState<SuccessData | null>(null);
 
-  // Search student by ID / Roll Number + Registered Primary Phone Number
+  const formatTitleCase = (val: string) =>
+    val.replace(/\b([a-z])/g, char => char.toUpperCase());
+
+  // Search student by Admission No., Student Name, Father Name & Registered Mobile No.
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const queryId = studentIdInput.trim();
+    const queryStudentName = studentNameInput.trim();
+    const queryFatherName = fatherNameInput.trim();
     const queryPhone = phoneInput.trim();
 
     if (!queryId) {
       setErrorMessage('Kripya apna Admission No. enter karein.');
+      return;
+    }
+
+    if (queryStudentName.length < 2) {
+      setErrorMessage('Kripya Student Name enter karein.');
+      return;
+    }
+
+    if (queryFatherName.length < 2) {
+      setErrorMessage('Kripya Father Name enter karein.');
       return;
     }
 
@@ -91,11 +110,16 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
     setSuccessData(null);
 
     try {
-      const res = await lookupStudentForFeePayment(queryId, queryPhone);
+      const res = await lookupStudentForFeePayment(
+        queryId,
+        queryPhone,
+        queryStudentName,
+        queryFatherName
+      );
       if (res.success && res.data) {
         setStudentData(res.data);
       } else {
-        setErrorMessage(res.message || 'Verification fail ho gaya. Kripya Admission No. aur Mobile No. check karein.');
+        setErrorMessage(res.message || 'Verification fail ho gaya. Kripya apni details check karein.');
       }
     } catch (err: any) {
       setErrorMessage(err.message || 'Lookup failed. Kripya dobara try karein.');
@@ -207,6 +231,8 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
     setErrorMessage('');
     setSuccessData(null);
     setStudentIdInput('');
+    setStudentNameInput('');
+    setFatherNameInput('');
     setPhoneInput('');
   };
 
@@ -226,100 +252,152 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
   return (
     <div
       className={
-        isMobile
-          ? 'w-full bg-transparent border border-slate-200/55 dark:border-slate-800/80 rounded-xl shadow-none p-3.5 text-left text-slate-800 dark:text-slate-100'
-          : 'bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl p-4 sm:p-5 text-left text-slate-800 dark:text-slate-100'
+        embedded
+          ? 'w-full text-left text-slate-800 dark:text-slate-100'
+          : isMobile
+            ? 'w-full bg-transparent border border-slate-200/55 dark:border-slate-800/80 rounded-xl shadow-none p-3.5 text-left text-slate-800 dark:text-slate-100'
+            : 'bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-xl p-4 sm:p-5 text-left text-slate-800 dark:text-slate-100'
       }
     >
-      {/* Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-blue-50/90 dark:bg-blue-950/60 text-[#2864E8] border border-blue-100/80 dark:border-blue-900/60 flex items-center justify-center shrink-0">
-            <CreditCard className="w-4 h-4" />
+      {/* Header (omitted when embedded inside dedicated /pay-fee page card) */}
+      {!embedded && (
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-50/90 dark:bg-blue-950/60 text-[#2864E8] border border-blue-100/80 dark:border-blue-900/60 flex items-center justify-center shrink-0">
+              <CreditCard className="w-4 h-4" />
+            </div>
+            <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
+              Pay Student Fee
+            </h3>
           </div>
-          <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
-            Pay Student Fee
-          </h3>
+          {onClose && !isMobile && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-7 h-7 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+              title="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
-        {onClose && !isMobile && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-7 h-7 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-            title="Close"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
-      </div>
+      )}
 
       {/* Main Content Area */}
-      <div className="pt-3 space-y-3">
+      <div className={embedded ? 'space-y-4' : 'pt-3 space-y-3'}>
         {/* Step 1: Input Search Form (Shown when no student data and no success) */}
-        {!studentData && !successData && (
-          <form onSubmit={handleSearch} className="space-y-3">
-            {/* Admission No. */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-200 mb-1">
-                Admission No.
-              </label>
-              <input
-                type="text"
-                value={studentIdInput}
-                onChange={e => {
-                  setStudentIdInput(e.target.value);
-                  if (errorMessage) setErrorMessage('');
-                }}
-                placeholder="e.g. 09112026-102"
-                autoFocus
-                className="w-full h-11 px-3.5 rounded-[5px] border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 focus:bg-white dark:focus:bg-slate-950 text-xs sm:text-[13px] font-mono font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-              />
-            </div>
+        {!studentData && !successData && (() => {
+          const baseInputClass =
+            'h-[42px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-[#7A8CA8] dark:placeholder:text-slate-500 placeholder:font-normal placeholder:normal-case focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#155EEF] focus:shadow-[0_1.5px_0_0_#155EEF] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#155EEF] focus-visible:shadow-[0_1.5px_0_0_#155EEF] shadow-none leading-none transition-[border-color,box-shadow] duration-150';
 
-            {/* Mobile No. */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-200 mb-1">
-                Mobile No.
-              </label>
-              <input
-                type="tel"
-                maxLength={10}
-                value={phoneInput}
-                onChange={e => {
-                  setPhoneInput(e.target.value.replace(/\D/g, ''));
-                  if (errorMessage) setErrorMessage('');
-                }}
-                placeholder="e.g. 9990099900"
-                className="w-full h-11 px-3.5 rounded-[5px] border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40 focus:bg-white dark:focus:bg-slate-950 text-xs sm:text-[13px] font-mono font-medium text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-              />
-            </div>
+          const step1Fields = [
+            {
+              label: 'Admission No.',
+              type: 'text',
+              value: studentIdInput,
+              placeholder: 'Admission No. *',
+              extraClass: '',
+              autoFocus: !embedded,
+              onChange: (val: string) => setStudentIdInput(val),
+            },
+            {
+              label: 'Student Name',
+              type: 'text',
+              value: studentNameInput,
+              placeholder: 'Student Name *',
+              extraClass: 'capitalize',
+              onChange: (val: string) => setStudentNameInput(formatTitleCase(val)),
+            },
+            {
+              label: 'Father Name',
+              type: 'text',
+              value: fatherNameInput,
+              placeholder: 'Father Name *',
+              extraClass: 'capitalize',
+              onChange: (val: string) => setFatherNameInput(formatTitleCase(val)),
+            },
+            {
+              label: 'Mobile No.',
+              type: 'tel',
+              maxLength: 10,
+              value: phoneInput,
+              placeholder: 'Mobile No. *',
+              prefix: '+91',
+              extraClass: 'pl-[44px]',
+              onChange: (val: string) => setPhoneInput(val.replace(/\D/g, '')),
+            },
+          ];
 
-            {errorMessage && (
-              <div className="p-2.5 rounded-[5px] bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2 text-rose-700 dark:text-rose-300 text-xs">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
+          const isFormIncomplete =
+            !studentIdInput.trim() ||
+            studentNameInput.trim().length < 2 ||
+            fatherNameInput.trim().length < 2 ||
+            phoneInput.length < 10;
 
-            <button
-              type="submit"
-              disabled={isLoading || !studentIdInput.trim() || phoneInput.length < 10}
-              className="w-full h-11 rounded-[5px] bg-gradient-to-r from-[#2864E8] to-[#1E4ED8] hover:from-[#1E4ED8] hover:to-[#173EB0] active:scale-[0.99] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_2px_8px_rgba(40,100,232,0.25)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.35)] disabled:from-[#8EAEEF] disabled:to-[#8EAEEF] dark:disabled:from-[#1E3A8A]/70 dark:disabled:to-[#1E3A8A]/70 disabled:text-white/90 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
-                  <span>VERIFYING DETAILS...</span>
-                </>
-              ) : (
-                <>
-                  <ShieldCheck className="w-4 h-4 shrink-0" />
-                  <span>VERIFY & VIEW FEE DETAILS</span>
-                </>
+          return (
+            <form onSubmit={handleSearch} className={embedded ? 'space-y-3.5 sm:space-y-[18px]' : 'space-y-3'}>
+              {step1Fields.map(field => {
+                const inputEl = (
+                  <input
+                    type={field.type}
+                    maxLength={field.maxLength}
+                    value={field.value}
+                    onChange={e => {
+                      field.onChange(e.target.value);
+                      if (errorMessage) setErrorMessage('');
+                    }}
+                    placeholder={field.placeholder}
+                    autoFocus={field.autoFocus}
+                    className={`${baseInputClass} ${field.extraClass}`}
+                  />
+                );
+
+                return (
+                  <div key={field.label} className="text-left">
+                    <label className="sr-only">{field.label}</label>
+                    {field.prefix ? (
+                      <div className="relative h-[42px] w-full flex items-center">
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 pr-2.5 border-r border-slate-200/90 dark:border-slate-700 text-[13.5px] sm:text-[14px] font-semibold text-[#334E7B] dark:text-slate-300 leading-none select-none pointer-events-none">
+                          {field.prefix}
+                        </span>
+                        {inputEl}
+                      </div>
+                    ) : (
+                      inputEl
+                    )}
+                  </div>
+                );
+              })}
+
+              {errorMessage && (
+                <div className="p-2.5 rounded-[5px] bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 flex items-start gap-2 text-rose-700 dark:text-rose-300 text-xs">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
               )}
-            </button>
-          </form>
-        )}
+
+              <div className="pt-1">
+                <button
+                  type="submit"
+                  disabled={isLoading || isFormIncomplete}
+                  className="w-full h-11 rounded-[7px] font-bold text-xs tracking-[0.09em] bg-[#155EEF] hover:bg-[#114FD1] active:bg-[#0D41B5] text-white border border-[#155EEF] shadow-none active:scale-[0.99] transition-[background-color,transform] duration-150 cursor-pointer touch-manipulation flex items-center justify-center gap-2 uppercase disabled:bg-[#8EAEEF] disabled:border-[#8EAEEF] dark:disabled:bg-[#1E3A8A]/70 dark:disabled:border-transparent disabled:text-white/95 disabled:cursor-not-allowed disabled:pointer-events-none"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin shrink-0" />
+                      <span>VERIFYING DETAILS...</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShieldCheck className="w-4 h-4 shrink-0" />
+                      <span>VERIFY & VIEW FEE DETAILS</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          );
+        })()}
 
         {/* Step 2: Student Details & Payment Card */}
         {studentData && !successData && (

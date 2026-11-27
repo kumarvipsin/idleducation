@@ -13,6 +13,7 @@ const freeSessionSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   guardianName: z.string().optional(),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
+  programTitle: z.string().optional(),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email().optional().or(z.literal('')),
   state: z.string().optional(),
@@ -36,9 +37,15 @@ export async function bookFreeSession(data: FreeSessionValues) {
       ? rawMode.charAt(0).toUpperCase() + rawMode.slice(1).toLowerCase()
       : undefined;
     const normalizedBranchId = normalizeBranchId(validation.data.branch || validation.data.nearestBranch);
+    const trimmedTitle = validation.data.programTitle?.trim() || '';
+    const formattedClassCourse = trimmedTitle
+      ? `${validation.data.classCourse} — ${trimmedTitle}`
+      : validation.data.classCourse;
 
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
+      classCourse: formattedClassCourse,
+      ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
       ...(normalizedMode ? { mode: normalizedMode, sessionMode: normalizedMode.toLowerCase() } : {}),
       ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
       country: 'India',
@@ -56,10 +63,12 @@ const scholarshipSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   guardianName: z.string().min(2, { message: "Guardian name is required." }),
   class: z.string().min(1, { message: "Please select a class." }),
+  programTitle: z.string().optional(),
+  subjects: z.string().optional(),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   otp: z.string().optional(),
   country: z.string().optional().default('India'),
-  state: z.string().min(1, { message: "Please select a state." }),
+  state: z.string().optional().default('Delhi'),
   city: z.string().optional(),
   branch: z.string().optional(),
   branchId: z.string().optional(),
@@ -75,9 +84,18 @@ export async function registerForScholarship(data: ScholarshipFormValues) {
     }
 
     try {
+        const trimmedTitle = validation.data.programTitle?.trim() || '';
+        const trimmedSubjects = validation.data.subjects?.trim() || '';
+        const formattedClass = trimmedTitle
+            ? `${validation.data.class} — ${trimmedTitle}`
+            : validation.data.class;
         const normalizedBranchId = normalizeBranchId(validation.data.branchId || validation.data.branch);
+
         await addDoc(collection(db, "scholarshipRegistrations"), {
             ...validation.data,
+            class: formattedClass,
+            ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
+            ...(trimmedSubjects ? { subjects: trimmedSubjects } : {}),
             ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
             createdAt: serverTimestamp(),
         });
@@ -182,8 +200,9 @@ const enquirySchema = z.object({
   studentName: z.string().min(2),
   guardianName: z.string().min(2),
   classCourse: z.string().min(1),
+  programTitle: z.string().optional(),
   mobile: z.string().regex(/^\d{10}$/),
-  state: z.string().min(1),
+  state: z.string().optional().default('Delhi'),
   branch: z.string().optional(),
   mode: z.string().optional(),
   message: z.string().min(2),
@@ -198,8 +217,17 @@ export async function submitStudentEnquiry(data: EnquiryFormValues) {
   }
 
   try {
+    const trimmedTitle = validation.data.programTitle?.trim() || '';
+    const formattedClassCourse = trimmedTitle
+      ? `${validation.data.classCourse} — ${trimmedTitle}`
+      : validation.data.classCourse;
+    const normalizedBranchId = normalizeBranchId(validation.data.branch);
+
     await addDoc(collection(db, "studentEnquiries"), {
       ...validation.data,
+      classCourse: formattedClassCourse,
+      ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
+      ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
       createdAt: serverTimestamp(),
     });
     return { success: true, message: "Your enquiry has been submitted successfully!" };
@@ -258,8 +286,17 @@ export async function submitAdmissionForm(formData: FormData) {
             studentPhotoPath = destination;
         }
         
+        const rawProgram = (rawFormData.program as string || '').trim();
+        const rawClassApplied = (rawFormData.classApplied as string || '').trim();
+        const formattedClassApplied = rawProgram && rawClassApplied && !rawClassApplied.includes(rawProgram)
+            ? `${rawClassApplied} — ${rawProgram}`
+            : rawClassApplied;
+        const normalizedBranchId = normalizeBranchId(admissionData.branch);
+
         await addDoc(collection(db, "admissions"), {
             ...admissionData,
+            classApplied: formattedClassApplied,
+            ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
             studentPhotoUrl: studentPhotoPath,
             createdAt: serverTimestamp(),
             status: 'submitted',

@@ -311,25 +311,25 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     const getFooterHoverClass = (id: TSocialItem['id']) => {
       switch (id) {
         case 'instagram':
-          return 'hover:bg-[#E4405F]/[0.09] hover:border-[#E4405F]/25 hover:text-[#E4405F]';
+          return 'hover:bg-[#E4405F]/[0.18] hover:border-[#E4405F]/45 hover:text-[#FF859D]';
         case 'youtube':
-          return 'hover:bg-[#FF0000]/[0.09] hover:border-[#FF0000]/25 hover:text-[#FF0000]';
+          return 'hover:bg-[#FF0000]/[0.18] hover:border-[#FF0000]/45 hover:text-[#FF7A7A]';
         case 'facebook':
-          return 'hover:bg-[#1877F2]/[0.09] hover:border-[#1877F2]/25 hover:text-[#1877F2]';
+          return 'hover:bg-[#1877F2]/[0.24] hover:border-[#60A5FA]/50 hover:text-[#93C5FD]';
         case 'twitter':
-          return 'hover:bg-[#081A3D]/[0.08] hover:border-[#081A3D]/25 hover:text-[#081A3D] dark:hover:bg-white/[0.1] dark:hover:border-white/25 dark:hover:text-white';
+          return 'hover:bg-white/[0.16] hover:border-white/35 hover:text-white';
       }
     };
 
     return (
-      <div className={cn("mt-3 sm:mt-3.5", className)}>
-        {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081A3D] dark:text-white uppercase tracking-[0.06em] mb-2 border-l-2 border-[#155EEF] dark:border-blue-400 pl-2.5 leading-none py-[2px]">
+      <div className={cn("w-full", className)}>
+        {/* Footer Brand Social Heading */}
+        <h3 className="text-[14px] min-[360px]:text-[14.5px] sm:text-[15px] font-extrabold text-white tracking-[-0.01em] leading-snug mb-2 sm:mb-2.5">
           Follow IDL
         </h3>
 
         {/* Sleek Circular Social Icon Row */}
-        <div className="flex items-center gap-2 pl-2.5">
+        <div className="flex items-center gap-2">
           {footerItems.map((social) => (
             <a
               key={social.id}
@@ -339,13 +339,13 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               aria-label={social.ariaLabel}
               className={cn(
                 "w-8 h-8 rounded-full",
-                "bg-[#0B224D]/[0.045] dark:bg-white/[0.06]",
-                "border border-[#0B224D]/[0.07] dark:border-white/[0.08]",
+                "bg-white/[0.07]",
+                "border border-white/[0.14]",
                 "flex items-center justify-center shrink-0",
-                "text-[#4D6380] dark:text-slate-300",
+                "text-[#D8E5F8]",
                 "transition-[color,background-color,border-color,transform] duration-150 ease-out cursor-pointer",
                 "hover:-translate-y-[1px]",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-1",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#60A5FA]/60 focus-visible:ring-offset-1 focus-visible:ring-offset-[#081A3F]",
                 "active:translate-y-0 active:opacity-85",
                 getFooterHoverClass(social.id)
               )}

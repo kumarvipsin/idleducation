@@ -12,8 +12,6 @@ import {
   ChevronRight,
   ArrowRight,
   Calendar,
-  Check,
-  CheckCircle2,
   Instagram,
   Youtube,
 } from 'lucide-react';
@@ -23,7 +21,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { BRANCHES_DATA, BranchInfo } from '@/data/branches-data';
 import { useToast } from '@/hooks/use-toast';
-import { bookFreeSession, submitStudentEnquiry } from '@/app/actions/forms';
+import { BranchHeroDemoForm } from '@/components/branch-hero-demo-form';
+import type { BranchClassCatalogResult } from '@/lib/branch-courses';
 import { BookDemoModal } from '@/components/book-demo-modal';
 import { AdmissionModal } from '@/components/admission-modal';
 import { StudentEnquiryModal } from '@/components/student-enquiry-modal';
@@ -316,9 +315,10 @@ export const KRISHANVIHAR_TIMETABLE_CONFIG = {
 
 interface BranchDetailClientProps {
   branch: BranchInfo;
+  initialCatalog?: BranchClassCatalogResult;
 }
 
-export default function KrishanviharBranchClient({ branch }: BranchDetailClientProps) {
+export default function KrishanviharBranchClient({ branch, initialCatalog }: BranchDetailClientProps) {
   const { toast } = useToast();
 
   // Modals
@@ -679,33 +679,6 @@ export default function KrishanviharBranchClient({ branch }: BranchDetailClientP
     }
   };
 
-  // Hero Free Demo Booking Form (Krishan Vihar Branch)
-  const [heroDemoMode, setHeroDemoMode] = useState<'' | 'Offline'>('');
-  const [heroStudentName, setHeroStudentName] = useState('');
-  const [heroGuardianName, setHeroGuardianName] = useState('');
-  const [heroMobile, setHeroMobile] = useState('');
-  const [heroClass, setHeroClass] = useState('');
-  const [isHeroSubmitting, setIsHeroSubmitting] = useState(false);
-  const [heroBookedSummary, setHeroBookedSummary] = useState<{
-    studentName: string;
-    classCourse: string;
-  } | null>(null);
-
-  // Hero Student Enquiry Form (Krishan Vihar Branch)
-  const [heroEnqStudentName, setHeroEnqStudentName] = useState('');
-  const [heroEnqGuardianName, setHeroEnqGuardianName] = useState('');
-  const [heroEnqMobile, setHeroEnqMobile] = useState('');
-  const [heroEnqClass, setHeroEnqClass] = useState('');
-  const [heroEnqMessage, setHeroEnqMessage] = useState('');
-  const [isHeroEnqSubmitting, setIsHeroEnqSubmitting] = useState(false);
-  const [heroEnqSummary, setHeroEnqSummary] = useState<{
-    studentName: string;
-    classCourse: string;
-    message: string;
-  } | null>(null);
-
-  const toTitleCase = (str: string) => str.replace(/\b([a-z])/g, (char) => char.toUpperCase());
-
   // FAQ Accordion (all closed by default; opens manually on click)
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
@@ -740,184 +713,6 @@ export default function KrishanviharBranchClient({ branch }: BranchDetailClientP
     branch.slug === 'krishan-vihar';
   const heroPhone = isKrishanVihar ? "+91 8860040070" : (branch.altPhone || branch.phone || "+91 8860040070");
   const heroTel = isKrishanVihar ? "+918860040070" : (branch.phone?.replace(/[^0-9+]/g, '') || "+918860040070");
-
-  const handleHeroDemoSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!heroDemoMode) {
-      toast({
-        title: 'Select Session Mode',
-        description: 'Please select Offline session mode to continue.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (heroStudentName.trim().length < 2) {
-      toast({
-        title: 'Student Name Required',
-        description: 'Please enter the student full name.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (heroGuardianName.trim().length < 2) {
-      toast({
-        title: 'Guardian Name Required',
-        description: 'Please enter parent / guardian name.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (!/^\d{10}$/.test(heroMobile)) {
-      toast({
-        title: 'Valid Mobile Required',
-        description: 'Please enter a valid 10-digit mobile number.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (!heroClass) {
-      toast({
-        title: 'Select Class',
-        description: 'Please select a class / course.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    setIsHeroSubmitting(true);
-    try {
-      const result = await bookFreeSession({
-        mode: heroDemoMode,
-        studentName: heroStudentName.trim(),
-        guardianName: heroGuardianName.trim(),
-        classCourse: heroClass,
-        mobile: heroMobile.trim(),
-        state: 'Delhi',
-        branch: 'Krishan Vihar, Delhi-110086',
-        nearestBranch: 'Krishan Vihar, Delhi-110086',
-        subjects: '',
-        email: '',
-      });
-
-      if (result.success) {
-        setHeroBookedSummary({
-          studentName: heroStudentName.trim(),
-          classCourse: heroClass,
-        });
-        toast({
-          title: 'Free Demo Session Booked!',
-          description: `Your Krishan Vihar Branch demo session is confirmed for ${heroStudentName.trim()}.`,
-        });
-        setHeroDemoMode('');
-        setHeroStudentName('');
-        setHeroGuardianName('');
-        setHeroMobile('');
-        setHeroClass('');
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Submission Failed',
-          description: result.message || 'Failed to book demo session. Please try again.',
-        });
-      }
-    } catch {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again.',
-      });
-    } finally {
-      setIsHeroSubmitting(false);
-    }
-  };
-
-  const handleHeroEnquirySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (heroEnqStudentName.trim().length < 2) {
-      toast({
-        title: 'Student Name Required',
-        description: 'Please enter the student full name.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (heroEnqGuardianName.trim().length < 2) {
-      toast({
-        title: 'Guardian Name Required',
-        description: 'Please enter parent / guardian name.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (!/^\d{10}$/.test(heroEnqMobile)) {
-      toast({
-        title: 'Valid Mobile Required',
-        description: 'Please enter a valid 10-digit mobile number.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (!heroEnqClass) {
-      toast({
-        title: 'Select Class',
-        description: 'Please select a class / course.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    if (heroEnqMessage.trim().length < 2) {
-      toast({
-        title: 'Enquiry Details Required',
-        description: 'Please specify stream, subject(s), or your question.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    setIsHeroEnqSubmitting(true);
-    try {
-      const result = await submitStudentEnquiry({
-        studentName: heroEnqStudentName.trim(),
-        guardianName: heroEnqGuardianName.trim(),
-        classCourse: heroEnqClass,
-        mobile: heroEnqMobile.trim(),
-        state: 'Delhi',
-        branch: 'Krishan Vihar, Delhi-110086',
-        message: heroEnqMessage.trim(),
-      });
-
-      if (result.success) {
-        setHeroEnqSummary({
-          studentName: heroEnqStudentName.trim(),
-          classCourse: heroEnqClass,
-          message: heroEnqMessage.trim(),
-        });
-        toast({
-          title: 'Enquiry Submitted!',
-          description: `Thank you ${heroEnqStudentName.trim()}, our Krishan Vihar counsellor will reach out shortly.`,
-        });
-        setHeroEnqStudentName('');
-        setHeroEnqGuardianName('');
-        setHeroEnqMobile('');
-        setHeroEnqClass('');
-        setHeroEnqMessage('');
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Submission Failed',
-          description: result.message || 'Failed to submit enquiry. Please try again.',
-        });
-      }
-    } catch {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'An unexpected error occurred. Please try again.',
-      });
-    } finally {
-      setIsHeroEnqSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-clip bg-white text-slate-800 antialiased selection:bg-[#142F70]/20 selection:text-[#142F70]">
@@ -1069,190 +864,11 @@ export default function KrishanviharBranchClient({ branch }: BranchDetailClientP
                         transition={{ duration: 0.16, ease: 'easeOut' }}
                         className="flex-1 flex flex-col justify-between"
                       >
-                        {heroBookedSummary ? (
-                          /* Clean Inline Confirmation View (Demo) */
-                          <div className="py-5 text-center space-y-4 my-auto">
-                            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                              <CheckCircle2 className="w-7 h-7" />
-                            </div>
-                            <div>
-                              <h2 className="text-[18px] sm:text-[19px] font-extrabold text-[#173568] tracking-[-0.02em] leading-snug">
-                                Free Demo Session Booked!
-                              </h2>
-                              <p className="text-[13px] text-slate-600 mt-1.5 leading-[1.6]">
-                                Thank you, <span className="font-bold text-[#173568]">{heroBookedSummary.studentName}</span>. Our Krishan Vihar Branch counsellor will contact you shortly.
-                              </p>
-                            </div>
-                            <div className="rounded-xl bg-slate-50/90 border border-slate-200/70 p-3.5 text-left space-y-1.5 text-[12.5px]">
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Branch:</span>
-                                <span className="font-bold text-[#173568]">Krishan Vihar</span>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Mode:</span>
-                                <span className="font-bold text-[#173568]">Offline</span>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Class:</span>
-                                <span className="font-bold text-[#2864E8]">{heroBookedSummary.classCourse}</span>
-                              </div>
-                            </div>
-                            <Button
-                              type="button"
-                              onClick={() => setHeroBookedSummary(null)}
-                              className="w-full h-10 rounded-lg bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold text-[14px] tracking-[0.01em] cursor-pointer"
-                            >
-                              Book Another Demo
-                            </Button>
-                          </div>
-                        ) : (
-                          /* Demo Form (Krishan Vihar Branch) */
-                          <form onSubmit={handleHeroDemoSubmit} className="flex-1 flex flex-col justify-between gap-4 md:gap-3.5" autoComplete="off">
-                            <div className="space-y-3.5 md:space-y-3">
-                              {/* Form Header */}
-                              <div className="text-center pb-0.5">
-                                <h2 className="text-[20px] sm:text-[21px] md:text-[20px] font-extrabold text-[#173568] tracking-[-0.025em] md:tracking-[-0.02em] leading-tight md:leading-snug">
-                                  Book your Free Demo
-                                </h2>
-                              </div>
-
-                              {/* Session Mode Selector: Offline on Left (Unselected by default), Online Disabled on Right */}
-                              <div>
-                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
-                                    Select the Session Mode
-                                  </span>
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-3 md:gap-2.5">
-                                  <button
-                                    type="button"
-                                    onClick={() => setHeroDemoMode(heroDemoMode === 'Offline' ? '' : 'Offline')}
-                                    className={cn(
-                                      "relative h-[42px] md:h-[36px] rounded-[10px] md:rounded-[8px] text-[13.5px] md:text-[12.5px] flex items-center justify-center transition-all duration-150 cursor-pointer select-none",
-                                      heroDemoMode === 'Offline'
-                                        ? "border border-[#2864E8] md:border-[1.5px] bg-[#EEF4FF] md:bg-[#F4F8FF] ring-1 ring-[#2864E8]/15 md:ring-0 font-semibold text-[#173568] shadow-[0_1px_4px_rgba(40,100,232,0.12)] md:shadow-[0_1px_4px_rgba(40,100,232,0.14)]"
-                                        : "border border-slate-200/80 md:border-slate-200/90 bg-[#F8FAFC] md:bg-white font-medium text-[#173568]/85 md:text-slate-700 hover:border-[#2864E8]/45 md:hover:border-[#2864E8]/55 hover:bg-[#F4F8FF]/60 md:hover:bg-slate-50/60"
-                                    )}
-                                  >
-                                    {heroDemoMode === 'Offline' && (
-                                      <span className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-[#2864E8] text-white flex items-center justify-center shadow-sm">
-                                        <Check className="w-2.5 h-2.5 stroke-[3]" />
-                                      </span>
-                                    )}
-                                    Offline
-                                  </button>
-
-                                  <button
-                                    type="button"
-                                    disabled
-                                    className="h-[42px] md:h-[36px] rounded-[10px] md:rounded-[8px] border border-slate-200/60 md:border-slate-200/75 bg-slate-50/70 md:bg-slate-50/80 text-[13.5px] md:text-[12.5px] font-medium text-slate-400/90 md:text-slate-400 cursor-not-allowed flex items-center justify-center select-none opacity-75"
-                                    title="Online demo is currently unavailable"
-                                  >
-                                    Online
-                                  </button>
-                                </div>
-                              </div>
-
-                              {/* Enter Your Details Section */}
-                              <div>
-                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
-                                    Enter Your Details
-                                  </span>
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                </div>
-
-                                <div className="space-y-2.5">
-                                  {/* Student Name */}
-                                  <input
-                                    type="text"
-                                    value={heroStudentName}
-                                    onChange={(e) => setHeroStudentName(toTitleCase(e.target.value))}
-                                    placeholder="Enter Student Full Name *"
-                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-                                  />
-
-                                  {/* Parent / Guardian Name */}
-                                  <input
-                                    type="text"
-                                    value={heroGuardianName}
-                                    onChange={(e) => setHeroGuardianName(toTitleCase(e.target.value))}
-                                    placeholder="Father / Guardian Name *"
-                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-                                  />
-
-                                  {/* Mobile Number (Clean Input Without OTP) */}
-                                  <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
-                                    <span className="pl-3.5 pr-1.5 text-[13.5px] md:text-[12.5px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
-                                      +91
-                                    </span>
-                                    <input
-                                      type="tel"
-                                      maxLength={10}
-                                      value={heroMobile}
-                                      onChange={(e) => setHeroMobile(e.target.value.replace(/\D/g, ''))}
-                                      placeholder="Enter your Mobile Number *"
-                                      className="flex-1 min-w-0 h-full px-1 pr-3.5 bg-transparent text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
-                                    />
-                                  </div>
-
-                                  {/* Single Full-Width Class / Course Dropdown */}
-                                  <div className="relative">
-                                    <select
-                                      value={heroClass}
-                                      onChange={(e) => setHeroClass(e.target.value)}
-                                      className={cn(
-                                        "w-full h-[44px] md:h-[38px] pl-3.5 pr-9 md:pr-8 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium appearance-none focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all cursor-pointer",
-                                        heroClass ? "text-[#173568] md:text-slate-800" : "text-slate-400 md:text-slate-400/90 font-normal"
-                                      )}
-                                    >
-                                      <option value="" disabled>Class / Course *</option>
-                                      {[
-                                        'Class 4',
-                                        'Class 5',
-                                        'Class 6',
-                                        'Class 7',
-                                        'Class 8',
-                                        'Class 9',
-                                        'Class 10',
-                                        'Class 11',
-                                        'Class 12',
-                                      ].map((c) => (
-                                        <option key={c} value={c} className="text-slate-900">
-                                          {c}
-                                        </option>
-                                      ))}
-                                    </select>
-                                    <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 md:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Primary Submit CTA */}
-                            <button
-                              type="submit"
-                              disabled={isHeroSubmitting}
-                              className="w-full h-[46px] md:h-[40px] rounded-[10px] md:rounded-[8px] bg-gradient-to-b from-[#2E6BF0] to-[#235CE0] md:bg-none md:bg-[#2864E8] hover:from-[#2660E4] hover:to-[#1C4FD0] md:hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white font-bold text-[14.5px] md:text-[14px] tracking-[0.01em] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_6px_18px_-4px_rgba(40,100,232,0.38)] md:shadow-[0_4px_14px_-2px_rgba(40,100,232,0.34)] md:hover:shadow-[0_6px_18px_-2px_rgba(40,100,232,0.44)] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-65 mt-auto"
-                            >
-                              {isHeroSubmitting ? (
-                                <>
-                                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                  <span>Booking Session...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <span>Book Free Demo</span>
-                                  <ArrowRight className="w-4 h-4" />
-                                </>
-                              )}
-                            </button>
-                          </form>
-                        )}
+                        <BranchHeroDemoForm
+                          branchValue="Krishan Vihar, Delhi-110086"
+                          branchShortName="Krishan Vihar"
+                          initialCatalog={initialCatalog}
+                        />
                       </motion.div>
                     ) : (
                       <motion.div
@@ -1263,159 +879,12 @@ export default function KrishanviharBranchClient({ branch }: BranchDetailClientP
                         transition={{ duration: 0.16, ease: 'easeOut' }}
                         className="flex-1 flex flex-col justify-between"
                       >
-                        {heroEnqSummary ? (
-                          /* Clean Inline Confirmation View (Enquiry) */
-                          <div className="py-5 text-center space-y-4 my-auto">
-                            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                              <CheckCircle2 className="w-7 h-7" />
-                            </div>
-                            <div>
-                              <h2 className="text-[18px] sm:text-[19px] font-extrabold text-[#173568] tracking-[-0.02em] leading-snug">
-                                Enquiry Submitted!
-                              </h2>
-                              <p className="text-[13px] text-slate-600 mt-1.5 leading-[1.6]">
-                                Thank you, <span className="font-bold text-[#173568]">{heroEnqSummary.studentName}</span>. Our Krishan Vihar Branch counsellor will contact you shortly.
-                              </p>
-                            </div>
-                            <div className="rounded-xl bg-slate-50/90 border border-slate-200/70 p-3.5 text-left space-y-1.5 text-[12.5px]">
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Branch:</span>
-                                <span className="font-bold text-[#173568]">Krishan Vihar</span>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Class:</span>
-                                <span className="font-bold text-[#2864E8]">{heroEnqSummary.classCourse}</span>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <span className="text-slate-500 font-medium">Enquiry:</span>
-                                <span className="font-semibold text-slate-700 truncate max-w-[200px]">{heroEnqSummary.message}</span>
-                              </div>
-                            </div>
-                            <Button
-                              type="button"
-                              onClick={() => setHeroEnqSummary(null)}
-                              className="w-full h-10 rounded-lg bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold text-[14px] tracking-[0.01em] cursor-pointer"
-                            >
-                              Submit Another Enquiry
-                            </Button>
-                          </div>
-                        ) : (
-                          /* Student Enquiry Form (Matching Demo Form UI & Dimensions) */
-                          <form onSubmit={handleHeroEnquirySubmit} className="flex-1 flex flex-col justify-between gap-4 md:gap-3.5" autoComplete="off">
-                            <div className="space-y-3.5 md:space-y-3">
-                              {/* Form Header */}
-                              <div className="text-center pb-0.5">
-                                <h2 className="text-[20px] sm:text-[21px] md:text-[20px] font-extrabold text-[#173568] tracking-[-0.025em] md:tracking-[-0.02em] leading-tight md:leading-snug">
-                                  Student Enquiry
-                                </h2>
-                              </div>
-
-                              {/* Enter Your Details Section */}
-                              <div>
-                                <div className="flex items-center gap-3 md:gap-2.5 mb-2.5 md:mb-2">
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                  <span className="text-[11.5px] font-medium md:font-semibold text-slate-400 md:text-slate-500 tracking-[0.015em] md:tracking-[0.01em]">
-                                    Enter Your Details
-                                  </span>
-                                  <div className="flex-1 h-[1px] bg-slate-200/55 md:bg-slate-200/65" />
-                                </div>
-
-                                <div className="space-y-2.5">
-                                  {/* Student Name */}
-                                  <input
-                                    type="text"
-                                    value={heroEnqStudentName}
-                                    onChange={(e) => setHeroEnqStudentName(toTitleCase(e.target.value))}
-                                    placeholder="Enter Student Full Name *"
-                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-                                  />
-
-                                  {/* Parent / Guardian Name */}
-                                  <input
-                                    type="text"
-                                    value={heroEnqGuardianName}
-                                    onChange={(e) => setHeroEnqGuardianName(toTitleCase(e.target.value))}
-                                    placeholder="Father / Guardian Name *"
-                                    className="w-full h-[44px] md:h-[38px] px-3.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all"
-                                  />
-
-                                  {/* Mobile Number */}
-                                  <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
-                                    <span className="pl-3.5 pr-1.5 text-[13.5px] md:text-[12.5px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
-                                      +91
-                                    </span>
-                                    <input
-                                      type="tel"
-                                      maxLength={10}
-                                      value={heroEnqMobile}
-                                      onChange={(e) => setHeroEnqMobile(e.target.value.replace(/\D/g, ''))}
-                                      placeholder="Enter your Mobile Number *"
-                                      className="flex-1 min-w-0 h-full px-1 pr-3.5 bg-transparent text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
-                                    />
-                                  </div>
-
-                                  {/* Class / Course Dropdown */}
-                                  <div className="relative">
-                                    <select
-                                      value={heroEnqClass}
-                                      onChange={(e) => setHeroEnqClass(e.target.value)}
-                                      className={cn(
-                                        "w-full h-[44px] md:h-[38px] pl-3.5 pr-9 md:pr-8 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium appearance-none focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all cursor-pointer",
-                                        heroEnqClass ? "text-[#173568] md:text-slate-800" : "text-slate-400 md:text-slate-400/90 font-normal"
-                                      )}
-                                    >
-                                      <option value="" disabled>Class / Course *</option>
-                                      {[
-                                        'Class 4',
-                                        'Class 5',
-                                        'Class 6',
-                                        'Class 7',
-                                        'Class 8',
-                                        'Class 9',
-                                        'Class 10',
-                                        'Class 11',
-                                        'Class 12',
-                                      ].map((c) => (
-                                        <option key={c} value={c} className="text-slate-900">
-                                          {c}
-                                        </option>
-                                      ))}
-                                    </select>
-                                    <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 md:right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                  </div>
-
-                                  {/* Enquiry / Stream / Subject Message */}
-                                  <textarea
-                                    rows={2}
-                                    value={heroEnqMessage}
-                                    onChange={(e) => setHeroEnqMessage(e.target.value)}
-                                    placeholder="Stream, Subject(s) or Enquiry Message *"
-                                    className="w-full h-[66px] md:h-[60px] px-3.5 py-2.5 rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus:bg-white text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:border-[#2864E8] focus:ring-2 focus:ring-[#2864E8]/15 transition-all resize-none leading-snug"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Primary Submit CTA */}
-                            <button
-                              type="submit"
-                              disabled={isHeroEnqSubmitting}
-                              className="w-full h-[46px] md:h-[40px] rounded-[10px] md:rounded-[8px] bg-gradient-to-b from-[#2E6BF0] to-[#235CE0] md:bg-none md:bg-[#2864E8] hover:from-[#2660E4] hover:to-[#1C4FD0] md:hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white font-bold text-[14.5px] md:text-[14px] tracking-[0.01em] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_6px_18px_-4px_rgba(40,100,232,0.38)] md:shadow-[0_4px_14px_-2px_rgba(40,100,232,0.34)] md:hover:shadow-[0_6px_18px_-2px_rgba(40,100,232,0.44)] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-65 mt-auto"
-                            >
-                              {isHeroEnqSubmitting ? (
-                                <>
-                                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                  <span>Submitting...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <span>Submit Enquiry</span>
-                                  <ArrowRight className="w-4 h-4" />
-                                </>
-                              )}
-                            </button>
-                          </form>
-                        )}
+                        <BranchHeroDemoForm
+                          formKind="enquiry"
+                          branchValue="Krishan Vihar, Delhi-110086"
+                          branchShortName="Krishan Vihar"
+                          initialCatalog={initialCatalog}
+                        />
                       </motion.div>
                     )}
                   </AnimatePresence>

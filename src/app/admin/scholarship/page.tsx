@@ -18,6 +18,9 @@ interface Registration {
   studentName: string;
   guardianName: string;
   class: string;
+  programTitle?: string;
+  subjects?: string;
+  message?: string;
   mobile: string;
   mode?: string;
   state?: string;
@@ -149,9 +152,13 @@ export default function AdminScholarshipPage() {
     return '—';
   };
 
-  const formatLocationLabel = (reg: Registration) => {
-    const parts = [reg.city, reg.state].filter((p) => Boolean(p && p.trim()));
-    return parts.length > 0 ? parts.join(', ') : 'N/A';
+  const formatDetailsLabel = (reg: Registration) => {
+    const details: string[] = [];
+    if (reg.subjects && reg.subjects.trim()) details.push(reg.subjects.trim());
+    if (reg.message && reg.message.trim()) details.push(`Score: ${reg.message.trim()}`);
+    if (details.length > 0) return details.join(' • ');
+    const legacy = [reg.city, reg.state].filter((p) => Boolean(p && p.trim()));
+    return legacy.length > 0 ? legacy.join(', ') : '—';
   };
 
   const renderSkeleton = () => (
@@ -216,7 +223,7 @@ export default function AdminScholarshipPage() {
                   <TableHead className="hidden md:table-cell">Class</TableHead>
                   <TableHead className="hidden lg:table-cell">Mobile</TableHead>
                   <TableHead>Branch</TableHead>
-                  <TableHead className="hidden xl:table-cell">State / City</TableHead>
+                  <TableHead className="hidden xl:table-cell">Subjects / Score</TableHead>
                   <TableHead>Submission Date</TableHead>
                 </TableRow>
               </TableHeader>
@@ -240,7 +247,7 @@ export default function AdminScholarshipPage() {
                           {formatBranchLabel(reg)}
                         </span>
                       </TableCell>
-                      <TableCell className="hidden xl:table-cell">{formatLocationLabel(reg)}</TableCell>
+                      <TableCell className="hidden xl:table-cell">{formatDetailsLabel(reg)}</TableCell>
                       <TableCell>
                         {reg.createdAt ? format(new Date(reg.createdAt), 'PPp') : 'N/A'}
                       </TableCell>

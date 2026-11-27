@@ -3,6 +3,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 import { db } from '@/lib/firebase';
 import {
   collection,
@@ -50,6 +51,10 @@ import {
 } from '@/lib/fee-ledger-sync';
 import { getServerAdminContext } from '@/lib/server-admin-auth';
 import { normalizeBranchId } from '@/lib/branch-utils';
+import {
+  buildBranchClassCatalog,
+  type BranchClassCatalogResult,
+} from '@/lib/branch-courses';
 
 async function resolveEffectiveFeeBranch(requestedBranchId?: string): Promise<string | undefined> {
   const adminCtx = await getServerAdminContext();
@@ -349,11 +354,26 @@ function readResetBackupFile(): FeeResetBackupFile | null {
   }
 }
 
+function revalidatePublicClassRoutes(): void {
+  try {
+    revalidatePath('/book-demo');
+    revalidatePath('/student-enquiry');
+    revalidatePath('/scholarship');
+    revalidatePath('/admission');
+    revalidatePath('/branches/[slug]', 'page');
+  } catch {
+    // Non-fatal outside request lifecycle (e.g. CLI scripts)
+  }
+}
+
 async function saveDatabase(
   data: FeeDatabase,
   dirtyKeys?: readonly (typeof FEE_DB_DOC_KEYS)[number][]
 ): Promise<void> {
   const normalized = await persistDatabaseToFirestore(data, dirtyKeys);
+  if (!dirtyKeys || dirtyKeys.includes('classes')) {
+    revalidatePublicClassRoutes();
+  }
   // Keep local JSON mirror only as non-fatal dev convenience; deployed App Hosting containers can have read-only/ephemeral FS.
   try {
     writeJsonAtomic(DB_PATH, normalized);
@@ -553,6 +573,36 @@ function isEmptyBranchSelection(branchId?: string): boolean {
 // =============================================================
 // 1. CLASSES MANAGEMENT
 // =============================================================
+
+/**
+ * Public, PII-free reader that returns only active class/course labels per branch
+ * directly from Firestore (`feeManagement/classes`) so public forms such as
+ * `/book-demo` stay automatically synced with Admin Class Management edits.
+ */
+export async function getPublicBranchClassCatalog(): Promise<{
+  success: boolean;
+  data: BranchClassCatalogResult;
+}> {
+  noStore();
+  let rawClasses: FeeClass[] = [];
+
+  try {
+    const snap = await getDoc(doc(db, FEE_DB_COLLECTION, 'classes'));
+    if (snap.exists() && Array.isArray(snap.data()?.items)) {
+      rawClasses = dedupeById<FeeClass>(snap.data()!.items);
+    } else {
+      rawClasses = dedupeById<FeeClass>(loadDatabaseFromDisk().classes);
+    }
+  } catch (error) {
+    console.error('Error loading public branch class catalog:', error);
+    rawClasses = dedupeById<FeeClass>(loadDatabaseFromDisk().classes);
+  }
+
+  return {
+    success: true,
+    data: buildBranchClassCatalog(rawClasses),
+  };
+}
 
 export async function getFeeClasses(
   branchId?: string,
@@ -2353,13 +2403,35 @@ export async function getMonthlyLedger(
   }
 }
 
+function normalizePersonName(value: string): string[] {
+  const honorifics = new Set(['mr', 'mrs', 'ms', 'miss', 'shri', 'smt', 'late', 'dr', 'prof']);
+  const tokens = (value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean);
+  return tokens.filter((t, idx) => !(idx === 0 && honorifics.has(t)));
+}
+
+function isPersonNameMatched(storedName: string, enteredName: string): boolean {
+  const storedTokens = normalizePersonName(storedName);
+  const enteredTokens = normalizePersonName(enteredName);
+  if (enteredTokens.length === 0 || storedTokens.length === 0) return false;
+  if (storedTokens.join('') === enteredTokens.join('')) return true;
+  return enteredTokens.every(token =>
+    storedTokens.some(st => st === token || (token.length >= 2 && st.startsWith(token)))
+  );
+}
+
 /**
- * Public lookup for Student Fee Payment by Student ID / Roll Number + Registered Primary Phone Number
- * Requires both ID and Phone number to match for student privacy and security.
+ * Public lookup for Student Fee Payment by Admission No., Student Name, Father Name & Registered Mobile No.
+ * Verifies student record details for privacy and security.
  */
 export async function lookupStudentForFeePayment(
   studentIdQuery: string,
-  phoneNumberQuery?: string
+  phoneNumberQuery?: string,
+  studentNameQuery?: string,
+  fatherNameQuery?: string
 ): Promise<{
   success: boolean;
   message?: string;
@@ -2437,6 +2509,24 @@ export async function lookupStudentForFeePayment(
         success: false,
         message: 'Admission No. aur Mobile No. match nahi hua. Kripya apna registered number check karein.',
       };
+    }
+
+    if (studentNameQuery !== undefined && studentNameQuery.trim()) {
+      if (!isPersonNameMatched(student.name || '', studentNameQuery)) {
+        return {
+          success: false,
+          message: 'Student Name match nahi hua. Kripya sahi Student Name check karein.',
+        };
+      }
+    }
+
+    if (fatherNameQuery !== undefined && fatherNameQuery.trim()) {
+      if (!isPersonNameMatched(student.fatherName || '', fatherNameQuery)) {
+        return {
+          success: false,
+          message: 'Father Name match nahi hua. Kripya sahi Father Name check karein.',
+        };
+      }
     }
 
     const currentMonth = await getCurrentMonth();
