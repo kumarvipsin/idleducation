@@ -78,8 +78,15 @@ export interface TSocialItem {
   brandBgHover: string;
 }
 
+const FALLBACK_SOCIAL_SETTINGS: TSocialMediaSettings = {
+  instagram: { url: "https://www.instagram.com/idleducation", active: true },
+  youtube: { url: "https://www.youtube.com/@idleducation", active: true },
+  facebook: { url: "https://www.facebook.com/idleducation", active: true },
+  twitter: { url: "https://x.com/idleducation", active: true },
+};
+
 // In-memory client cache to share settings across Header, Mobile Drawer, and Footer
-let cachedSettings: TSocialMediaSettings | null = null;
+let cachedSettings: TSocialMediaSettings | null = FALLBACK_SOCIAL_SETTINGS;
 let fetchPromise: Promise<TSocialMediaSettings | null> | null = null;
 
 export function useSocialMediaLinks() {
@@ -284,15 +291,45 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     const footerItems = items;
     if (footerItems.length === 0) return null;
 
+    const getFooterIcon = (id: TSocialItem['id']) => {
+      switch (id) {
+        case 'instagram':
+          return <InstagramIcon className="w-[15px] h-[15px]" />;
+        case 'youtube':
+          return <YouTubeIcon className="w-[15px] h-[15px]" />;
+        case 'facebook':
+          return (
+            <svg className="w-[14px] h-[14px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z" />
+            </svg>
+          );
+        case 'twitter':
+          return <TwitterXIcon className="w-[13.5px] h-[13.5px]" />;
+      }
+    };
+
+    const getFooterHoverClass = (id: TSocialItem['id']) => {
+      switch (id) {
+        case 'instagram':
+          return 'hover:bg-[#E4405F]/[0.09] hover:border-[#E4405F]/25 hover:text-[#E4405F]';
+        case 'youtube':
+          return 'hover:bg-[#FF0000]/[0.09] hover:border-[#FF0000]/25 hover:text-[#FF0000]';
+        case 'facebook':
+          return 'hover:bg-[#1877F2]/[0.09] hover:border-[#1877F2]/25 hover:text-[#1877F2]';
+        case 'twitter':
+          return 'hover:bg-[#081A3D]/[0.08] hover:border-[#081A3D]/25 hover:text-[#081A3D] dark:hover:bg-white/[0.1] dark:hover:border-white/25 dark:hover:text-white';
+      }
+    };
+
     return (
-      <div className={cn("mt-2.5 sm:mt-3.5", className)}>
+      <div className={cn("mt-3 sm:mt-3.5", className)}>
         {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081A3D] dark:text-white uppercase tracking-[0.06em] mb-2 border-l-2 border-[#155EEF] dark:border-blue-400 pl-2.5 leading-none py-[2px]">
           Follow IDL
         </h3>
 
-        {/* Minimal Social Icon Row: transparent background to match footer bg */}
-        <div className="flex items-center gap-2 pl-2">
+        {/* Sleek Circular Social Icon Row */}
+        <div className="flex items-center gap-2 pl-2.5">
           {footerItems.map((social) => (
             <a
               key={social.id}
@@ -301,20 +338,20 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               rel="noopener noreferrer"
               aria-label={social.ariaLabel}
               className={cn(
-                "w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-[7px]",
-                "bg-transparent",
-                "border border-slate-300/80 dark:border-slate-700/80",
+                "w-8 h-8 rounded-full",
+                "bg-[#0B224D]/[0.045] dark:bg-white/[0.06]",
+                "border border-[#0B224D]/[0.07] dark:border-white/[0.08]",
                 "flex items-center justify-center shrink-0",
-                "text-slate-600 dark:text-slate-300",
-                "transition-all duration-150 ease-out cursor-pointer",
-                "hover:text-[#0A5CFF] hover:border-[#0A5CFF]/60 hover:bg-[#0A5CFF]/10",
+                "text-[#4D6380] dark:text-slate-300",
+                "transition-[color,background-color,border-color,transform] duration-150 ease-out cursor-pointer",
+                "hover:-translate-y-[1px]",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-1",
-                "active:opacity-80",
-                social.brandHoverColor
+                "active:translate-y-0 active:opacity-85",
+                getFooterHoverClass(social.id)
               )}
             >
               <span className="shrink-0 flex items-center justify-center">
-                {social.icon}
+                {getFooterIcon(social.id)}
               </span>
             </a>
           ))}

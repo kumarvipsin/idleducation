@@ -7,7 +7,7 @@ import {
     FileType, UserPlus, IndianRupee, Landmark, ClipboardList,
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
-    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
+    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell,
     Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp, Target,
     Instagram, ArrowRight
 } from "lucide-react";
@@ -698,7 +698,6 @@ export function Header() {
         {
             title: "COMPANY",
             links: [
-                { href: "/journey", label: "The Journey", icon: Rocket, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
                 { 
                     href: "#", 
                     label: "Recent Updates", 
