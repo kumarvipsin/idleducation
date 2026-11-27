@@ -718,11 +718,11 @@ export function Header() {
         { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true), icon: Award, iconColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60" },
     ];
 
-    const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-extrabold tracking-[0.01em] [word-spacing:0.03em] text-[#173568] dark:text-slate-100 hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
-    const navAuthButtonClass = "px-3.5 md:px-4 py-0 rounded-[3px] bg-[#0A1E4A] hover:bg-[#122D68] active:bg-[#071535] border-0 text-white/95 hover:text-white h-[30px] flex items-center justify-center cursor-pointer select-none touch-manipulation whitespace-nowrap font-semibold md:font-bold text-[12px] leading-none tracking-[0.075em] md:tracking-[0.05em] antialiased transition-colors duration-150 shadow-none outline-none focus-visible:outline-none";
+    const navItemClass = "relative h-auto py-1.5 px-3 text-[14px] font-extrabold tracking-[0.005em] [word-spacing:0.03em] text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8] hover:bg-transparent rounded-none antialiased transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-[#1D4ED8] after:transition-transform after:duration-300 hover:after:scale-x-100";
+    const navAuthButtonClass = "px-4 md:px-[18px] py-0 rounded-[6px] bg-[#0A1E4A] hover:bg-[#122D68] active:bg-[#071535] border-0 text-white/95 hover:text-white h-[33px] md:h-[36px] flex items-center justify-center cursor-pointer select-none touch-manipulation whitespace-nowrap font-semibold text-[12px] md:text-[13px] leading-none tracking-[0.06em] antialiased transition-colors duration-150 shadow-none outline-none focus-visible:outline-none";
 
     const renderAuthSection = () => {
-        if (loading) return <Skeleton className="h-[30px] w-[68px] md:w-[74px] rounded-[3px]" />;
+        if (loading) return <Skeleton className="h-[33px] md:h-[36px] w-[74px] md:w-[82px] rounded-[6px]" />;
 
         if (user) {
             const normalizedBranch = normalizeBranchId(user.branchId);
@@ -870,7 +870,7 @@ export function Header() {
                 suppressHydrationWarning
                 data-mobile-menu-open={isMobileMenuOpen ? "true" : "false"}
                 className={cn(
-                    "fixed top-0 left-0 right-0 w-full z-[60] border-b h-[68px] bg-white/[0.98] md:bg-background/95 dark:bg-background/95 backdrop-blur-md transition-[border-color,background-color] duration-200",
+                    "fixed top-0 left-0 right-0 w-full z-[60] border-b h-[75px] bg-white/[0.98] md:bg-background/95 dark:bg-background/95 backdrop-blur-md transition-[border-color,background-color] duration-200",
                     isScrolled 
                         ? "border-slate-200/90 dark:border-slate-800" 
                         : "border-slate-200/70 md:border-slate-100 dark:border-slate-800/80"
@@ -902,7 +902,7 @@ export function Header() {
                             <span className="sr-only">Toggle menu</span>
                         </button>
                         <Link href="/" className="flex items-center justify-center md:-ml-2 py-0 h-full">
-                            <Image src="/idllogo.png" alt="IDL Education Logo" width={180} height={80} className="h-[62px] sm:h-[64px] md:h-[65px] max-h-[62px] sm:max-h-[64px] md:max-h-[65px] w-auto object-contain object-left" priority />
+                            <Image src="/idllogo.png" alt="IDL Education Logo" width={180} height={80} className="h-[68px] sm:h-[70px] md:h-[72px] max-h-[68px] sm:max-h-[70px] md:max-h-[72px] w-auto object-contain object-left" priority />
                         </Link>
                     </div>
 
@@ -928,7 +928,7 @@ export function Header() {
                                             }}
                                             className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}
                                         >
-                                            ALL COURSES
+                                            All Courses
                                         </Button>
                                         <div 
                                             onMouseEnter={() => {
@@ -1141,7 +1141,7 @@ export function Header() {
                                             }}
                                             className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}
                                         >
-                                            APPLY FOR
+                                            Apply For
                                         </Button>
                                         <div className={cn(
                                             DESKTOP_MENU_TOKENS.dropdownAnimation,
@@ -1163,12 +1163,12 @@ export function Header() {
                                     </div>
                                     <div className="h-full flex items-center">
                                         <Button asChild variant="ghost" className={cn(navItemClass, pathname === '/about' && "after:scale-x-100 text-primary")}>
-                                            <Link href="/about">ABOUT US</Link>
+                                            <Link href="/about">About Us</Link>
                                         </Button>
                                     </div>
                                     <div className="h-full flex items-center">
-                                        <Button variant="ghost" className={navItemClass} onClick={() => setIsContactOpen(true)}>
-                                            CONTACT US
+                                        <Button asChild variant="ghost" className={cn(navItemClass, pathname === '/contact' && "after:scale-x-100 text-primary")}>
+                                            <Link href="/contact">Contact Us</Link>
                                         </Button>
                                     </div>
                                     <div 
@@ -1188,7 +1188,7 @@ export function Header() {
                                             }}
                                             className={cn(navItemClass, (activeMenu === 'branches' || pathname.startsWith('/branches')) && "after:scale-x-100 text-primary")}
                                         >
-                                            BRANCHES
+                                            Branches
                                         </Button>
                                         <div 
                                             suppressHydrationWarning
@@ -1268,7 +1268,7 @@ export function Header() {
                                             }}
                                             className={cn(navItemClass, (activeMenu === 'pay-fee') && "after:scale-x-100 text-primary")}
                                         >
-                                            PAY FEE
+                                            Pay Fee
                                         </Button>
                                         <div 
                                             suppressHydrationWarning
@@ -1296,7 +1296,7 @@ export function Header() {
                                     </div>
 
                                     <div onMouseEnter={() => handleMouseEnter('more')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
-                                        <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
+                                        <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>More</Button>
                                         <div className={cn(
                                             DESKTOP_MENU_TOKENS.dropdownAnimation,
                                             "w-64",
@@ -1324,7 +1324,7 @@ export function Header() {
                                     <div className="h-full flex items-center">
                                         <Button asChild variant="ghost" className={navItemClass}>
                                             <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                                                <ShoppingCart className="h-4 w-4" /><span>STORE</span>
+                                                <ShoppingCart className="h-4 w-4" /><span>Store</span>
                                             </Link>
                                         </Button>
                                     </div>
@@ -1358,9 +1358,9 @@ export function Header() {
                             rel="noopener noreferrer"
                             aria-label="Follow IDL Education on Instagram"
                             title="Follow IDL Education on Instagram"
-                            className="inline-flex items-center justify-center h-[30px] w-[30px] md:h-auto md:w-auto rounded-[3px] md:rounded-none text-[#0A1E4A]/90 md:text-[#0B1B43]/80 dark:text-slate-200 dark:md:text-slate-300 hover:text-[#155EEF] md:hover:text-[#2864E8] hover:bg-[#0A1E4A]/[0.04] md:hover:bg-transparent dark:hover:text-blue-400 active:opacity-75 md:active:opacity-100 transition-colors duration-150 shrink-0 cursor-pointer touch-manipulation outline-none focus-visible:outline-none"
+                            className="inline-flex items-center justify-center h-[38px] w-[38px] md:h-auto md:w-auto rounded-[7px] md:rounded-none text-[#0A1E4A]/90 md:text-[#0B1B43]/80 dark:text-slate-200 dark:md:text-slate-300 hover:text-[#155EEF] md:hover:text-[#2864E8] hover:bg-[#0A1E4A]/[0.04] md:hover:bg-transparent dark:hover:text-blue-400 active:opacity-75 md:active:opacity-100 transition-colors duration-150 shrink-0 cursor-pointer touch-manipulation outline-none focus-visible:outline-none"
                         >
-                            <Instagram className="h-[26px] w-[26px] md:h-[23px] md:w-[23px]" strokeWidth={1.75} shapeRendering="geometricPrecision" />
+                            <Instagram className="h-[28px] w-[28px] md:h-[24px] md:w-[24px]" strokeWidth={1.75} shapeRendering="geometricPrecision" />
                         </a>
 
                         <div className="flex h-full items-center">
@@ -1371,11 +1371,11 @@ export function Header() {
                             <SheetContent 
                                 side="left" 
                                 data-mobile-drawer="true" 
-                                className="fixed inset-0 z-[9999] p-0 gap-0 flex flex-col w-full !w-full max-w-full !max-w-full h-full h-[100dvh] max-h-[100dvh] bg-white dark:bg-slate-950 border-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 shadow-none overflow-hidden [&>button.absolute]:hidden data-[state=open]:duration-200 data-[state=closed]:duration-150" 
+                                className="fixed inset-0 z-[9999] p-0 gap-0 flex flex-col w-full !w-full max-w-full !max-w-full h-full h-[100dvh] max-h-[100dvh] bg-white dark:bg-slate-950 border-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 shadow-none overflow-hidden antialiased [&>button.absolute]:hidden data-[state=open]:duration-200 data-[state=closed]:duration-150" 
                                 style={{ width: '100%', maxWidth: '100%' }}
                             >
                                 {/* Refined Minimal Header with Inset Hairline */}
-                                <SheetHeader className="px-6 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10 overflow-visible outline-none focus:outline-none">
+                                <SheetHeader className="px-6 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[75px] min-h-[75px] max-h-[75px] space-y-0 shrink-0 relative z-10 overflow-visible outline-none focus:outline-none">
                                     <SheetTitle asChild>
                                         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center -ml-1.5 py-0 h-full overflow-visible outline-none focus:outline-none">
                                             <Image 
@@ -1383,7 +1383,7 @@ export function Header() {
                                               alt="IDL Education Logo" 
                                               width={180} 
                                               height={80} 
-                                              className="h-[72px] sm:h-[74px] md:h-[74px] max-h-[72px] sm:max-h-[74px] md:max-h-[74px] w-auto object-contain object-left shrink-0" 
+                                              className="h-[78px] sm:h-[80px] md:h-[80px] max-h-[78px] sm:max-h-[80px] md:max-h-[80px] w-auto object-contain object-left shrink-0" 
                                               priority 
                                             />
                                         </Link>
@@ -1391,17 +1391,17 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="w-9 h-9 -mr-1.5 rounded-full flex items-center justify-center text-slate-400 hover:text-[#0A1E4A] dark:text-slate-400 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800/80 active:scale-95 transition-all shrink-0 cursor-pointer outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none"
+                                        className="w-9 h-9 -mr-1.5 rounded-full flex items-center justify-center text-[#0A1E4A]/55 hover:text-[#0A1E4A] dark:text-slate-400 dark:hover:text-white hover:bg-[#0A1E4A]/[0.05] dark:hover:bg-slate-800/80 active:opacity-75 transition-colors duration-150 shrink-0 cursor-pointer touch-manipulation outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none"
                                         aria-label="Close menu"
                                     >
-                                        <X className="w-5 h-5 stroke-[1.8]" />
+                                        <X className="w-[20px] h-[20px] stroke-[1.9]" shapeRendering="geometricPrecision" />
                                     </button>
                                 </SheetHeader>
-                                <div className="mx-6 h-px bg-slate-100 dark:bg-slate-800/80 shrink-0" aria-hidden="true" />
+                                <div className="mx-6 h-px bg-[#E8EEF6] dark:bg-slate-800/80 shrink-0" aria-hidden="true" />
 
                                 {/* Editorial Full-Screen Navigation Body */}
                                 <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain relative z-10 bg-white dark:bg-slate-950">
-                                    <nav aria-label="Mobile Navigation" className="px-6 text-left flex flex-col divide-y divide-slate-100 dark:divide-slate-800/80">
+                                    <nav aria-label="Mobile Navigation" className="px-6 text-left flex flex-col divide-y divide-[#EDF2F7] dark:divide-slate-800/80">
 
                                         {/* 1. ALL COURSES */}
                                         <div className="flex flex-col">
@@ -1416,23 +1416,23 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'all-courses'}
                                                 aria-controls="mobile-accordion-all-courses"
                                                 className={cn(
-                                                    "touch-manipulation group relative min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] transition-colors duration-150 text-left cursor-pointer select-none",
+                                                    "touch-manipulation group relative min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
                                                     openMobileAccordion === 'all-courses' 
-                                                        ? "text-[#155EEF] dark:text-blue-400" 
-                                                        : "text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF]"
+                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                        : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>All Courses</span>
                                                 <span className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
+                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
                                                     openMobileAccordion === 'all-courses'
                                                         ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-slate-400 dark:text-slate-500"
+                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
                                                 )}>
                                                     <ChevronDown className={cn(
-                                                        "w-3.5 h-3.5 stroke-[2.2] mobile-accordion-chevron",
+                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
                                                         openMobileAccordion === 'all-courses' && "rotate-180"
-                                                    )} />
+                                                    )} shapeRendering="geometricPrecision" />
                                                 </span>
                                             </button>
                                             <div
@@ -1443,7 +1443,7 @@ export function Header() {
                                                 className="mobile-accordion-grid"
                                             >
                                                 <div className="overflow-hidden min-h-0">
-                                                    <div className="ml-2 pl-4 border-l-[1.5px] border-[#155EEF]/25 dark:border-blue-500/30 pt-0.5 pb-3 space-y-0.5">
+                                                    <div className="ml-1.5 pl-4 border-l-[1.5px] border-[#155EEF]/30 dark:border-blue-500/30 py-0.5 mb-3.5 space-y-0.5">
                                                         {courseCategories.map((cat) => {
                                                             const isSubOpen = openMobileSubAccordion === cat.id;
                                                             const hasSubItems = cat.subItems && cat.subItems.length > 0;
@@ -1467,17 +1467,17 @@ export function Header() {
                                                                         aria-expanded={isSubOpen}
                                                                         aria-controls={`mobile-sub-${cat.id}`}
                                                                         className={cn(
-                                                                            "touch-manipulation flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[36px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none",
+                                                                            "touch-manipulation flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none",
                                                                             isSubOpen 
                                                                                 ? "text-[#155EEF] dark:text-blue-400 font-semibold" 
-                                                                                : "text-[#243B64] dark:text-slate-200 hover:text-[#155EEF] hover:bg-slate-50/80 dark:hover:bg-slate-900/40 font-medium"
+                                                                                : "text-[#173568] dark:text-slate-200 hover:text-[#1D4ED8] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40 font-semibold tracking-[0.005em] [word-spacing:0.02em]"
                                                                         )}
                                                                     >
                                                                         <span className="text-[13.5px] leading-snug tracking-[-0.005em]">
                                                                             {cat.name?.toLowerCase() === 'free courses' ? 'Free Courses' : cat.name}
                                                                         </span>
                                                                         <ChevronDown className={cn(
-                                                                            "w-3.5 h-3.5 stroke-[2] text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
+                                                                            "w-3.5 h-3.5 stroke-[2] text-[#0A1E4A]/40 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
                                                                             isSubOpen && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                                         )} />
                                                                     </button>
@@ -1492,7 +1492,7 @@ export function Header() {
                                                                             className="mobile-accordion-grid"
                                                                         >
                                                                             <div className="overflow-hidden min-h-0">
-                                                                                <div className="ml-1.5 pl-3.5 border-l border-slate-200/90 dark:border-slate-800 py-1 mb-1 space-y-0.5">
+                                                                                <div className="ml-1.5 pl-3.5 border-l border-[#E2E9F3] dark:border-slate-800 py-1 mb-1 space-y-0.5">
                                                                                     {cat.subItems.map((sub) => {
                                                                                         const hasLeafs = sub.items && sub.items.length > 0;
                                                                                         const isThirdOpen = openMobileThirdAccordion === sub.id;
@@ -1515,15 +1515,15 @@ export function Header() {
                                                                                                         aria-expanded={isThirdOpen}
                                                                                                         aria-controls={`mobile-third-${sub.id}`}
                                                                                                         className={cn(
-                                                                                                            "touch-manipulation w-full text-left text-[12.5px] min-h-[32px] px-2 py-1.5 rounded-lg transition-colors duration-150 flex items-center justify-between cursor-pointer select-none",
+                                                                                                            "touch-manipulation w-full text-left text-[12.5px] min-h-[34px] px-2 py-1.5 rounded-lg transition-colors duration-150 flex items-center justify-between cursor-pointer select-none",
                                                                                                             isThirdOpen 
                                                                                                                 ? "font-semibold text-[#155EEF] dark:text-blue-300" 
-                                                                                                                : "font-medium text-slate-600 dark:text-slate-300 hover:text-[#155EEF] hover:bg-slate-50/70 dark:hover:bg-slate-900/50"
+                                                                                                                : "font-medium text-slate-600 dark:text-slate-300 hover:text-[#155EEF] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/50"
                                                                                                         )}
                                                                                                     >
                                                                                                         <span className="truncate pr-2">{sub.label}</span>
                                                                                                         <ChevronDown className={cn(
-                                                                                                            "w-3 h-3 stroke-[2] text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
+                                                                                                            "w-3 h-3 stroke-[2] text-[#0A1E4A]/40 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
                                                                                                             isThirdOpen && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                                                                         )} />
                                                                                                     </button>
@@ -1543,10 +1543,10 @@ export function Header() {
                                                                                                                         key={item.id}
                                                                                                                         href={item.href}
                                                                                                                         onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                        className="group flex items-center justify-between min-h-[30px] px-2 py-1 rounded-md text-[12px] font-medium text-slate-500 dark:text-slate-400 hover:text-[#155EEF] hover:bg-slate-50/70 dark:hover:bg-slate-900/50 transition-colors duration-150 cursor-pointer"
+                                                                                                                        className="group flex items-center justify-between min-h-[32px] px-2 py-1 rounded-md text-[12px] font-medium text-slate-500 dark:text-slate-400 hover:text-[#155EEF] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/50 transition-colors duration-150 cursor-pointer"
                                                                                                                     >
                                                                                                                         <span className="truncate pr-2">{item.label}</span>
-                                                                                                                        <ChevronRight className="w-3 h-3 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-auto" />
+                                                                                                                        <ChevronRight className="w-3 h-3 text-[#0A1E4A]/25 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-auto" />
                                                                                                                     </Link>
                                                                                                                 ))}
                                                                                                             </div>
@@ -1561,7 +1561,7 @@ export function Header() {
                                                                                             return (
                                                                                                 <div
                                                                                                     key={sub.id}
-                                                                                                    className="flex items-center justify-between min-h-[30px] px-2 py-1 text-[12.5px] font-medium text-slate-400 dark:text-slate-500 select-none cursor-default"
+                                                                                                    className="flex items-center justify-between min-h-[32px] px-2 py-1 text-[12.5px] font-medium text-slate-400 dark:text-slate-500 select-none cursor-default"
                                                                                                 >
                                                                                                     <span className="truncate">{sub.label}</span>
                                                                                                 </div>
@@ -1573,10 +1573,10 @@ export function Header() {
                                                                                                 key={sub.id}
                                                                                                 href={sub.href}
                                                                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                className="group flex items-center justify-between min-h-[32px] px-2 py-1.5 rounded-lg text-[12.5px] font-medium text-slate-600 dark:text-slate-300 hover:text-[#155EEF] hover:bg-slate-50/70 dark:hover:bg-slate-900/50 transition-colors duration-150 cursor-pointer"
+                                                                                                className="group flex items-center justify-between min-h-[34px] px-2 py-1.5 rounded-lg text-[12.5px] font-medium text-slate-600 dark:text-slate-300 hover:text-[#155EEF] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/50 transition-colors duration-150 cursor-pointer"
                                                                                             >
                                                                                                 <span className="truncate pr-2">{sub.label}</span>
-                                                                                                <ChevronRight className="w-3 h-3 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-auto" />
+                                                                                                <ChevronRight className="w-3 h-3 text-[#0A1E4A]/25 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-auto" />
                                                                                             </Link>
                                                                                         );
                                                                                     })}
@@ -1605,23 +1605,23 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'apply'}
                                                 aria-controls="mobile-accordion-apply"
                                                 className={cn(
-                                                    "touch-manipulation group relative min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] transition-colors duration-150 text-left cursor-pointer select-none",
+                                                    "touch-manipulation group relative min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
                                                     openMobileAccordion === 'apply' 
-                                                        ? "text-[#155EEF] dark:text-blue-400" 
-                                                        : "text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF]"
+                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                        : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>Apply For</span>
                                                 <span className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
+                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
                                                     openMobileAccordion === 'apply'
                                                         ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-slate-400 dark:text-slate-500"
+                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
                                                 )}>
                                                     <ChevronDown className={cn(
-                                                        "w-3.5 h-3.5 stroke-[2.2] mobile-accordion-chevron",
+                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
                                                         openMobileAccordion === 'apply' && "rotate-180"
-                                                    )} />
+                                                    )} shapeRendering="geometricPrecision" />
                                                 </span>
                                             </button>
                                             <div
@@ -1632,7 +1632,7 @@ export function Header() {
                                                 className="mobile-accordion-grid"
                                             >
                                                 <div className="overflow-hidden min-h-0">
-                                                    <div className="ml-2 pl-4 border-l-[1.5px] border-[#155EEF]/25 dark:border-blue-500/30 pt-0.5 pb-3 space-y-0.5">
+                                                    <div className="ml-1.5 pl-4 border-l-[1.5px] border-[#155EEF]/30 dark:border-blue-500/30 py-0.5 mb-3.5 space-y-0.5">
                                                         {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
                                                             <button
                                                                 key={label}
@@ -1649,12 +1649,12 @@ export function Header() {
                                                                         }
                                                                     }, 100);
                                                                 }}
-                                                                className="touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[36px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#243B64] dark:text-slate-200 hover:text-[#155EEF] hover:bg-slate-50/80 dark:hover:bg-slate-900/40"
+                                                                className="touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#173568] dark:text-slate-200 hover:text-[#1D4ED8] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40"
                                                             >
-                                                                <span className="text-[13.5px] font-medium leading-snug truncate">
+                                                                <span className="text-[13.5px] font-semibold tracking-[0.005em] [word-spacing:0.02em] leading-snug truncate">
                                                                     {label}
                                                                 </span>
-                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
+                                                                <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
                                                             </button>
                                                         ))}
                                                     </div>
@@ -1667,7 +1667,7 @@ export function Header() {
                                             <Link
                                                 href="/about"
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="touch-manipulation min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF] transition-colors duration-150 cursor-pointer select-none"
+                                                className="touch-manipulation min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8] transition-colors duration-150 cursor-pointer select-none outline-none focus-visible:outline-none"
                                             >
                                                 <span>About Us</span>
                                             </Link>
@@ -1675,16 +1675,13 @@ export function Header() {
 
                                         {/* 4. CONTACT US */}
                                         <div className="flex items-center">
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    setIsMobileMenuOpen(false);
-                                                    setIsContactOpen(true);
-                                                }}
-                                                className="touch-manipulation min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF] transition-colors duration-150 text-left cursor-pointer select-none"
+                                            <Link
+                                                href="/contact"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                className="touch-manipulation min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8] transition-colors duration-150 cursor-pointer select-none outline-none focus-visible:outline-none"
                                             >
                                                 <span>Contact Us</span>
-                                            </button>
+                                            </Link>
                                         </div>
 
                                         {/* 5. BRANCHES */}
@@ -1700,23 +1697,23 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'branches'}
                                                 aria-controls="mobile-accordion-branches"
                                                 className={cn(
-                                                    "touch-manipulation min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] transition-colors duration-150 text-left cursor-pointer select-none",
+                                                    "touch-manipulation group min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
                                                     openMobileAccordion === 'branches' 
-                                                        ? "text-[#155EEF] dark:text-blue-400" 
-                                                        : "text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF]"
+                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                        : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>Branches</span>
                                                 <span className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
+                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
                                                     openMobileAccordion === 'branches'
                                                         ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-slate-400 dark:text-slate-500"
+                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
                                                 )}>
                                                     <ChevronDown className={cn(
-                                                        "w-3.5 h-3.5 stroke-[2.2] mobile-accordion-chevron",
+                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
                                                         openMobileAccordion === 'branches' && "rotate-180"
-                                                    )} />
+                                                    )} shapeRendering="geometricPrecision" />
                                                 </span>
                                             </button>
                                             <div
@@ -1728,24 +1725,24 @@ export function Header() {
                                                 suppressHydrationWarning
                                             >
                                                 <div className="overflow-hidden min-h-0" suppressHydrationWarning>
-                                                    <div className="ml-2 pl-4 border-l-[1.5px] border-[#155EEF]/25 dark:border-blue-500/30 pt-0.5 pb-3 space-y-1" suppressHydrationWarning>
+                                                    <div className="ml-1.5 pl-4 border-l-[1.5px] border-[#155EEF]/30 dark:border-blue-500/30 py-0.5 mb-3.5 space-y-1" suppressHydrationWarning>
                                                         {BRANCH_LINKS.map((branch) => branch.active ? (
                                                             <Link
                                                                 key={branch.href}
                                                                 href={branch.href}
                                                                 suppressHydrationWarning
                                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                                className="touch-manipulation group flex items-center justify-between py-1.5 px-2 -mx-2 rounded-lg transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none hover:bg-slate-50/80 dark:hover:bg-slate-900/40"
+                                                                className="touch-manipulation group flex items-center justify-between py-1.5 px-2 -mx-2 rounded-lg transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40"
                                                             >
                                                                 <div className="flex flex-col min-w-0" suppressHydrationWarning>
-                                                                    <span className="text-[13px] font-semibold leading-snug truncate text-[#0B224D] dark:text-slate-100 group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors">
+                                                                    <span className="text-[13.5px] font-semibold leading-snug truncate text-[#0A1E4A] dark:text-slate-100 group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors">
                                                                         {branch.name}
                                                                     </span>
                                                                     <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
                                                                         {branch.area}
                                                                     </span>
                                                                 </div>
-                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
+                                                                <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
                                                             </Link>
                                                         ) : (
                                                             <div
@@ -1754,7 +1751,7 @@ export function Header() {
                                                                 className="touch-manipulation flex items-center justify-between py-1.5 px-2 -mx-2 text-left w-[calc(100%+1rem)] cursor-default select-none opacity-50"
                                                             >
                                                                 <div className="flex flex-col min-w-0" suppressHydrationWarning>
-                                                                    <span className="text-[13px] font-semibold leading-snug truncate text-[#0B224D] dark:text-slate-200">
+                                                                    <span className="text-[13.5px] font-semibold leading-snug truncate text-[#0A1E4A] dark:text-slate-200">
                                                                         {branch.name}
                                                                     </span>
                                                                     <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate mt-0.5">
@@ -1780,23 +1777,23 @@ export function Header() {
                                                 }}
                                                 aria-expanded={openMobileAccordion === 'pay-fee'}
                                                 className={cn(
-                                                    "touch-manipulation min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] transition-colors duration-150 text-left cursor-pointer select-none",
+                                                    "touch-manipulation group min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
                                                     openMobileAccordion === 'pay-fee' 
-                                                        ? "text-[#155EEF] dark:text-blue-400" 
-                                                        : "text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF]"
+                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                        : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>Pay Fee</span>
                                                 <span className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
+                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
                                                     openMobileAccordion === 'pay-fee'
                                                         ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-slate-400 dark:text-slate-500"
+                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
                                                 )}>
                                                     <ChevronDown className={cn(
-                                                        "w-3.5 h-3.5 stroke-[2.2] mobile-accordion-chevron",
+                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
                                                         openMobileAccordion === 'pay-fee' && "rotate-180"
-                                                    )} />
+                                                    )} shapeRendering="geometricPrecision" />
                                                 </span>
                                             </button>
                                             {openMobileAccordion === 'pay-fee' && (
@@ -1819,23 +1816,23 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'more'}
                                                 aria-controls="mobile-accordion-more"
                                                 className={cn(
-                                                    "touch-manipulation min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] transition-colors duration-150 text-left cursor-pointer select-none",
+                                                    "touch-manipulation group min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased transition-colors duration-150 text-left cursor-pointer select-none outline-none focus-visible:outline-none",
                                                     openMobileAccordion === 'more' 
-                                                        ? "text-[#155EEF] dark:text-blue-400" 
-                                                        : "text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF]"
+                                                        ? "text-[#1D4ED8] dark:text-blue-400" 
+                                                        : "text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8]"
                                                 )}
                                             >
                                                 <span>More</span>
                                                 <span className={cn(
-                                                    "w-6 h-6 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
+                                                    "w-7 h-7 -mr-0.5 rounded-full flex items-center justify-center transition-colors duration-150 shrink-0",
                                                     openMobileAccordion === 'more'
                                                         ? "bg-[#155EEF]/[0.09] text-[#155EEF] dark:bg-blue-500/15 dark:text-blue-400"
-                                                        : "text-slate-400 dark:text-slate-500"
+                                                        : "text-[#0A1E4A]/45 group-hover:text-[#155EEF] dark:text-slate-500"
                                                 )}>
                                                     <ChevronDown className={cn(
-                                                        "w-3.5 h-3.5 stroke-[2.2] mobile-accordion-chevron",
+                                                        "w-[16px] h-[16px] stroke-[2] mobile-accordion-chevron",
                                                         openMobileAccordion === 'more' && "rotate-180"
-                                                    )} />
+                                                    )} shapeRendering="geometricPrecision" />
                                                 </span>
                                             </button>
                                             <div
@@ -1846,7 +1843,7 @@ export function Header() {
                                                 className="mobile-accordion-grid"
                                             >
                                                 <div className="overflow-hidden min-h-0">
-                                                    <div className="ml-2 pl-4 border-l-[1.5px] border-[#155EEF]/25 dark:border-blue-500/30 pt-0.5 pb-3 space-y-0.5">
+                                                    <div className="ml-1.5 pl-4 border-l-[1.5px] border-[#155EEF]/30 dark:border-blue-500/30 py-0.5 mb-3.5 space-y-0.5">
                                                         {moreMenuGroups.flatMap((group) => group.links).map((link: any) => {
                                                             const isDisabled = (link as any).disabled || link.label === "Register Now";
                                                             const isAction = Boolean((link as any).onClick);
@@ -1854,14 +1851,14 @@ export function Header() {
                                                             const rowContent = (
                                                                 <>
                                                                     <div className="flex items-center gap-2 min-w-0">
-                                                                        <span className="text-[13px] font-medium leading-snug truncate">
+                                                                        <span className="text-[13.5px] font-medium leading-snug truncate">
                                                                             {link.label}
                                                                         </span>
                                                                         {link.badge && (
                                                                             <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] shrink-0" />
                                                                         )}
                                                                     </div>
-                                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
+                                                                    <ChevronRight className="w-3.5 h-3.5 text-[#0A1E4A]/30 dark:text-slate-600 group-hover:text-[#155EEF] shrink-0 ml-2" />
                                                                 </>
                                                             );
 
@@ -1876,7 +1873,7 @@ export function Header() {
                                                                             if ((link as any).onClick) (link as any).onClick();
                                                                         }}
                                                                         className={cn(
-                                                                            "touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[36px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#243B64] dark:text-slate-200 hover:text-[#155EEF] hover:bg-slate-50/80 dark:hover:bg-slate-900/40",
+                                                                            "touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#1E335A] dark:text-slate-200 hover:text-[#155EEF] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40",
                                                                             isDisabled && "opacity-45 grayscale pointer-events-none"
                                                                         )}
                                                                     >
@@ -1892,7 +1889,7 @@ export function Header() {
                                                                     suppressHydrationWarning
                                                                     onClick={() => setIsMobileMenuOpen(false)}
                                                                     className={cn(
-                                                                        "touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[36px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#243B64] dark:text-slate-200 hover:text-[#155EEF] hover:bg-slate-50/80 dark:hover:bg-slate-900/40",
+                                                                        "touch-manipulation group flex items-center justify-between py-2 px-2 -mx-2 rounded-lg min-h-[38px] transition-colors duration-150 text-left w-[calc(100%+1rem)] cursor-pointer select-none text-[#1E335A] dark:text-slate-200 hover:text-[#155EEF] hover:bg-[#F5F8FD] dark:hover:bg-slate-900/40",
                                                                         isDisabled && "opacity-45 grayscale pointer-events-none"
                                                                     )}
                                                                 >
@@ -1912,26 +1909,25 @@ export function Header() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="touch-manipulation group min-h-[48px] flex items-center justify-between w-full font-extrabold text-[15.5px] tracking-[-0.01em] text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF] transition-colors duration-150 cursor-pointer select-none"
+                                                className="touch-manipulation group min-h-[52px] flex items-center justify-between w-full font-extrabold text-[15px] tracking-[0.005em] [word-spacing:0.03em] antialiased text-[#0B224D] dark:text-slate-100 hover:text-[#1D4ED8] transition-colors duration-150 cursor-pointer select-none outline-none focus-visible:outline-none"
                                             >
                                                 <span>Store</span>
                                             </Link>
                                         </div>
 
                                     </nav>
-                                    <div className="mx-6 h-px bg-slate-100 dark:bg-slate-800/80" aria-hidden="true" />
+                                    <div className="mx-6 h-px bg-[#EDF2F7] dark:bg-slate-800/80" aria-hidden="true" />
                                 </div>
 
-                                {/* Elegant Compact Contact Footer */}
-                                <div className="mx-6 h-px bg-slate-100 dark:bg-slate-800/80 shrink-0" aria-hidden="true" />
-                                <div className="px-6 pt-3 pb-[max(0.875rem,calc(env(safe-area-inset-bottom)+0.5rem))] bg-white dark:bg-slate-950 shrink-0 relative z-10">
+                                {/* Grounded Compact Contact Footer */}
+                                <div className="px-6 py-3 pb-[max(0.875rem,calc(env(safe-area-inset-bottom)+0.625rem))] bg-[#F8FAFD] dark:bg-slate-900/60 border-t border-[#E8EEF6] dark:border-slate-800/80 shrink-0 relative z-10">
                                     <a 
                                         href="tel:8860040010" 
                                         aria-label="Call IDL Education at 8860040010"
-                                        className="group w-full flex items-center justify-center gap-2.5 py-1 text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF] dark:hover:text-blue-400 transition-colors duration-150 active:scale-[0.99] cursor-pointer"
+                                        className="group w-full flex items-center justify-center gap-2.5 py-0.5 text-[#0A1E4A] dark:text-slate-100 hover:text-[#155EEF] dark:hover:text-blue-400 transition-colors duration-150 active:opacity-80 cursor-pointer touch-manipulation"
                                     >
-                                        <span className="w-7 h-7 rounded-full bg-[#155EEF]/[0.08] dark:bg-blue-500/15 flex items-center justify-center text-[#155EEF] dark:text-blue-400 shrink-0">
-                                            <Phone className="w-3.5 h-3.5 stroke-[2.1]" />
+                                        <span className="w-8 h-8 rounded-full bg-[#155EEF]/[0.1] dark:bg-blue-500/15 flex items-center justify-center text-[#155EEF] dark:text-blue-400 shrink-0">
+                                            <Phone className="w-[14px] h-[14px] stroke-[2.1]" shapeRendering="geometricPrecision" />
                                         </span>
                                         <span className="text-[15px] font-bold text-[#0A1E4A] dark:text-slate-100 group-hover:text-[#155EEF] dark:group-hover:text-blue-400 tracking-[0.02em] leading-none tabular-nums transition-colors duration-150">
                                             8860040010
@@ -1945,7 +1941,7 @@ export function Header() {
             </header>
 
             {/* Fixed Header Layout Spacer so content begins right below header */}
-            <div className="h-[68px] w-full shrink-0 pointer-events-none select-none" aria-hidden="true" />
+            <div className="h-[75px] w-full shrink-0 pointer-events-none select-none" aria-hidden="true" />
 
             <AuthModal 
                 isOpen={isAuthOpen} 

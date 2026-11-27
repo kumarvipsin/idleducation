@@ -128,7 +128,7 @@ const courses: CourseItem[] = [
 function CardWave({ waveColor }: { waveColor: string }) {
     return (
         <svg
-            className="absolute right-0 bottom-0 pointer-events-none z-0 rounded-br-[12px] md:rounded-br-[14px] w-12 h-8 md:w-[68px] md:h-[44px]"
+            className="course-offer-wave absolute right-0 bottom-0 pointer-events-none z-0 rounded-br-[12px] md:rounded-br-[14px] w-12 h-8 md:w-[68px] md:h-[44px]"
             viewBox="0 0 68 44"
             fill="none"
             aria-hidden="true"
@@ -861,19 +861,113 @@ export function DiscoverCoursesSection() {
                 className="relative w-full z-30 -mt-6 min-[390px]:-mt-8 sm:-mt-8 md:-mt-10 lg:-mt-12 px-3 sm:px-4 md:px-6 pointer-events-auto pb-4 sm:pb-5 md:pb-6 lg:pb-7"
             >
                 <style dangerouslySetInnerHTML={{ __html: `
-                    @keyframes fadeInUp {
+                    @keyframes courseCardFadeUp {
                         from {
                             opacity: 0;
-                            transform: translateY(14px);
+                            transform: translate3d(0, 12px, 0);
                         }
                         to {
                             opacity: 1;
-                            transform: translateY(0);
+                            transform: none;
                         }
                     }
                     .animate-fade-up {
-                        animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                        opacity: 0;
+                        animation: courseCardFadeUp 0.48s cubic-bezier(0.22, 1, 0.36, 1) both;
+                    }
+
+                    /* Refined micro-interactions scoped cleanly so mobile touch never gets sticky hover */
+                    .course-offer-card {
+                        transition:
+                            transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+                            box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+                            border-color 200ms ease-out;
+                    }
+                    .course-offer-badge {
+                        transition:
+                            transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                            box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+                            border-color 200ms ease-out;
+                    }
+                    .course-offer-icon {
+                        transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+                    }
+                    .course-offer-arrow {
+                        transition:
+                            transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+                            color 200ms ease-out;
+                    }
+                    .course-offer-wave {
+                        transform-origin: bottom right;
+                        transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+                    }
+
+                    @media (hover: hover) and (pointer: fine) {
+                        .course-offer-card:hover {
+                            transform: translate3d(0, -2.5px, 0);
+                            box-shadow:
+                                0 10px 24px -6px rgba(11, 40, 88, 0.10),
+                                0 3px 8px -2px rgba(11, 40, 88, 0.04),
+                                inset 0 1px 0 rgba(255, 255, 255, 0.92);
+                        }
+                        .dark .course-offer-card:hover {
+                            box-shadow:
+                                0 12px 26px -6px rgba(0, 0, 0, 0.55),
+                                0 3px 8px -2px rgba(0, 0, 0, 0.35);
+                        }
+                        .course-offer-card:hover .course-offer-badge {
+                            transform: scale(1.06) translate3d(0, -0.5px, 0);
+                            box-shadow:
+                                0 4px 10px -2px rgba(11, 40, 88, 0.10),
+                                0 1px 3px rgba(11, 40, 88, 0.04);
+                        }
+                        .course-offer-card:hover .course-offer-icon {
+                            transform: scale(1.05) rotate(-3deg);
+                        }
+                        .course-offer-card:hover .course-offer-arrow {
+                            transform: translate3d(2.5px, 0, 0);
+                        }
+                        .course-offer-card:hover .course-offer-wave {
+                            transform: scale(1.06);
+                        }
+                    }
+
+                    /* Clean tactile press feedback on both mobile touch & desktop click */
+                    .course-offer-card:active {
+                        transform: scale(0.985);
+                        transition-duration: 120ms;
+                    }
+                    .course-offer-card:active .course-offer-badge {
+                        transform: scale(0.97);
+                        transition-duration: 120ms;
+                    }
+                    .course-offer-card:active .course-offer-arrow {
+                        transform: translate3d(2px, 0, 0);
+                        transition-duration: 120ms;
+                    }
+
+                    @media (prefers-reduced-motion: reduce) {
+                        .animate-fade-up {
+                            animation: none !important;
+                            opacity: 1 !important;
+                            transform: none !important;
+                        }
+                        .course-offer-card,
+                        .course-offer-badge,
+                        .course-offer-icon,
+                        .course-offer-arrow,
+                        .course-offer-wave {
+                            transition: border-color 150ms ease-out, color 150ms ease-out !important;
+                        }
+                        .course-offer-card:hover,
+                        .course-offer-card:active,
+                        .course-offer-card:hover .course-offer-badge,
+                        .course-offer-card:active .course-offer-badge,
+                        .course-offer-card:hover .course-offer-icon,
+                        .course-offer-card:hover .course-offer-arrow,
+                        .course-offer-card:active .course-offer-arrow,
+                        .course-offer-card:hover .course-offer-wave {
+                            transform: none !important;
+                        }
                     }
                 ` }} />
                 
@@ -894,12 +988,15 @@ export function DiscoverCoursesSection() {
                                 const IconComponent = course.icon;
                                 const isCbse = course.id === 'cbse';
                                 return (
-                                    <Link
+                                    <div
                                         key={course.id}
+                                        style={{ animationDelay: `${index * 55}ms` }}
+                                        className="animate-fade-up min-w-0"
+                                    >
+                                    <Link
                                         href={isCbse || course.id === 'jee' || course.id === 'neet' ? '#' : course.href}
                                         target={course.id === 'youtube-channel' ? '_blank' : undefined}
                                         rel={course.id === 'youtube-channel' ? 'noopener noreferrer' : undefined}
-                                        style={{ animationDelay: `${index * 60}ms` }}
                                         onClick={(e) => {
                                             if (isCbse) {
                                                 e.preventDefault();
@@ -915,11 +1012,11 @@ export function DiscoverCoursesSection() {
                                             }
                                         }}
                                         className={cn(
-                                            "group relative flex items-center justify-between rounded-[12px] min-[390px]:rounded-[13px] md:rounded-[14px] border",
-                                            "shadow-[0_1px_4px_rgba(11,40,88,0.03)] hover:shadow-[0_4px_14px_-2px_rgba(11,40,88,0.07)] md:shadow-[0_2px_8px_-2px_rgba(11,40,88,0.04),0_1px_2px_rgba(11,40,88,0.02)] md:hover:shadow-[0_6px_18px_-3px_rgba(11,40,88,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
+                                            "course-offer-card group relative flex items-center justify-between rounded-[12px] min-[390px]:rounded-[13px] md:rounded-[14px] border touch-manipulation select-none outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]/35",
+                                            "shadow-[0_2px_6px_-1px_rgba(11,40,88,0.045),0_1px_2px_rgba(11,40,88,0.025),inset_0_1px_0_rgba(255,255,255,0.8)] md:shadow-[0_3px_10px_-3px_rgba(11,40,88,0.055),0_1px_3px_rgba(11,40,88,0.025),inset_0_1px_0_rgba(255,255,255,0.85)] dark:shadow-[0_2px_8px_-2px_rgba(0,0,0,0.35)]",
                                             "h-[74px] min-[390px]:h-[78px] sm:h-[84px] md:h-[96px] lg:h-[90px] xl:h-[96px]",
                                             "px-2.5 py-2 min-[390px]:px-2.5 min-[390px]:py-2.5 sm:px-3.5 sm:py-3.5 lg:px-2.5 lg:py-3 xl:px-3 xl:py-3.5",
-                                            "animate-fade-up overflow-hidden",
+                                            "overflow-hidden",
                                             course.cardBg,
                                             course.cardBorder,
                                             course.hoverBorder
@@ -930,16 +1027,16 @@ export function DiscoverCoursesSection() {
 
                                         {/* Left: 2D Icon Container with Soft Circular Badge */}
                                         <div className={cn(
-                                            "relative z-10 w-9 h-9 min-[390px]:w-10 min-[390px]:h-10 sm:w-11 sm:h-11 md:w-11 md:h-11 xl:w-12 xl:h-12 rounded-full border flex items-center justify-center shrink-0 shadow-none group-hover:scale-105 transition-all duration-200",
+                                            "course-offer-badge relative z-10 w-9 h-9 min-[390px]:w-10 min-[390px]:h-10 sm:w-11 sm:h-11 md:w-11 md:h-11 xl:w-12 xl:h-12 rounded-full border flex items-center justify-center shrink-0 shadow-[0_2px_6px_-1px_rgba(11,40,88,0.06),0_1px_2px_rgba(11,40,88,0.03)] dark:shadow-none",
                                             course.badgeBg,
                                             course.badgeBorder
                                         )}>
-                                            <IconComponent className="w-[56%] h-[56%]" />
+                                            <IconComponent className="course-offer-icon w-[56%] h-[56%]" />
                                         </div>
 
                                         {/* Middle: Course Title & Subtitle in IDL Navy (#0B2858) */}
                                         <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2 min-[390px]:ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
-                                            <h4 className="text-[11.5px] min-[390px]:text-[12.5px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-bold text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                            <h4 className="text-[11.5px] min-[390px]:text-[12.5px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-bold text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors duration-200">
                                                 {course.title}
                                             </h4>
                                             <p className="text-[9.5px] min-[390px]:text-[10px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500/90 dark:text-slate-400 truncate mt-0.5 leading-tight">
@@ -948,10 +1045,11 @@ export function DiscoverCoursesSection() {
                                         </div>
 
                                         {/* Right: Arrow Symbol Only (No Background) */}
-                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1 min-[390px]:ml-1.5 sm:ml-2 text-[#0B2858]/45 dark:text-blue-300/60 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
-                                            <ArrowRight className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 sm:w-4 sm:h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2] group-hover:translate-x-0.5 transition-transform duration-200" />
+                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1 min-[390px]:ml-1.5 sm:ml-2 text-[#0B2858]/45 dark:text-blue-300/60 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors duration-200">
+                                            <ArrowRight className="course-offer-arrow w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 sm:w-4 sm:h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2]" />
                                         </div>
                                     </Link>
+                                    </div>
                                 );
                             })}
                         </div>

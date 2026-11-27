@@ -82,10 +82,6 @@ export function Footer() {
                 <li key={link.label}>
                   <Link 
                     href={link.href} 
-                    onClick={link.label === "Contact Us" ? (e) => {
-                      e.preventDefault();
-                      setIsContactOpen(true);
-                    } : undefined}
                     className="text-[#334E75] dark:text-slate-400 hover:text-[#0A5CFF] dark:hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
@@ -185,14 +181,13 @@ export function Footer() {
               </div>
 
               <div className="pt-0.5">
-                <button
-                  type="button"
-                  onClick={() => setIsContactOpen(true)}
+                <Link
+                  href="/contact"
                   className="inline-flex items-center gap-1.5 text-[11.5px] min-[360px]:text-[12px] sm:text-[12.5px] font-bold text-[#0A5CFF] hover:text-[#0845c4] dark:text-[#60A5FA] dark:hover:text-white transition-colors cursor-pointer group py-0.5"
                 >
                   <span>Contact Us</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-1" />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

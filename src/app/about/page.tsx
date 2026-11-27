@@ -137,7 +137,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.55, delay: 0.16, ease: "easeOut" }}
-                className="mt-3 sm:mt-4 lg:mt-[18px] text-[15px] sm:text-[16.5px] lg:text-[18px] text-[#475E82] dark:text-slate-300 font-medium leading-[1.64] max-w-[520px]"
+                className="mt-3 sm:mt-4 lg:mt-[18px] text-[15px] sm:text-[16px] lg:text-[16.5px] text-[#475E82] dark:text-slate-300 font-medium leading-[1.65] max-w-[535px] [text-wrap:balance]"
               >
                 IDL Education helps students build strong concepts, stay consistent, and move forward with the right guidance.
               </motion.p>
@@ -147,13 +147,17 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.22, ease: "easeOut" }}
-                className="mt-4 sm:mt-5 lg:mt-6 flex flex-wrap items-center gap-y-1.5 gap-x-2.5 sm:gap-x-3.5 text-[11px] min-[390px]:text-[11.5px] sm:text-[12.5px] lg:text-[13px] font-bold tracking-[0.1em] sm:tracking-[0.14em] uppercase text-[#0B1F4B] dark:text-slate-200"
+                className="mt-4 sm:mt-5 lg:mt-6 flex flex-wrap items-center gap-y-2 gap-x-1.5 sm:gap-x-2.5 text-[9px] min-[390px]:text-[9.5px] sm:text-[11px] font-bold tracking-[0.03em] min-[390px]:tracking-[0.045em] sm:tracking-[0.11em] uppercase leading-none text-[#162D54] dark:text-slate-200"
               >
-                <span>Strong Concepts</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] shrink-0 opacity-90" aria-hidden="true" />
-                <span>Right Guidance</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#1F4FA3] dark:bg-blue-400 shrink-0 opacity-90" aria-hidden="true" />
-                <span>Real Progress</span>
+                <span className="whitespace-nowrap">Strong Concepts</span>
+                <span className="inline-flex items-center gap-x-1.5 sm:gap-x-2.5 whitespace-nowrap">
+                  <span className="w-1 h-1 sm:w-[5px] sm:h-[5px] rounded-full bg-[#FF6B00] shrink-0" aria-hidden="true" />
+                  <span>Right Guidance</span>
+                </span>
+                <span className="inline-flex items-center gap-x-1.5 sm:gap-x-2.5 whitespace-nowrap">
+                  <span className="w-1 h-1 sm:w-[5px] sm:h-[5px] rounded-full bg-[#1F4FA3] dark:bg-blue-400 shrink-0" aria-hidden="true" />
+                  <span>Real Progress</span>
+                </span>
               </motion.div>
             </div>
 
@@ -194,7 +198,7 @@ export default function AboutPage() {
       </section>
 
       {/* 2. MEET OUR FOUNDER HEADER (SEAMLESS TOP MATCH WITH #F1F6FD ABOVE, WHITE BEHIND HEADING & BOTTOM) */}
-      <div className="w-full bg-gradient-to-b from-[#F1F6FD] via-[#FFFFFF] via-35% to-[#FFFFFF] dark:from-[#0B132B] dark:via-background dark:to-background pt-5 sm:pt-6 md:pt-7 pb-4 sm:pb-5">
+      <div className="w-full bg-gradient-to-b from-[#F1F6FD] via-[#FFFFFF] via-40% to-[#FFFFFF] dark:from-[#0B132B] dark:via-background dark:to-background pt-7 sm:pt-7 md:pt-7 pb-5 sm:pb-5">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center text-center">
             <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1.5 min-[390px]:mb-2 select-none">
@@ -213,62 +217,64 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* 2B. MEET OUR FOUNDER — FULL-WIDTH DARK NAVY PROFILE SECTION */}
-      <section className="w-full relative overflow-hidden bg-gradient-to-b from-[#040B1C] via-[#06122B] to-[#030918] py-7 sm:py-9 md:py-14 lg:py-16 border-y border-white/[0.06]">
+      {/* 2B. MEET OUR FOUNDER — REFINED DARK NAVY PROFILE SECTION */}
+      <section className="w-full relative overflow-hidden bg-gradient-to-b from-[#0A1B3D] via-[#0D2149] to-[#091734] md:from-[#040B1C] md:via-[#06122B] md:to-[#030918] py-8 sm:py-10 md:py-14 lg:py-16 border-y border-[#1E3A8A]/25 md:border-white/[0.06]">
         {/* Subtle IDL Navy/Blue Ambient Depth */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 65% 45% at 50% 0%, rgba(37, 99, 235, 0.14), transparent 70%), radial-gradient(ellipse 48% 52% at 28% 58%, rgba(59, 130, 246, 0.09), transparent 70%)",
+              "radial-gradient(ellipse 72% 46% at 50% 0%, rgba(59, 130, 246, 0.18), transparent 72%), radial-gradient(ellipse 52% 48% at 50% 42%, rgba(96, 165, 250, 0.08), transparent 70%)",
           }}
         />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-          {/* Balanced Horizontal Founder Profile Composition */}
+          {/* Balanced Founder Profile Composition */}
           <div className="max-w-[980px] mx-auto">
-            <div className="relative rounded-2xl bg-gradient-to-br from-[#0B1938]/90 via-[#08142E]/95 to-[#061026]/95 border border-white/[0.08] shadow-[0_18px_44px_-16px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.07)] p-4 sm:p-6 md:p-9 lg:p-10">
-              <div className="flex flex-col md:flex-row items-center gap-3.5 sm:gap-5 md:gap-8 lg:gap-10">
-                {/* Left: Natural-Aspect Founder Portrait Frame */}
-                <div className="w-[230px] min-[390px]:w-[244px] sm:w-[264px] md:w-[270px] lg:w-[295px] shrink-0">
-                  <div className="relative w-full aspect-[11/12] overflow-hidden rounded-xl bg-[#EBF3FF] ring-1 ring-white/15 shadow-[0_12px_28px_-10px_rgba(2,6,23,0.75)]">
-                    <Image
-                      src="/director.png"
-                      alt="Amod Sharma"
-                      fill
-                      priority
-                      sizes="(max-width: 640px) 244px, (max-width: 1024px) 270px, 295px"
-                      className="object-cover object-top"
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10 bg-gradient-to-t from-[#040B1C]/20 via-transparent to-transparent"
-                    />
+            <div className="relative rounded-[20px] md:rounded-2xl bg-gradient-to-b from-white/[0.065] via-white/[0.03] to-white/[0.015] md:bg-gradient-to-br md:from-[#0B1938]/90 md:via-[#08142E]/95 md:to-[#061026]/95 border border-white/[0.10] md:border-white/[0.08] shadow-[0_12px_32px_-14px_rgba(4,12,32,0.45),inset_0_1px_0_rgba(255,255,255,0.11)] md:shadow-[0_18px_44px_-16px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.07)] px-5 py-6 sm:px-7 sm:py-7 md:p-9 lg:p-10">
+              <div className="flex flex-col md:flex-row items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10">
+                {/* Left / Top: Integrated Founder Portrait Frame */}
+                <div className="w-[186px] min-[390px]:w-[198px] sm:w-[228px] md:w-[270px] lg:w-[295px] shrink-0">
+                  <div className="p-[4px] md:p-0 rounded-[18px] md:rounded-xl bg-gradient-to-b from-white/[0.16] via-blue-300/[0.09] to-white/[0.04] md:bg-none">
+                    <div className="relative w-full aspect-[11/12] overflow-hidden rounded-[14px] md:rounded-xl bg-[#EBF3FF] ring-1 ring-white/10 md:ring-white/15 shadow-[0_8px_22px_-8px_rgba(4,12,32,0.52)] md:shadow-[0_12px_28px_-10px_rgba(2,6,23,0.75)]">
+                      <Image
+                        src="/director.png"
+                        alt="Amod Sharma"
+                        fill
+                        priority
+                        sizes="(max-width: 640px) 198px, (max-width: 1024px) 270px, 295px"
+                        className="object-cover object-top"
+                      />
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 rounded-[14px] md:rounded-xl ring-1 ring-inset ring-black/10 bg-gradient-to-t from-[#0A1B3D]/30 via-transparent to-[#0A1B3D]/[0.04] md:from-[#040B1C]/20 md:to-transparent"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                {/* Right: Identity & Integrated Editorial Vision Quote */}
+                {/* Right / Bottom: Identity & Integrated Editorial Vision Quote */}
                 <div className="flex-1 min-w-0 flex flex-col justify-center text-center md:text-left">
                   <div>
-                    <h3 className="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[30px] font-extrabold uppercase tracking-[0.025em] leading-tight text-white">
+                    <h3 className="text-[20px] min-[390px]:text-[21px] sm:text-[25px] md:text-[28px] lg:text-[30px] font-extrabold uppercase tracking-[0.04em] md:tracking-[0.025em] leading-tight text-white">
                       AMOD SHARMA
                     </h3>
-                    <p className="mt-1 md:mt-1.5 text-[13.5px] sm:text-[14.5px] lg:text-[16px] font-semibold tracking-[0.05em] text-[#60A5FA]">
+                    <p className="mt-1.5 text-[12.5px] min-[390px]:text-[13px] sm:text-[14.5px] lg:text-[16px] font-semibold tracking-[0.07em] md:tracking-[0.05em] text-[#93C5FD] md:text-[#60A5FA]">
                       Founder & CEO
                     </p>
                   </div>
 
                   {/* Integrated Editorial Quote Block */}
-                  <blockquote className="mt-3 sm:mt-4 md:mt-5 relative border-l-[2.5px] border-[#3B82F6] bg-gradient-to-r from-[#3B82F6]/[0.07] via-white/[0.02] to-transparent rounded-r-lg pl-3.5 pr-2.5 py-2 sm:pl-5 sm:pr-4 sm:py-3 md:py-3.5 text-left">
+                  <blockquote className="mt-4 md:mt-5 relative md:border-l-[2.5px] md:border-[#3B82F6] md:bg-gradient-to-r md:from-[#3B82F6]/[0.07] md:via-white/[0.02] md:to-transparent md:rounded-r-lg px-1 py-0.5 sm:px-3 md:pl-5 md:pr-4 md:py-3.5 text-center md:text-left">
                     <svg
                       aria-hidden="true"
-                      className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#60A5FA]/50 mb-1 md:mb-1.5 fill-current"
+                      className="mx-auto md:mx-0 w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#93C5FD]/45 md:text-[#60A5FA]/50 mb-1.5 fill-current"
                       viewBox="0 0 24 24"
                     >
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                     </svg>
-                    <p className="text-[14px] sm:text-[15.5px] lg:text-[17px] font-medium text-slate-200/95 leading-[1.62] md:leading-[1.7] tracking-[0.005em]">
+                    <p className="text-[13.5px] min-[390px]:text-[14px] sm:text-[15px] lg:text-[17px] font-normal md:font-medium text-slate-200/90 md:text-slate-200/95 leading-[1.72] md:leading-[1.7] tracking-[0.005em] [text-wrap:pretty]">
                       &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
                     </p>
                   </blockquote>
@@ -280,7 +286,7 @@ export default function AboutPage() {
       </section>
 
       {/* 3. MEET OUR TEAM SECTION — PREMIUM MINIMAL LEADERSHIP SHOWCASE */}
-      <section className="w-full py-10 sm:py-12 md:py-14 lg:py-16 bg-gradient-to-b from-[#F8FAFD] via-[#F4F7FC] to-[#F8FAFD] dark:from-[#060A12] dark:via-[#090E1A] dark:to-[#060A12] relative overflow-hidden border-b border-slate-200/70 dark:border-slate-800/60">
+      <section className="w-full pt-9 pb-10 sm:py-12 md:py-14 lg:py-16 bg-gradient-to-b from-[#FFFFFF] via-[#F6F9FE] via-25% to-[#F8FAFD] md:from-[#F8FAFD] md:via-[#F4F7FC] md:to-[#F8FAFD] dark:from-[#060A12] dark:via-[#090E1A] dark:to-[#060A12] relative overflow-hidden border-b border-slate-200/70 dark:border-slate-800/60">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Section Heading & Subtitle (Landing page header style, no underline) */}
           <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-8 md:mb-9 lg:mb-10">
@@ -315,30 +321,26 @@ export default function AboutPage() {
       </section>
 
       {/* 5. CONTACT / CLOSING CTA */}
-      <section className="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-[#FFFFFF] to-[#FAFCFF] dark:from-slate-900/35 dark:to-slate-900/60 border-b border-slate-200/60 dark:border-slate-800/60">
+      <section className="py-12 sm:py-14 md:py-16 bg-gradient-to-b from-[#FFFFFF] to-[#FAFCFF] dark:from-slate-900/35 dark:to-slate-900/60 border-b border-slate-200/60 dark:border-slate-800/60">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-2xl">
-          <span className="inline-block text-[11px] sm:text-xs font-extrabold uppercase tracking-[0.16em] text-[#1F4FA3] dark:text-blue-400">
-            Partner In Your Success
-          </span>
-          <h2 className="mt-2 text-[22px] sm:text-[28px] md:text-[32px] font-extrabold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-[1.2]">
+          <h2 className="text-[22px] sm:text-[28px] md:text-[32px] font-extrabold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-[1.2]">
             Let’s Build Better Learning Together.
           </h2>
-          <p className="mt-2.5 sm:mt-3 text-[14px] sm:text-[15.5px] text-[#475E82] dark:text-slate-400 font-medium leading-[1.6] max-w-[520px] mx-auto">
-            Have questions about our programs, teaching approach, or admissions? Reach out to our academic team today.
+          <p className="mt-2.5 sm:mt-3 text-[14px] sm:text-[15.5px] text-[#475E82] dark:text-slate-400 font-medium leading-[1.6] mx-auto [text-wrap:balance]">
+            Have questions about our courses or admissions? Reach out to our team.
           </p>
           <div className="mt-6 sm:mt-7 grid grid-cols-2 sm:inline-flex items-center justify-center gap-2.5 sm:gap-3.5 max-w-[330px] sm:max-w-none mx-auto">
-            <button
-              type="button"
-              onClick={() => setIsContactOpen(true)}
-              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-white hover:bg-[#F5F8FD] dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/90 hover:border-[#1F4FA3]/30 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold transition-all shadow-[0_1px_2px_rgba(11,34,77,0.05)] hover:shadow-[0_4px_12px_rgba(11,34,77,0.08)] cursor-pointer"
+            <Link
+              href="/contact"
+              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-[#0A1E4A] hover:bg-[#122D68] text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_2px_8px_rgba(11,34,77,0.16)] hover:shadow-[0_6px_16px_rgba(11,34,77,0.22)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,box-shadow,transform] duration-200 cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 shrink-0" />
+              <MessageSquare className="w-4 h-4 text-white/90 shrink-0" />
               <span>Contact Us</span>
-            </button>
+            </Link>
 
             <a
               href="tel:8860040010"
-              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-white hover:bg-[#F5F8FD] dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/90 hover:border-[#1F4FA3]/30 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold transition-all shadow-[0_1px_2px_rgba(11,34,77,0.05)] hover:shadow-[0_4px_12px_rgba(11,34,77,0.08)] cursor-pointer"
+              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-white hover:bg-[#F5F8FD] dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/90 hover:border-[#1F4FA3]/30 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_1px_2px_rgba(11,34,77,0.05)] hover:shadow-[0_4px_12px_rgba(11,34,77,0.08)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,border-color,box-shadow,transform] duration-200 cursor-pointer"
             >
               <Phone className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 shrink-0" />
               <span>Call Now</span>

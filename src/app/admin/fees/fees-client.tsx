@@ -4763,11 +4763,11 @@ export function FeesClient({
     'h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0';
 
   return (
-    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col">
+    <div className="min-h-[calc(100svh-75px)] flex-1 flex flex-col">
       {/* Left-aligned borderless/bg-less Fee Management controls under Main Site Header */}
       <section
         aria-label="Fee management toolbar"
-        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-[68px] z-40"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-[75px] z-40"
       >
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* 1. Branch Selector */}

@@ -197,79 +197,69 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
         @keyframes heroFadeUp {
           0% {
             opacity: 0;
-            transform: translateY(26px);
-            filter: blur(5px);
+            transform: translate3d(0, 14px, 0);
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
-            filter: blur(0px);
+            transform: none;
           }
         }
 
         @keyframes heroBadgePop {
           0% {
             opacity: 0;
-            transform: translateY(14px) scale(0.92);
+            transform: translate3d(0, 10px, 0);
           }
           100% {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: none;
           }
         }
 
         @keyframes heroButtonRise {
           0% {
             opacity: 0;
-            transform: translateY(22px);
-            filter: blur(3px);
+            transform: translate3d(0, 12px, 0);
           }
           100% {
             opacity: 1;
-            transform: translateY(0);
-            filter: blur(0px);
+            transform: none;
           }
         }
 
         @keyframes heroStudentReveal {
           0% {
             opacity: 0;
-            transform: translateY(24px) scale(0.96);
+            transform: translate3d(0, 14px, 0);
           }
           100% {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: none;
           }
         }
 
         .animate-hero-badge {
-          animation: heroBadgePop 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
-          will-change: transform, opacity;
+          animation: heroBadgePop 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.04s both;
         }
 
         .animate-hero-line1 {
-          animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
-          will-change: transform, opacity, filter;
+          animation: heroFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
         }
 
         .animate-hero-line2 {
-          animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
-          will-change: transform, opacity, filter;
+          animation: heroFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.13s both;
         }
 
         .animate-hero-subtitle {
-          animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
-          will-change: transform, opacity, filter;
+          animation: heroFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.19s both;
         }
 
         .animate-hero-cta {
-          animation: heroButtonRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
-          will-change: transform, opacity, filter;
+          animation: heroButtonRise 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
         }
 
         .animate-hero-student {
-          animation: heroStudentReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.20s both;
-          will-change: transform, opacity;
+          animation: heroStudentReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -282,7 +272,6 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;
-            filter: none !important;
           }
         }
       ` }} />
@@ -316,8 +305,8 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                       
                       {/* LEFT COLUMN: All text & buttons strictly LEFT-ALIGNED */}
                       <div 
-                        key={`${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
-                        className="w-[62%] sm:w-[58%] lg:w-full lg:max-w-[58%] xl:max-w-[60%] flex flex-col items-start text-left relative z-20 pt-0 pb-2 sm:pb-3 lg:pb-0"
+                        key={`${slide.id}-${animKey}`}
+                        className="w-[62%] sm:w-[58%] lg:w-full lg:max-w-[58%] xl:max-w-[60%] flex flex-col items-start text-left relative z-20 pt-0 pb-2 sm:pb-3 lg:pb-0 lg:-translate-y-[28px] xl:-translate-y-[30px]"
                       >
                         
                         {/* 1. Top Pill Badge (if any) */}
@@ -339,57 +328,45 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                         )}
 
                         {/* 2. Main Headline (Left Aligned with balanced spacing) */}
-                        <h1 className="text-[15.5px] min-[360px]:text-[16.5px] min-[390px]:text-[18px] sm:text-3xl md:text-4xl lg:text-[48px] xl:text-[54px] font-black tracking-tight leading-[1.14] lg:leading-[1.2] mb-1.5 sm:mb-2.5 lg:mb-4 text-left">
+                        <h1 className="text-[15.5px] min-[360px]:text-[16.5px] min-[390px]:text-[18px] sm:text-3xl md:text-4xl lg:text-[48px] xl:text-[54px] font-black tracking-tight leading-[1.14] lg:leading-[1.2] mb-1.5 sm:mb-2.5 lg:mb-4 text-left antialiased">
                           <span className={cn(
-                            "block text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]",
+                            "block text-white [text-shadow:0_2px_10px_rgba(4,16,52,0.42)]",
                             isActive && "animate-hero-line1"
                           )}>
                             {slide.headlineLine1}
                           </span>
                           <span className={cn(
-                            "block mt-0.5 sm:mt-1 lg:mt-1.5 pb-0.5 sm:pb-1.5 lg:pb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8C5] via-[#FFD233] to-[#F59E0B] drop-shadow-[0_2px_16px_rgba(250,204,21,0.45)] font-black",
+                            "block mt-0.5 sm:mt-1 lg:mt-1.5 pb-0.5 sm:pb-1.5 lg:pb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8C5] via-[#FFD233] to-[#F59E0B] drop-shadow-[0_2px_12px_rgba(250,204,21,0.32)] font-black",
                             isActive && "animate-hero-line2"
                           )}>
                             {slide.headlineLine2}
                           </span>
                         </h1>
 
-                        {/* 3. Supporting Subtitle / Stream Tag (Left Aligned) */}
+                        {/* 3. Supporting Subtitle / Stream Tag (Crisp, sharp, never blurred or faded) */}
                         {slide.streamText && (
                           <div className={cn(
                             "mb-2.5 sm:mb-4 md:mb-5 lg:mb-7 text-left max-w-xl",
                             isActive && "animate-hero-subtitle"
                           )}>
-                            <p className="text-slate-100/95 font-medium text-[9.5px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base leading-[1.35] sm:leading-normal tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]">
+                            <p className="text-white/95 font-medium text-[9.5px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base leading-[1.35] sm:leading-normal tracking-wide antialiased [text-shadow:0_1px_2px_rgba(4,16,52,0.38)]">
                               {slide.streamText}
                             </p>
                           </div>
                         )}
 
-                        {/* 4. Two CTA Buttons (Left Aligned) */}
+                        {/* 4. Single Primary CTA Button (Clean, integrated satin-gold finish) */}
                         <div className={cn(
-                          "flex flex-wrap items-center justify-start gap-1.5 min-[390px]:gap-2 sm:gap-3 lg:gap-4",
+                          "flex flex-wrap items-center justify-start",
                           isActive && "animate-hero-cta"
                         )}>
-                          {/* Primary Golden CTA Button */}
                           <button
                             type="button"
                             onClick={() => setIsEnrollOpen(true)}
-                            className="group relative inline-flex items-center justify-center gap-1 sm:gap-2 h-[28px] min-[390px]:h-[30px] sm:h-10 md:h-11 lg:h-12 px-2.5 min-[390px]:px-3 sm:px-6 md:px-7 lg:px-9 rounded-[5px] bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#D97706] hover:brightness-105 active:scale-95 text-slate-950 font-black text-[10px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base shadow-[0_0_24px_rgba(245,158,11,0.4),0_4px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] border-t border-amber-200/60 transition-all duration-200 cursor-pointer overflow-hidden whitespace-nowrap"
+                            className="group inline-flex items-center justify-center gap-1.5 sm:gap-2 lg:gap-2.5 h-[34px] min-[390px]:h-[36px] sm:h-10 md:h-11 lg:h-12 px-4 min-[390px]:px-5 sm:px-6 md:px-7 lg:px-8 rounded-[5px] bg-[#F9CE2B] hover:bg-[#FBD642] active:bg-[#EBBF1E] border border-[#FDE68A]/45 hover:border-[#FEF08A]/65 text-[#071A45] font-extrabold text-[11.5px] min-[390px]:text-[12px] sm:text-xs md:text-sm lg:text-[15.5px] antialiased shadow-[0_4px_14px_-3px_rgba(4,16,52,0.34),0_1px_3px_rgba(4,16,52,0.18)] lg:hover:-translate-y-[1px] lg:active:translate-y-0 lg:hover:shadow-[0_8px_20px_-4px_rgba(4,16,52,0.42),0_2px_6px_rgba(4,16,52,0.2)] active:scale-[0.985] lg:active:scale-100 transition-[transform,box-shadow,background-color,border-color] duration-200 ease-out cursor-pointer touch-manipulation select-none whitespace-nowrap outline-none focus-visible:outline-none"
                           >
-                            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-700 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform ease-out pointer-events-none" />
-                            <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 fill-slate-950 text-slate-950 shrink-0" />
-                            <span className="tracking-wide">{slide.buttonText}</span>
-                          </button>
-
-                          {/* Secondary Outline Glass CTA Button: "Book Free Demo" with Phone Icon */}
-                          <button
-                            type="button"
-                            onClick={() => setIsBookDemoOpen(true)}
-                            className="inline-flex items-center justify-center gap-1 sm:gap-2 h-[28px] min-[390px]:h-[30px] sm:h-10 md:h-11 lg:h-12 px-2 min-[390px]:px-2.5 sm:px-5 md:px-6 lg:px-8 rounded-[5px] bg-[#0E3584]/65 hover:bg-[#154AC7]/80 border border-sky-300/50 hover:border-sky-200 text-white font-bold text-[10px] min-[390px]:text-[10.5px] sm:text-xs md:text-sm lg:text-base backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.30)] hover:shadow-[0_0_28px_rgba(59,130,246,0.45)] active:scale-95 transition-all duration-200 cursor-pointer whitespace-nowrap"
-                          >
-                            <Phone className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 lg:w-4 lg:h-4 text-cyan-300 shrink-0" />
-                            <span>{slide.secondaryButtonText}</span>
+                            <Zap className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 lg:w-[16px] lg:h-[16px] -mt-[0.5px] text-[#071A45] fill-[#071A45] shrink-0" />
+                            <span className="leading-none tracking-[0.015em]">{slide.buttonText}</span>
                           </button>
                         </div>
 
@@ -398,7 +375,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                       {/* RIGHT COLUMN: Naturally Integrated Student Visual (Circle centered behind student & grounded to floor) */}
                       <div className="w-[38%] sm:w-[42%] lg:w-full lg:max-w-[42%] xl:max-w-[40%] flex items-end justify-end relative self-end -mr-2 sm:mr-0 -mb-6 sm:-mb-8 md:-mb-10 lg:mb-0">
                         <div 
-                          key={`student-${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
+                          key={`student-${slide.id}-${animKey}`}
                           className={cn(
                             "relative w-[142px] min-[360px]:w-[152px] min-[390px]:w-[166px] sm:w-[235px] md:w-[300px] lg:w-[420px] xl:w-[460px] h-[176px] min-[360px]:h-[188px] min-[390px]:h-[202px] sm:h-[268px] md:h-[340px] lg:h-[480px] xl:h-[510px] flex items-end justify-center shrink-0",
                             isActive && "animate-hero-student"
@@ -448,7 +425,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
           </Carousel>
 
           {/* Bottom Slider Controls: Left Animated Progress Line + Circular Outline Buttons (positioned cleanly under left text like desktop) */}
-          <div className="absolute bottom-7 min-[390px]:bottom-9 sm:bottom-11 md:bottom-14 lg:bottom-20 left-0 right-0 z-30 pointer-events-auto px-3.5 min-[390px]:px-4 sm:px-8 md:px-12 lg:px-16">
+          <div className="absolute bottom-7 min-[390px]:bottom-9 sm:bottom-11 md:bottom-14 lg:bottom-[108px] xl:bottom-[110px] left-0 right-0 z-30 pointer-events-auto px-3.5 min-[390px]:px-4 sm:px-8 md:px-12 lg:px-16">
             <div className="max-w-7xl mx-auto flex items-center justify-start gap-2.5 sm:gap-5 lg:gap-6">
               
               {/* Progress Line Track (Starting to end color fill, transitions slide when full) */}

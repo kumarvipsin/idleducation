@@ -241,9 +241,9 @@ function AdminLayout({
     <>
       <Header />
       <SidebarProvider>
-        <div className="flex min-h-[calc(100svh-68px)] w-full bg-[#F8FAFC] dark:bg-slate-950">
-          <Sidebar className={`md:top-[68px] md:h-[calc(100svh-68px)]${usePolishedSidebar ? ' antialiased' : ''}`}>
-            <SidebarHeader className="pt-[76px] md:pt-2 px-2 pb-0">
+        <div className="flex min-h-[calc(100svh-75px)] w-full bg-[#F8FAFC] dark:bg-slate-950">
+          <Sidebar className={`md:top-[75px] md:h-[calc(100svh-75px)]${usePolishedSidebar ? ' antialiased' : ''}`}>
+            <SidebarHeader className="pt-[83px] md:pt-2 px-2 pb-0">
               <Link
                 href="/admin/profile"
                 data-testid={isBranchAdmin ? "branch-sidebar-profile-card" : "super-sidebar-profile-card"}
