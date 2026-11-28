@@ -22,6 +22,9 @@ interface Booking {
   email: string;
   countryCode?: string;
   mobile: string;
+  fatherPhone?: string;
+  motherPhone?: string;
+  studentPhone?: string;
   sessionMode?: string;
   mode?: string;
   state: string;
@@ -148,8 +151,20 @@ export default function AdminDemoPage() {
                             <TableCell className="font-medium">{booking.studentName}</TableCell>
                             <TableCell className="hidden sm:table-cell">{booking.classCourse}</TableCell>
                             <TableCell className="hidden md:table-cell">
-                              <div>{booking.email}</div>
-                              <div>{booking.countryCode?.split('-')[0]} {booking.mobile}</div>
+                              <div className="space-y-0.5 text-xs">
+                                {(booking.fatherPhone || booking.mobile) && (
+                                  <div className="font-mono">F: {booking.countryCode?.split('-')[0] || '+91'} {booking.fatherPhone || booking.mobile}</div>
+                                )}
+                                {booking.motherPhone && (
+                                  <div className="font-mono text-muted-foreground">M: +91 {booking.motherPhone}</div>
+                                )}
+                                {booking.studentPhone && (
+                                  <div className="font-mono text-muted-foreground">S: +91 {booking.studentPhone}</div>
+                                )}
+                                {booking.email && (
+                                  <div className="text-muted-foreground">{booking.email}</div>
+                                )}
+                              </div>
                             </TableCell>
                             <TableCell className="hidden lg:table-cell">
                               <Badge variant={isOnline ? 'default' : 'secondary'}>

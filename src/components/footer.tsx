@@ -57,7 +57,7 @@ const footerColumns: FooterColumn[] = [
 const legalItems: FooterLinkItem[] = [
   { label: "Privacy Policy" },
   { label: "Refund Rules" },
-  { label: "Terms & Conditions" },
+  { label: "Terms & Conditions", href: "/terms-conditions" },
 ];
 
 /** Renders a footer item with double-chevron marker; clickable only when an active href is configured. */

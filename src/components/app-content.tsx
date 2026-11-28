@@ -24,6 +24,7 @@ export function AppContent({
     '/student-enquiry',
     '/volunteer',
     '/admission',
+    '/admission/preview',
     '/login'
   ];
   

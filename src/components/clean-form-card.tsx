@@ -35,22 +35,22 @@ export const STUDENT_CLASS_OPTIONS = [
 ] as const;
 
 export const CLEAN_INPUT_CLASS =
-  "h-[42px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-[#7A8CA8] dark:placeholder:text-slate-500 placeholder:font-normal placeholder:normal-case focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#155EEF] focus:shadow-[0_1.5px_0_0_#155EEF] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#155EEF] focus-visible:shadow-[0_1.5px_0_0_#155EEF] shadow-none leading-none transition-[border-color,box-shadow] duration-150";
+  "h-[42px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-[#7A8CA8] dark:placeholder:text-slate-500 placeholder:font-normal placeholder:normal-case focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1.5px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1.5px_0_0_#2864E8] shadow-none leading-none transition-[border-color,box-shadow] duration-150";
 
 export const CLEAN_SELECT_TRIGGER_CLASS =
-  "h-[42px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 data-[placeholder]:text-[#7A8CA8] dark:data-[placeholder]:text-slate-500 data-[placeholder]:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#155EEF] focus:shadow-[0_1.5px_0_0_#155EEF] data-[state=open]:border-[#155EEF] data-[state=open]:shadow-[0_1.5px_0_0_#155EEF] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>svg]:w-4 [&>svg]:h-4 [&>svg]:text-[#64748B] [&>svg]:opacity-85 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 data-[state=open]:[&>svg]:rotate-180 data-[state=open]:[&>svg]:text-[#155EEF] cursor-pointer";
+  "h-[42px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 data-[placeholder]:text-[#7A8CA8] dark:data-[placeholder]:text-slate-500 data-[placeholder]:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1.5px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1.5px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>svg]:w-4 [&>svg]:h-4 [&>svg]:text-[#64748B] [&>svg]:opacity-85 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 data-[state=open]:[&>svg]:rotate-180 data-[state=open]:[&>svg]:text-[#2864E8] cursor-pointer";
 
 export const CLEAN_SELECT_CONTENT_CLASS =
   "rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-1 shadow-[0_12px_32px_-8px_rgba(11,34,77,0.16),0_2px_6px_rgba(11,34,77,0.05)] max-h-[240px]";
 
 export const CLEAN_SELECT_ITEM_CLASS =
-  "rounded-lg cursor-pointer py-2 text-[13px] font-medium text-[#0B1F4B] dark:text-slate-100 focus:bg-[#EEF4FF] focus:text-[#155EEF] transition-colors";
+  "rounded-lg cursor-pointer py-2 text-[13px] font-medium text-[#0B1F4B] dark:text-slate-100 focus:bg-[#EEF4FF] focus:text-[#2864E8] transition-colors";
 
 export const CLEAN_TEXTAREA_CLASS =
-  "min-h-[80px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 py-2 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-[#7A8CA8] dark:placeholder:text-slate-500 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#155EEF] focus:shadow-[0_1.5px_0_0_#155EEF] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#155EEF] focus-visible:shadow-[0_1.5px_0_0_#155EEF] shadow-none resize-none leading-relaxed transition-[border-color,box-shadow] duration-150";
+  "min-h-[80px] w-full border-0 border-b border-slate-200 dark:border-slate-700/85 hover:border-slate-300 dark:hover:border-slate-600 !bg-transparent rounded-none px-0 py-2 text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-[#7A8CA8] dark:placeholder:text-slate-500 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1.5px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1.5px_0_0_#2864E8] shadow-none resize-none leading-relaxed transition-[border-color,box-shadow] duration-150";
 
 export const CLEAN_CTA_BUTTON_CLASS =
-  "group w-full h-11 rounded-[7px] font-bold text-xs tracking-[0.09em] bg-[#155EEF] hover:bg-[#114FD1] active:bg-[#0D41B5] text-white border border-[#155EEF] shadow-none active:scale-[0.99] transition-[background-color,transform] duration-150 cursor-pointer touch-manipulation flex items-center justify-center gap-2 uppercase";
+  "group w-full h-11 rounded-[7px] font-bold text-xs tracking-[0.09em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white border border-[#2864E8] shadow-none active:scale-[0.99] transition-[background-color,transform] duration-150 cursor-pointer touch-manipulation flex items-center justify-center gap-2 uppercase";
 
 export const CLEAN_ERROR_CLASS = "text-[11.5px] font-medium text-rose-500 pt-1.5";
 
@@ -206,11 +206,11 @@ export function CleanModeSelector({
                 className={cn(
                   "w-[15px] h-[15px] sm:w-[17px] sm:h-[17px] rounded-full flex items-center justify-center transition-all duration-150 shrink-0",
                   isSelected
-                    ? "border-[2px] border-[#155EEF] bg-white dark:bg-slate-900"
+                    ? "border-[2px] border-[#2864E8] bg-white dark:bg-slate-900"
                     : "border-[1.5px] border-slate-300 dark:border-slate-700 bg-transparent"
                 )}
               >
-                {isSelected && <div className="w-[6px] h-[6px] sm:w-[7px] sm:h-[7px] rounded-full bg-[#155EEF]" />}
+                {isSelected && <div className="w-[6px] h-[6px] sm:w-[7px] sm:h-[7px] rounded-full bg-[#2864E8]" />}
               </div>
               <span
                 className={cn(
@@ -260,7 +260,7 @@ export function CleanSuccessDialog({
           <Button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="w-full h-10 rounded-[7px] bg-[#155EEF] hover:bg-[#114FD1] text-white font-bold text-xs tracking-[0.08em] uppercase shadow-none cursor-pointer"
+            className="w-full h-10 rounded-[7px] bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold text-xs tracking-[0.08em] uppercase shadow-none cursor-pointer"
           >
             Done
           </Button>

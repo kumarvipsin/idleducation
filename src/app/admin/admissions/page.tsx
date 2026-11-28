@@ -33,9 +33,14 @@ interface Admission {
   fatherPhone: string;
   motherPhone: string;
   address: string;
-  state: string;
-  pincode: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
   classApplied: string;
+  board?: string;
+  medium?: string;
+  mode?: string;
+  admissionSession?: string;
   previousSchool?: string;
   additionalInfo?: string;
   createdAt: string;
@@ -281,7 +286,16 @@ export default function AdminAdmissionsPage() {
                                <CardTitle className="text-base">Address</CardTitle>
                             </CardHeader>
                             <CardContent className="p-4 pt-0 text-sm">
-                                <p>{`${selectedAdmission.address}, ${selectedAdmission.state} - ${selectedAdmission.pincode}`}</p>
+                                <p>
+                                  {[
+                                    selectedAdmission.address,
+                                    selectedAdmission.city,
+                                    selectedAdmission.state,
+                                    selectedAdmission.pincode,
+                                  ]
+                                    .filter(Boolean)
+                                    .join(', ') || '—'}
+                                </p>
                             </CardContent>
                         </Card>
                     </div>
@@ -313,6 +327,8 @@ export default function AdminAdmissionsPage() {
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <DetailItem icon={<GraduationCap size={16}/>} label="Class Applied For" value={selectedAdmission.classApplied} />
+                                <DetailItem icon={<Calendar size={16}/>} label="Session & Mode" value={[selectedAdmission.admissionSession, selectedAdmission.mode].filter(Boolean).join(' • ')} />
+                                <DetailItem icon={<Building2 size={16}/>} label="Board & Medium" value={[selectedAdmission.board, selectedAdmission.medium].filter(Boolean).join(' • ')} />
                                 <DetailItem icon={<Building size={16}/>} label="Previous School" value={selectedAdmission.previousSchool} />
                                 <DetailItem icon={<Info size={16}/>} label="Additional Information" value={selectedAdmission.additionalInfo} />
                             </CardContent>

@@ -97,7 +97,10 @@ export function BranchHeroDemoForm({
 
   const [studentName, setStudentName] = useState('');
   const [guardianName, setGuardianName] = useState('');
-  const [mobile, setMobile] = useState('');
+  const [fatherPhone, setFatherPhone] = useState('');
+  const [motherPhone, setMotherPhone] = useState('');
+  const [studentPhone, setStudentPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [classCourse, setClassCourse] = useState('');
   const [programTitle, setProgramTitle] = useState('');
   const [subjects, setSubjects] = useState('');
@@ -217,10 +220,34 @@ export function BranchHeroDemoForm({
       });
       return;
     }
-    if (!/^\d{10}$/.test(mobile)) {
+    if (!/^\d{10}$/.test(fatherPhone)) {
       toast({
-        title: 'Valid Mobile Required',
-        description: 'Please enter a valid 10-digit mobile number.',
+        title: 'Father Contact Required',
+        description: 'Please enter a valid 10-digit father contact number.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (motherPhone.trim() && !/^\d{10}$/.test(motherPhone.trim())) {
+      toast({
+        title: 'Invalid Mother Contact',
+        description: 'Please enter a valid 10-digit mother contact number.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (studentPhone.trim() && !/^\d{10}$/.test(studentPhone.trim())) {
+      toast({
+        title: 'Invalid Student Contact',
+        description: 'Please enter a valid 10-digit student contact number.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast({
+        title: 'Invalid Email Address',
+        description: 'Please enter a valid email address.',
         variant: 'destructive',
       });
       return;
@@ -261,7 +288,11 @@ export function BranchHeroDemoForm({
         ? await submitStudentEnquiry({
             studentName: studentName.trim(),
             guardianName: guardianName.trim(),
-            mobile: mobile.trim(),
+            fatherPhone: fatherPhone.trim(),
+            motherPhone: motherPhone.trim(),
+            studentPhone: studentPhone.trim(),
+            mobile: fatherPhone.trim(),
+            email: email.trim(),
             state: 'Delhi',
             branch: branchValue,
             classCourse,
@@ -272,8 +303,11 @@ export function BranchHeroDemoForm({
             mode: 'Offline',
             studentName: studentName.trim(),
             guardianName: guardianName.trim(),
-            mobile: mobile.trim(),
-            email: '',
+            fatherPhone: fatherPhone.trim(),
+            motherPhone: motherPhone.trim(),
+            studentPhone: studentPhone.trim(),
+            mobile: fatherPhone.trim(),
+            email: email.trim(),
             state: 'Delhi',
             branch: branchValue,
             nearestBranch: branchValue,
@@ -297,7 +331,10 @@ export function BranchHeroDemoForm({
         });
         setStudentName('');
         setGuardianName('');
-        setMobile('');
+        setFatherPhone('');
+        setMotherPhone('');
+        setStudentPhone('');
+        setEmail('');
         setClassCourse('');
         setProgramTitle('');
         setSubjects('');
@@ -388,36 +425,78 @@ export function BranchHeroDemoForm({
           </div>
 
           <div className="space-y-2.5">
-            {/* 1. Student Full Name */}
-            <input
-              type="text"
-              value={studentName}
-              onChange={(e) => setStudentName(toTitleCase(e.target.value))}
-              placeholder="Student Full Name *"
-              className={HERO_INPUT_CLASS}
-            />
-
-            {/* 2. Father / Guardian Name */}
-            <input
-              type="text"
-              value={guardianName}
-              onChange={(e) => setGuardianName(toTitleCase(e.target.value))}
-              placeholder="Father / Guardian Name *"
-              className={HERO_INPUT_CLASS}
-            />
-
-            {/* 3. Mobile Number */}
-            <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
-              <span className="pl-3.5 pr-1.5 text-[13.5px] md:text-[12.5px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
-                +91
-              </span>
+            {/* 1. Student Full Name & 2. Father / Guardian Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <input
-                type="tel"
-                maxLength={10}
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value.replace(/\D/g, ''))}
-                placeholder="Mobile Number *"
-                className="flex-1 min-w-0 h-full px-1 pr-3.5 bg-transparent text-[13.5px] md:text-[13px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
+                type="text"
+                value={studentName}
+                onChange={(e) => setStudentName(toTitleCase(e.target.value))}
+                placeholder="Student Full Name *"
+                className={HERO_INPUT_CLASS}
+              />
+
+              <input
+                type="text"
+                value={guardianName}
+                onChange={(e) => setGuardianName(toTitleCase(e.target.value))}
+                placeholder="Father / Guardian Name *"
+                className={HERO_INPUT_CLASS}
+              />
+            </div>
+
+            {/* 3. Father Contact & Mother Contact (Optional) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
+                <span className="pl-3 pr-1.5 text-[13px] md:text-[12px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  maxLength={10}
+                  value={fatherPhone}
+                  onChange={(e) => setFatherPhone(e.target.value.replace(/\D/g, ''))}
+                  placeholder="Father Contact *"
+                  className="flex-1 min-w-0 h-full px-1 pr-2.5 bg-transparent text-[13px] md:text-[12.5px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 placeholder:font-normal tabular-nums focus:outline-none"
+                />
+              </div>
+
+              <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
+                <span className="pl-2.5 pr-1 text-[13px] md:text-[12px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  maxLength={10}
+                  value={motherPhone}
+                  onChange={(e) => setMotherPhone(e.target.value.replace(/\D/g, ''))}
+                  placeholder="Mother Contact (Opt.)"
+                  className="flex-1 min-w-0 h-full px-1 pr-2 bg-transparent text-[13px] md:text-[12.5px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 md:placeholder:text-[11.5px] placeholder:font-normal tabular-nums focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* 4. Student Contact (Optional) & Email Address (Optional) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="flex items-center h-[44px] md:h-[38px] rounded-[10px] md:rounded-[8px] border border-slate-200/80 md:border-slate-200/85 hover:border-slate-300/90 bg-[#F8FAFD] md:bg-slate-50/35 focus-within:bg-white overflow-hidden focus-within:border-[#2864E8] focus-within:ring-2 focus-within:ring-[#2864E8]/15 transition-all">
+                <span className="pl-2.5 pr-1 text-[13px] md:text-[12px] font-bold md:font-semibold text-[#173568]/75 md:text-slate-500 tabular-nums select-none shrink-0">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  maxLength={10}
+                  value={studentPhone}
+                  onChange={(e) => setStudentPhone(e.target.value.replace(/\D/g, ''))}
+                  placeholder="Student Contact (Opt.)"
+                  className="flex-1 min-w-0 h-full px-1 pr-2 bg-transparent text-[13px] md:text-[12.5px] font-medium text-[#173568] md:text-slate-800 placeholder:text-slate-400 md:placeholder:text-slate-400/90 md:placeholder:text-[11.5px] placeholder:font-normal tabular-nums focus:outline-none"
+                />
+              </div>
+
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email Address (Optional)"
+                className={HERO_INPUT_CLASS}
               />
             </div>
 

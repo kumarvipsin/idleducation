@@ -37,10 +37,20 @@ const classOptions = [
   "Class 12 PASS"
 ];
 
+const optionalPhoneField = (label: string) =>
+  z
+    .string()
+    .regex(/^\d{10}$/, { message: `Please enter a valid 10-digit ${label} contact number.` })
+    .optional()
+    .or(z.literal(''));
+
 const enquirySchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   guardianName: z.string().min(2, { message: "Parent/Guardian name is required." }),
-  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  fatherPhone: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit father contact number." }),
+  motherPhone: optionalPhoneField("mother"),
+  studentPhone: optionalPhoneField("student"),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   branch: z.string().min(1, { message: "Please select a branch / centre." }),
   state: z.string().min(1, { message: "Please select your state." }),
   classCourse: z.string().min(1, { message: "Please select a class." }),
@@ -74,7 +84,10 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
     defaultValues: {
       studentName: '',
       guardianName: '',
-      mobile: '',
+      fatherPhone: '',
+      motherPhone: '',
+      studentPhone: '',
+      email: '',
       branch: '',
       state: 'Delhi',
       classCourse: '',
@@ -107,7 +120,11 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
         studentName: data.studentName,
         guardianName: data.guardianName,
         classCourse: data.classCourse,
-        mobile: data.mobile,
+        fatherPhone: data.fatherPhone,
+        motherPhone: data.motherPhone || '',
+        studentPhone: data.studentPhone || '',
+        mobile: data.fatherPhone,
+        email: data.email || '',
         state: data.state || 'Delhi',
         branch: data.branch || '',
         message: data.message || '',
@@ -119,7 +136,10 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
         form.reset({
           studentName: '',
           guardianName: '',
-          mobile: '',
+          fatherPhone: '',
+          motherPhone: '',
+          studentPhone: '',
+          email: '',
           branch: '',
           state: 'Delhi',
           classCourse: '',
@@ -214,14 +234,14 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                   />
                 </div>
 
-                {/* Row 2: Mobile Number & Preferred Branch in 2-column grid */}
+                {/* Row 2: Father Contact & Mother Contact (Optional) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
-                    name="mobile"
+                    name="fatherPhone"
                     render={({ field }) => (
                       <FormItem className="space-y-0 text-left">
-                        <FormLabel className="sr-only">Mobile Number</FormLabel>
+                        <FormLabel className="sr-only">Father Contact</FormLabel>
                         <FormControl>
                           <div className="relative h-[38px] sm:h-[40px] w-full flex items-center">
                             <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none pointer-events-none">
@@ -230,7 +250,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                             <Input
                               type="tel"
                               maxLength={10}
-                              placeholder="Mobile Number (10 digits) *"
+                              placeholder="Father Contact *"
                               {...field}
                               className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                               onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
@@ -242,6 +262,86 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                     )}
                   />
 
+                  <FormField
+                    control={form.control}
+                    name="motherPhone"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Mother Contact (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative h-[38px] sm:h-[40px] w-full flex items-center">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none pointer-events-none">
+                              +91
+                            </span>
+                            <Input
+                              type="tel"
+                              maxLength={10}
+                              placeholder="Mother Contact (Optional)"
+                              {...field}
+                              value={field.value || ''}
+                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                              onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Row 3: Student Contact (Optional) & Email Address (Optional) */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                  <FormField
+                    control={form.control}
+                    name="studentPhone"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Student Contact (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative h-[38px] sm:h-[40px] w-full flex items-center">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none pointer-events-none">
+                              +91
+                            </span>
+                            <Input
+                              type="tel"
+                              maxLength={10}
+                              placeholder="Student Contact (Optional)"
+                              {...field}
+                              value={field.value || ''}
+                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                              onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Email Address (Optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Email Address (Optional)"
+                            {...field}
+                            value={field.value || ''}
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Row 4: Preferred Branch, State & Class / Course */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="branch"
@@ -269,10 +369,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                       </FormItem>
                     )}
                   />
-                </div>
 
-                {/* Row 3: State & Class / Course in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="state"

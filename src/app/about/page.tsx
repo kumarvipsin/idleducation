@@ -348,7 +348,7 @@ export default function AboutPage() {
           <div className="mt-5 sm:mt-6 grid grid-cols-2 sm:inline-flex items-center justify-center gap-2.5 sm:gap-3.5 max-w-[330px] sm:max-w-none mx-auto">
             <Link
               href="/contact"
-              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-[#0A1E4A] hover:bg-[#122D68] text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_2px_8px_rgba(11,34,77,0.16)] hover:shadow-[0_6px_16px_rgba(11,34,77,0.22)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,box-shadow,transform] duration-200 cursor-pointer"
+              className="h-11 sm:h-[46px] sm:min-w-[164px] px-4 sm:px-7 rounded-full bg-[#0A1E4A] hover:bg-[#122D68] text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_2px_8px_rgba(11,34,77,0.16)] hover:shadow-[0_6px_16px_rgba(11,34,77,0.22)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,box-shadow,transform] duration-200 cursor-pointer"
             >
               <MessageSquare className="w-4 h-4 text-white/90 shrink-0" />
               <span>Contact Us</span>
@@ -356,7 +356,7 @@ export default function AboutPage() {
 
             <a
               href="tel:8860040010"
-              className="h-11 sm:h-[46px] sm:min-w-[160px] px-4 sm:px-6 rounded-xl bg-white hover:bg-[#F5F8FD] dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/90 hover:border-[#1F4FA3]/30 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_1px_2px_rgba(11,34,77,0.05)] hover:shadow-[0_4px_12px_rgba(11,34,77,0.08)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,border-color,box-shadow,transform] duration-200 cursor-pointer"
+              className="h-11 sm:h-[46px] sm:min-w-[164px] px-4 sm:px-7 rounded-full bg-white hover:bg-[#F5F8FD] dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200/90 hover:border-[#1F4FA3]/30 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-[13.5px] sm:text-sm font-bold shadow-[0_1px_2px_rgba(11,34,77,0.05)] hover:shadow-[0_4px_12px_rgba(11,34,77,0.08)] lg:hover:-translate-y-[1px] active:translate-y-0 transition-[background-color,border-color,box-shadow,transform] duration-200 cursor-pointer"
             >
               <Phone className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 shrink-0" />
               <span>Call Now</span>

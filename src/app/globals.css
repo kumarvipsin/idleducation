@@ -435,6 +435,21 @@ p, a, span, li, button, label, th, td, input, textarea, select {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Crisp subpixel stem rendering for dark-navy header & mobile drawer navigation on light surface */
+:root:not(.dark) header[data-site-header="true"] nav,
+:root:not(.dark) header[data-site-header="true"] a:not([data-navbar-cta="true"]),
+:root:not(.dark) header[data-site-header="true"] button:not([data-navbar-cta="true"]),
+:root:not(.dark) header[data-site-header="true"] span:not([data-navbar-cta="true"]),
+:root:not(.dark) header[data-site-header="true"] p,
+:root:not(.dark) [data-mobile-drawer="true"] nav,
+:root:not(.dark) [data-mobile-drawer="true"] a,
+:root:not(.dark) [data-mobile-drawer="true"] button,
+:root:not(.dark) [data-mobile-drawer="true"] span,
+:root:not(.dark) [data-mobile-drawer="true"] p {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
 h1, h2 {
   font-weight: 800;
   word-spacing: 0.03em;
@@ -939,4 +954,86 @@ button[role="combobox"].border-b[data-state="open"],
 .admission-form-root div.border-b:focus-within {
   border-bottom-color: #2864E8 !important;
   box-shadow: 0 1px 0 0 #2864E8 !important;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  body.admission-preview-open,
+  body.admission-preview-page {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.admission-preview-open > *:not([data-radix-portal]) {
+    display: none !important;
+  }
+
+  body.admission-preview-page header,
+  body.admission-preview-page footer,
+  body.admission-preview-page [data-preview-page-chrome="true"],
+  body.admission-preview-page [data-preview-toolbar="true"],
+  body.admission-preview-page .fixed {
+    display: none !important;
+  }
+
+  body.admission-preview-page main,
+  body.admission-preview-page [data-preview-page="true"] {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+
+  body.admission-preview-open [data-preview-dialog="true"] {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  body.admission-preview-open [data-preview-dialog="true"] > button,
+  body.admission-preview-open [data-preview-toolbar="true"] {
+    display: none !important;
+  }
+
+  body.admission-preview-open [data-preview-viewport="true"],
+  body.admission-preview-page [data-preview-viewport="true"] {
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    max-width: none !important;
+    background: #ffffff !important;
+  }
+
+  body.admission-preview-open [data-preview-scale-box="true"],
+  body.admission-preview-page [data-preview-scale-box="true"] {
+    width: 210mm !important;
+    height: auto !important;
+    box-shadow: none !important;
+    --tw-ring-shadow: 0 0 #0000 !important;
+    margin: 0 auto !important;
+  }
+
+  body.admission-preview-open [data-a4-preview="true"],
+  body.admission-preview-page [data-a4-preview="true"] {
+    transform: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }

@@ -24,6 +24,9 @@ interface Enquiry {
   guardianName: string;
   classCourse: string;
   mobile: string;
+  fatherPhone?: string;
+  motherPhone?: string;
+  studentPhone?: string;
   email: string;
   state: string;
   branch?: string;
@@ -137,8 +140,18 @@ export default function AdminEnquiriesPage() {
                     <TableRow key={enquiry.id}>
                       <TableCell className="font-medium">{enquiry.studentName}</TableCell>
                       <TableCell className="hidden sm:table-cell">
-                        <div className="text-xs">{enquiry.email || 'N/A'}</div>
-                        <div className="text-xs font-mono">{enquiry.mobile}</div>
+                        <div className="space-y-0.5 text-xs">
+                          {(enquiry.fatherPhone || enquiry.mobile) && (
+                            <div className="font-mono">F: +91 {enquiry.fatherPhone || enquiry.mobile}</div>
+                          )}
+                          {enquiry.motherPhone && (
+                            <div className="font-mono text-muted-foreground">M: +91 {enquiry.motherPhone}</div>
+                          )}
+                          {enquiry.studentPhone && (
+                            <div className="font-mono text-muted-foreground">S: +91 {enquiry.studentPhone}</div>
+                          )}
+                          <div className="text-muted-foreground">{enquiry.email || '—'}</div>
+                        </div>
                       </TableCell>
                       <TableCell className="hidden md:table-cell">{enquiry.classCourse}</TableCell>
                       <TableCell>

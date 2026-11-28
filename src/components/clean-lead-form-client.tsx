@@ -53,10 +53,20 @@ import {
 
 export type CleanLeadFormKind = 'demo' | 'enquiry' | 'scholarship';
 
+const optionalLeadPhone = (label: string) =>
+  z
+    .string()
+    .regex(/^\d{10}$/, { message: `Please enter a valid 10-digit ${label} contact number.` })
+    .optional()
+    .or(z.literal(''));
+
 const cleanLeadSchema = z.object({
   studentName: z.string().min(2, { message: 'Student name must be at least 2 characters.' }),
   guardianName: z.string().min(2, { message: 'Father / Guardian name is required.' }),
-  mobile: z.string().regex(/^\d{10}$/, { message: 'Please enter a valid 10-digit mobile number.' }),
+  fatherPhone: z.string().regex(/^\d{10}$/, { message: 'Please enter a valid 10-digit father contact number.' }),
+  motherPhone: optionalLeadPhone('mother'),
+  studentPhone: optionalLeadPhone('student'),
+  email: z.string().email({ message: 'Please enter a valid email address.' }).optional().or(z.literal('')),
   branch: z.string().min(1, { message: 'Please select a branch.' }),
   classCourse: z.string().min(1, { message: 'Please select a class or course.' }),
   programTitle: z.string().min(1, { message: 'Please select a title.' }),
@@ -103,7 +113,7 @@ const FORM_COPY: Record<
     title: 'Student Enquiry',
     subtitle: 'Ask about batches, admissions, or fees.',
     dataAttr: 'data-student-enquiry-card',
-    textPlaceholder: 'Which stream or subject are you enquiring for? *',
+    textPlaceholder: 'Stream / Subject(s) for Enquiry *',
     ctaLabel: 'SUBMIT ENQUIRY',
     loadingLabel: 'SUBMITTING...',
     successTitle: 'Enquiry Received!',
@@ -207,7 +217,10 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
     defaultValues: {
       studentName: '',
       guardianName: '',
-      mobile: '',
+      fatherPhone: '',
+      motherPhone: '',
+      studentPhone: '',
+      email: '',
       branch: initialDeepLink.branch,
       classCourse: initialDeepLink.classCourse,
       programTitle: initialDeepLink.programTitle,
@@ -352,7 +365,11 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
             mode: 'Offline',
             studentName: data.studentName,
             guardianName: data.guardianName,
-            mobile: data.mobile,
+            fatherPhone: data.fatherPhone,
+            motherPhone: data.motherPhone || '',
+            studentPhone: data.studentPhone || '',
+            mobile: data.fatherPhone,
+            email: data.email || '',
             branch: data.branch,
             class: data.classCourse,
             programTitle: data.programTitle,
@@ -365,7 +382,11 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
           ? await submitStudentEnquiry({
               studentName: data.studentName,
               guardianName: data.guardianName,
-              mobile: data.mobile,
+              fatherPhone: data.fatherPhone,
+              motherPhone: data.motherPhone || '',
+              studentPhone: data.studentPhone || '',
+              mobile: data.fatherPhone,
+              email: data.email || '',
               state: 'Delhi',
               branch: data.branch,
               classCourse: data.classCourse,
@@ -376,8 +397,11 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
               mode: 'Offline',
               studentName: data.studentName,
               guardianName: data.guardianName,
-              mobile: data.mobile,
-              email: '',
+              fatherPhone: data.fatherPhone,
+              motherPhone: data.motherPhone || '',
+              studentPhone: data.studentPhone || '',
+              mobile: data.fatherPhone,
+              email: data.email || '',
               state: 'Delhi',
               branch: data.branch,
               nearestBranch: data.branch,
@@ -392,7 +416,10 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
         form.reset({
           studentName: '',
           guardianName: '',
-          mobile: '',
+          fatherPhone: '',
+          motherPhone: '',
+          studentPhone: '',
+          email: '',
           branch: '',
           classCourse: '',
           programTitle: '',
@@ -461,22 +488,88 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
               />
             </div>
 
-            {/* Row 2: 3. Mobile Number & 4. Select Branch */}
+            {/* Row 2: 3. Father Contact & 4. Mother Contact (Optional) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <FormField
                 control={form.control}
-                name="mobile"
+                name="fatherPhone"
                 render={({ field }) => (
                   <FormItem className="space-y-0 text-left">
-                    <FormLabel className="sr-only">Mobile Number</FormLabel>
+                    <FormLabel className="sr-only">Father Contact</FormLabel>
                     <FormControl>
-                      <CleanMobileInput value={field.value} onDigitsChange={field.onChange} placeholder="Mobile Number *" />
+                      <CleanMobileInput
+                        value={field.value}
+                        onDigitsChange={field.onChange}
+                        placeholder="Father Contact *"
+                      />
                     </FormControl>
                     <FormMessage className={CLEAN_ERROR_CLASS} />
                   </FormItem>
                 )}
               />
 
+              <FormField
+                control={form.control}
+                name="motherPhone"
+                render={({ field }) => (
+                  <FormItem className="space-y-0 text-left">
+                    <FormLabel className="sr-only">Mother Contact (Optional)</FormLabel>
+                    <FormControl>
+                      <CleanMobileInput
+                        value={field.value || ''}
+                        onDigitsChange={field.onChange}
+                        placeholder="Mother Contact (Optional)"
+                      />
+                    </FormControl>
+                    <FormMessage className={CLEAN_ERROR_CLASS} />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Row 3: 5. Student Contact (Optional) & 6. Email Address (Optional) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+              <FormField
+                control={form.control}
+                name="studentPhone"
+                render={({ field }) => (
+                  <FormItem className="space-y-0 text-left">
+                    <FormLabel className="sr-only">Student Contact (Optional)</FormLabel>
+                    <FormControl>
+                      <CleanMobileInput
+                        value={field.value || ''}
+                        onDigitsChange={field.onChange}
+                        placeholder="Student Contact (Optional)"
+                      />
+                    </FormControl>
+                    <FormMessage className={CLEAN_ERROR_CLASS} />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-0 text-left">
+                    <FormLabel className="sr-only">Email Address (Optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Email Address (Optional)"
+                        {...field}
+                        value={field.value || ''}
+                        className={CLEAN_INPUT_CLASS}
+                      />
+                    </FormControl>
+                    <FormMessage className={CLEAN_ERROR_CLASS} />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Row 4: 7. Select Branch & 8. Class / Course */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <FormField
                 control={form.control}
                 name="branch"
@@ -522,10 +615,7 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
                   </FormItem>
                 )}
               />
-            </div>
 
-            {/* Row 3: 5. Class / Course & 6. Select Title */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
               <FormField
                 control={form.control}
                 name="classCourse"
@@ -570,7 +660,16 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
                   </FormItem>
                 )}
               />
+            </div>
 
+            {/* Row 5+: Select Title & Subject(s) */}
+            <div
+              className={cn(
+                subjectConfig.mode !== 'stream' && !isScholarship
+                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5'
+                  : 'space-y-4 sm:space-y-[18px]'
+              )}
+            >
               <FormField
                 control={form.control}
                 name="programTitle"
@@ -609,73 +708,74 @@ export default function CleanLeadFormClient({ formKind, initialCatalog }: CleanL
                   </FormItem>
                 )}
               />
-            </div>
 
-            {/* Row 4: 7. Subject(s) or Stream Subject Checkboxes (+ optional Previous Class % for Scholarship) */}
-            <div
-              className={cn(
-                isScholarship && subjectConfig.mode !== 'stream'
-                  ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5'
-                  : 'space-y-4 sm:space-y-[18px]'
-              )}
-            >
-              <FormField
-                control={form.control}
-                name="subjects"
-                render={({ field }) => (
-                  <FormItem className="space-y-0 text-left">
-                    <FormLabel className="sr-only">
-                      {subjectConfig.mode === 'stream' ? subjectConfig.heading : copy.textPlaceholder}
-                    </FormLabel>
-                    {subjectConfig.mode === 'stream' ? (
-                      <DemoSubjectSelector
-                        config={subjectConfig}
-                        selectedSubjects={selectedStreamSubjects}
-                        onChange={(next) => {
-                          setSelectedStreamSubjects(next);
-                          field.onChange(next.join(', '));
-                          if (next.length > 0) {
-                            form.clearErrors('subjects');
-                          }
-                        }}
-                        variant="underline"
-                      />
-                    ) : (
-                      <FormControl>
-                        <Input
-                          placeholder={copy.textPlaceholder}
-                          {...field}
-                          onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
-                          className={CLEAN_INPUT_CLASS}
-                        />
-                      </FormControl>
-                    )}
-                    <FormMessage className={CLEAN_ERROR_CLASS} />
-                  </FormItem>
+              <div
+                className={cn(
+                  isScholarship && subjectConfig.mode !== 'stream'
+                    ? 'grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5'
+                    : isScholarship
+                      ? 'space-y-4 sm:space-y-[18px]'
+                      : undefined
                 )}
-              />
-
-              {isScholarship && (
+              >
                 <FormField
                   control={form.control}
-                  name="previousScore"
+                  name="subjects"
                   render={({ field }) => (
                     <FormItem className="space-y-0 text-left">
-                      <FormLabel className="sr-only">Previous Class %</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Previous Class % (Optional)"
-                          {...field}
-                          value={field.value || ''}
-                          onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
-                          className={CLEAN_INPUT_CLASS}
+                      <FormLabel className="sr-only">
+                        {subjectConfig.mode === 'stream' ? subjectConfig.heading : copy.textPlaceholder}
+                      </FormLabel>
+                      {subjectConfig.mode === 'stream' ? (
+                        <DemoSubjectSelector
+                          config={subjectConfig}
+                          selectedSubjects={selectedStreamSubjects}
+                          onChange={(next) => {
+                            setSelectedStreamSubjects(next);
+                            field.onChange(next.join(', '));
+                            if (next.length > 0) {
+                              form.clearErrors('subjects');
+                            }
+                          }}
+                          variant="underline"
                         />
-                      </FormControl>
+                      ) : (
+                        <FormControl>
+                          <Input
+                            placeholder={copy.textPlaceholder}
+                            {...field}
+                            onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
+                            className={CLEAN_INPUT_CLASS}
+                          />
+                        </FormControl>
+                      )}
                       <FormMessage className={CLEAN_ERROR_CLASS} />
                     </FormItem>
                   )}
                 />
-              )}
+
+                {isScholarship && (
+                  <FormField
+                    control={form.control}
+                    name="previousScore"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Previous Class %</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Previous Class % (Optional)"
+                            {...field}
+                            value={field.value || ''}
+                            onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
+                            className={CLEAN_INPUT_CLASS}
+                          />
+                        </FormControl>
+                        <FormMessage className={CLEAN_ERROR_CLASS} />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
             </div>
 
             <div className="pt-1">

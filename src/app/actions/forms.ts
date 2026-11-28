@@ -9,20 +9,68 @@ import Razorpay from 'razorpay';
 import { uploadFileToGCS } from '@/lib/gcs';
 import { normalizeBranchId } from '@/lib/branch-utils';
 
-const freeSessionSchema = z.object({
-  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  guardianName: z.string().optional(),
-  classCourse: z.string().min(1, { message: "Please select a class or course." }),
-  programTitle: z.string().optional(),
-  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email().optional().or(z.literal('')),
-  state: z.string().optional(),
-  branch: z.string().optional(),
-  nearestBranch: z.string().optional().or(z.literal('')),
-  mode: z.string().optional(),
-  sessionMode: z.string().optional(),
-  subjects: z.string().optional(),
-});
+const optionalTenDigitPhoneSchema = z
+  .string()
+  .regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." })
+  .optional()
+  .or(z.literal(''));
+
+const optionalEmailSchema = z
+  .string()
+  .email({ message: "Please enter a valid email address." })
+  .optional()
+  .or(z.literal(''));
+
+function validatePrimaryContact(
+  data: { fatherPhone?: string; mobile?: string },
+  ctx: z.RefinementCtx
+) {
+  const resolvedMobile = (data.fatherPhone || data.mobile || '').trim();
+  if (!/^\d{10}$/.test(resolvedMobile)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Please enter a valid 10-digit father contact number.",
+      path: ['fatherPhone'],
+    });
+  }
+}
+
+function normalizeContactFields(data: {
+  fatherPhone?: string;
+  motherPhone?: string;
+  studentPhone?: string;
+  mobile?: string;
+  email?: string;
+}) {
+  const fatherPhone = (data.fatherPhone || data.mobile || '').trim();
+  return {
+    fatherPhone,
+    motherPhone: data.motherPhone?.trim() || '',
+    studentPhone: data.studentPhone?.trim() || '',
+    mobile: fatherPhone,
+    email: data.email?.trim() || '',
+  };
+}
+
+const freeSessionSchema = z
+  .object({
+    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    guardianName: z.string().optional(),
+    classCourse: z.string().min(1, { message: "Please select a class or course." }),
+    programTitle: z.string().optional(),
+    fatherPhone: optionalTenDigitPhoneSchema,
+    motherPhone: optionalTenDigitPhoneSchema,
+    studentPhone: optionalTenDigitPhoneSchema,
+    mobile: optionalTenDigitPhoneSchema,
+    email: optionalEmailSchema,
+    state: z.string().optional(),
+    branch: z.string().optional(),
+    nearestBranch: z.string().optional().or(z.literal('')),
+    mode: z.string().optional(),
+    sessionMode: z.string().optional(),
+    subjects: z.string().optional(),
+  })
+  .superRefine(validatePrimaryContact);
 type FreeSessionValues = z.infer<typeof freeSessionSchema>;
 
 export async function bookFreeSession(data: FreeSessionValues) {
@@ -41,9 +89,11 @@ export async function bookFreeSession(data: FreeSessionValues) {
     const formattedClassCourse = trimmedTitle
       ? `${validation.data.classCourse} — ${trimmedTitle}`
       : validation.data.classCourse;
+    const contactFields = normalizeContactFields(validation.data);
 
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
+      ...contactFields,
       classCourse: formattedClassCourse,
       ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
       ...(normalizedMode ? { mode: normalizedMode, sessionMode: normalizedMode.toLowerCase() } : {}),
@@ -59,22 +109,60 @@ export async function bookFreeSession(data: FreeSessionValues) {
   }
 }
 
-const scholarshipSchema = z.object({
-  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  guardianName: z.string().min(2, { message: "Guardian name is required." }),
-  class: z.string().min(1, { message: "Please select a class." }),
-  programTitle: z.string().optional(),
-  subjects: z.string().optional(),
-  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  otp: z.string().optional(),
-  country: z.string().optional().default('India'),
-  state: z.string().optional().default('Delhi'),
-  city: z.string().optional(),
-  branch: z.string().optional(),
-  branchId: z.string().optional(),
-  mode: z.string().optional().default('Offline'),
-  message: z.string().optional(),
-});
+const scholarshipSchema = z
+  .object({
+    registrationId: z.string().optional().or(z.literal('')),
+    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    fatherName: z.string().min(2, { message: "Father name is required." }).optional().or(z.literal('')),
+    guardianName: z.string().min(2, { message: "Guardian name is required." }).optional().or(z.literal('')),
+    fatherOccupation: z.string().optional().or(z.literal('')),
+    motherName: z.string().optional().or(z.literal('')),
+    motherOccupation: z.string().optional().or(z.literal('')),
+    dob: z.string().optional().or(z.literal('')),
+    gender: z.string().optional().or(z.literal('')),
+    class: z.string().min(1, { message: "Please select a class." }),
+    programTitle: z.string().optional().or(z.literal('')),
+    subjects: z.string().optional().or(z.literal('')),
+    fatherPhone: optionalTenDigitPhoneSchema,
+    motherPhone: optionalTenDigitPhoneSchema,
+    studentPhone: optionalTenDigitPhoneSchema,
+    mobile: optionalTenDigitPhoneSchema,
+    email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
+    address: z.string().optional().or(z.literal('')),
+    previousSchool: z.string().optional().or(z.literal('')),
+    previousSubjects: z.string().optional().or(z.literal('')),
+    previousMarks: z.string().optional().or(z.literal('')),
+    scholarshipReason: z.string().optional().or(z.literal('')),
+    feeAmount: z.number().optional(),
+    paymentStatus: z.string().optional().or(z.literal('')),
+    transactionId: z.string().optional().or(z.literal('')),
+    otp: z.string().optional(),
+    country: z.string().optional().default('India'),
+    state: z.string().optional().default('Delhi'),
+    city: z.string().optional(),
+    branch: z.string().optional(),
+    branchId: z.string().optional(),
+    mode: z.string().optional().default('Offline'),
+    message: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    const resolvedGuardian = (data.guardianName || data.fatherName || '').trim();
+    const resolvedMobile = (data.mobile || data.fatherPhone || '').trim();
+    if (resolvedGuardian.length < 2) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Father / Guardian name must be at least 2 characters.",
+        path: ['fatherName'],
+      });
+    }
+    if (!/^\d{10}$/.test(resolvedMobile)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Please enter a valid 10-digit contact number.",
+        path: ['fatherPhone'],
+      });
+    }
+  });
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 
 export async function registerForScholarship(data: ScholarshipFormValues) {
@@ -84,22 +172,49 @@ export async function registerForScholarship(data: ScholarshipFormValues) {
     }
 
     try {
-        const trimmedTitle = validation.data.programTitle?.trim() || '';
-        const trimmedSubjects = validation.data.subjects?.trim() || '';
+        const d = validation.data;
+        const trimmedTitle = d.programTitle?.trim() || '';
+        const trimmedSubjects = d.subjects?.trim() || '';
         const formattedClass = trimmedTitle
-            ? `${validation.data.class} — ${trimmedTitle}`
-            : validation.data.class;
-        const normalizedBranchId = normalizeBranchId(validation.data.branchId || validation.data.branch);
+            ? `${d.class} — ${trimmedTitle}`
+            : d.class;
+        const normalizedBranchId = normalizeBranchId(d.branchId || d.branch);
+        const resolvedGuardian = (d.guardianName || d.fatherName || '').trim();
+        const resolvedMobile = (d.mobile || d.fatherPhone || '').trim();
+        const summaryParts = [
+          d.previousMarks?.trim() ? `Marks: ${d.previousMarks.trim()}` : '',
+          d.previousSubjects?.trim() ? `Studied: ${d.previousSubjects.trim()}` : '',
+          d.scholarshipReason?.trim() ? `Purpose: ${d.scholarshipReason.trim()}` : '',
+        ].filter(Boolean);
+        const resolvedMessage = (d.message?.trim() || summaryParts.join(' • ')).trim();
+        const resolvedFeeAmount = typeof d.feeAmount === 'number' && !isNaN(d.feeAmount) ? d.feeAmount : 0;
+        const resolvedPaymentStatus = d.paymentStatus?.trim() || (resolvedFeeAmount <= 0 ? 'free_waived' : 'paid');
+        const resolvedTransactionId = d.transactionId?.trim() || (resolvedFeeAmount <= 0 ? 'FREE-WAIVER-0' : 'N/A');
+        const resolvedRegistrationId =
+          d.registrationId?.trim() || `SCH-${format(new Date(), 'ddMMyy')}-${Date.now().toString().slice(-3)}`;
 
         await addDoc(collection(db, "scholarshipRegistrations"), {
-            ...validation.data,
+            ...d,
+            registrationId: resolvedRegistrationId,
+            fatherName: (d.fatherName || resolvedGuardian).trim(),
+            guardianName: resolvedGuardian,
+            fatherPhone: (d.fatherPhone || resolvedMobile).trim(),
+            mobile: resolvedMobile,
             class: formattedClass,
+            feeAmount: resolvedFeeAmount,
+            paymentStatus: resolvedPaymentStatus,
+            transactionId: resolvedTransactionId,
             ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
             ...(trimmedSubjects ? { subjects: trimmedSubjects } : {}),
+            ...(resolvedMessage ? { message: resolvedMessage } : {}),
             ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
             createdAt: serverTimestamp(),
         });
-        return { success: true, message: "You have successfully registered for the scholarship!" };
+        return {
+          success: true,
+          message: "You have successfully registered for the scholarship!",
+          registrationId: resolvedRegistrationId,
+        };
     } catch (error) {
         console.error("Error registering for scholarship:", error);
         return { success: false, message: "Registration failed. Please try again later." };
@@ -196,17 +311,23 @@ export async function submitFeedback(data: FeedbackFormValues) {
   }
 }
 
-const enquirySchema = z.object({
-  studentName: z.string().min(2),
-  guardianName: z.string().min(2),
-  classCourse: z.string().min(1),
-  programTitle: z.string().optional(),
-  mobile: z.string().regex(/^\d{10}$/),
-  state: z.string().optional().default('Delhi'),
-  branch: z.string().optional(),
-  mode: z.string().optional(),
-  message: z.string().min(2),
-});
+const enquirySchema = z
+  .object({
+    studentName: z.string().min(2),
+    guardianName: z.string().min(2),
+    classCourse: z.string().min(1),
+    programTitle: z.string().optional(),
+    fatherPhone: optionalTenDigitPhoneSchema,
+    motherPhone: optionalTenDigitPhoneSchema,
+    studentPhone: optionalTenDigitPhoneSchema,
+    mobile: optionalTenDigitPhoneSchema,
+    email: optionalEmailSchema,
+    state: z.string().optional().default('Delhi'),
+    branch: z.string().optional(),
+    mode: z.string().optional(),
+    message: z.string().min(2),
+  })
+  .superRefine(validatePrimaryContact);
 
 type EnquiryFormValues = z.infer<typeof enquirySchema>;
 
@@ -222,9 +343,11 @@ export async function submitStudentEnquiry(data: EnquiryFormValues) {
       ? `${validation.data.classCourse} — ${trimmedTitle}`
       : validation.data.classCourse;
     const normalizedBranchId = normalizeBranchId(validation.data.branch);
+    const contactFields = normalizeContactFields(validation.data);
 
     await addDoc(collection(db, "studentEnquiries"), {
       ...validation.data,
+      ...contactFields,
       classCourse: formattedClassCourse,
       ...(trimmedTitle ? { programTitle: trimmedTitle } : {}),
       ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
@@ -260,12 +383,14 @@ export async function submitAdmissionForm(formData: FormData) {
         motherPhone: rawFormData.motherPhone as string || '',
         parentEmail: rawFormData.parentEmail as string || '',
         address: rawFormData.address as string,
-        city: rawFormData.city as string || '',
-        pincode: rawFormData.pincode as string,
-        state: rawFormData.state as string,
+        city: (rawFormData.city as string) || '',
+        pincode: (rawFormData.pincode as string) || '',
+        state: (rawFormData.state as string) || '',
         emergencyContact: rawFormData.emergencyContact as string || '',
         classApplied: rawFormData.classApplied as string,
         board: rawFormData.board as string || '',
+        medium: rawFormData.medium as string || '',
+        mode: rawFormData.mode as string || 'Offline Classroom',
         program: rawFormData.program as string || '',
         previousSchool: rawFormData.previousSchool as string || '',
         previousClass: rawFormData.previousClass as string || '',
@@ -274,7 +399,10 @@ export async function submitAdmissionForm(formData: FormData) {
         scholarshipTest: rawFormData.scholarshipTest as string || '',
         additionalInfo: rawFormData.additionalInfo as string || '',
         branch: rawFormData.branch as string,
-        admissionSession: rawFormData.admissionSession as string || '2026–27',
+        admissionSession: rawFormData.admissionSession as string || '2026-2027',
+        acceptedTerms: rawFormData.acceptedTerms === 'true',
+        feeAmount: Number(rawFormData.feeAmount ?? 0) || 0,
+        paymentStatus: (rawFormData.paymentStatus as string) || 'free_waived',
         transactionId: rawFormData.transactionId as string || 'N/A',
     };
     
@@ -434,6 +562,32 @@ export async function getNextStudentId() {
   } catch (error) {
     console.error("Error generating next student ID:", error);
     return { success: false, message: "Failed to generate student ID." };
+  }
+}
+
+export async function getNextScholarshipId() {
+  try {
+    const datePrefix = format(new Date(), 'ddMMyy');
+    const scholarshipQuery = query(
+      collection(db, "scholarshipRegistrations"),
+      orderBy("createdAt", "desc"),
+      limit(1)
+    );
+    const querySnapshot = await getDocs(scholarshipQuery);
+    let nextSequence = 101;
+    if (!querySnapshot.empty) {
+      const lastDoc = querySnapshot.docs[0].data();
+      const lastId = String(lastDoc.registrationId || '');
+      const parts = lastId.split('-');
+      const seqNum = parseInt(parts[parts.length - 1] || '', 10);
+      if (!isNaN(seqNum)) {
+        nextSequence = seqNum + 1;
+      }
+    }
+    return { success: true, registrationId: `SCH-${datePrefix}-${nextSequence}` };
+  } catch (error) {
+    console.error("Error generating next scholarship ID:", error);
+    return { success: false, message: "Failed to generate scholarship registration ID." };
   }
 }
 

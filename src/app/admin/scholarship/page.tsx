@@ -15,19 +15,37 @@ import { CANONICAL_BRANCHES, getBranchDisplayName, normalizeBranchId, recordMatc
 
 interface Registration {
   id: string;
+  registrationId?: string;
   studentName: string;
+  fatherName?: string;
   guardianName: string;
+  fatherOccupation?: string;
+  motherName?: string;
+  motherOccupation?: string;
+  dob?: string;
+  gender?: string;
   class: string;
   programTitle?: string;
   subjects?: string;
+  previousSchool?: string;
+  previousSubjects?: string;
+  previousMarks?: string;
+  scholarshipReason?: string;
   message?: string;
   mobile: string;
+  fatherPhone?: string;
+  motherPhone?: string;
+  studentPhone?: string;
+  email?: string;
+  address?: string;
   mode?: string;
   state?: string;
   city?: string;
   branch?: string;
   branchId?: string;
   branchName?: string;
+  feeAmount?: number;
+  paymentStatus?: string;
   createdAt: string;
 }
 
@@ -154,8 +172,18 @@ export default function AdminScholarshipPage() {
 
   const formatDetailsLabel = (reg: Registration) => {
     const details: string[] = [];
-    if (reg.subjects && reg.subjects.trim()) details.push(reg.subjects.trim());
-    if (reg.message && reg.message.trim()) details.push(`Score: ${reg.message.trim()}`);
+    if (reg.previousSchool?.trim()) details.push(reg.previousSchool.trim());
+    if (reg.previousSubjects?.trim()) {
+      details.push(`Studied: ${reg.previousSubjects.trim()}`);
+    } else if (reg.subjects?.trim()) {
+      details.push(reg.subjects.trim());
+    }
+    if (reg.previousMarks?.trim()) {
+      details.push(`Marks: ${reg.previousMarks.trim()}`);
+    } else if (reg.message?.trim()) {
+      details.push(reg.message.trim());
+    }
+    if (reg.scholarshipReason?.trim()) details.push(`Purpose: ${reg.scholarshipReason.trim()}`);
     if (details.length > 0) return details.join(' • ');
     const legacy = [reg.city, reg.state].filter((p) => Boolean(p && p.trim()));
     return legacy.length > 0 ? legacy.join(', ') : '—';
@@ -232,22 +260,48 @@ export default function AdminScholarshipPage() {
                   filteredRegistrations.map((reg) => (
                     <TableRow key={reg.id}>
                       <TableCell className="font-medium">
-                        <div>{reg.studentName}</div>
-                        {reg.mode && (
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span>{reg.studentName}</span>
+                          {reg.registrationId && (
+                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                              {reg.registrationId}
+                            </span>
+                          )}
+                        </div>
+                        {(reg.dob || reg.gender || reg.mode) && (
                           <div className="text-[11px] font-normal text-muted-foreground">
-                            Mode: {reg.mode}
+                            {[reg.dob && `DOB: ${reg.dob}`, reg.gender && reg.gender.toUpperCase(), reg.mode && `Mode: ${reg.mode}`]
+                              .filter(Boolean)
+                              .join(' • ')}
                           </div>
                         )}
                       </TableCell>
-                      <TableCell className="hidden sm:table-cell">{reg.guardianName}</TableCell>
+                      <TableCell className="hidden sm:table-cell">
+                        <div>{reg.fatherName || reg.guardianName}</div>
+                        {(reg.fatherOccupation || reg.motherName) && (
+                          <div className="text-[11px] text-muted-foreground">
+                            {[reg.fatherOccupation, reg.motherName && `Mother: ${reg.motherName}`].filter(Boolean).join(' • ')}
+                          </div>
+                        )}
+                      </TableCell>
                       <TableCell className="hidden md:table-cell">{reg.class}</TableCell>
-                      <TableCell className="hidden lg:table-cell font-mono text-xs">{reg.mobile}</TableCell>
+                      <TableCell className="hidden lg:table-cell font-mono text-xs">
+                        <div>{reg.fatherPhone || reg.mobile}</div>
+                        {(reg.studentPhone || reg.email) && (
+                          <div className="text-[10.5px] font-sans text-muted-foreground truncate max-w-[180px]">
+                            {[reg.studentPhone, reg.email].filter(Boolean).join(' • ')}
+                          </div>
+                        )}
+                      </TableCell>
                       <TableCell>
                         <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
                           {formatBranchLabel(reg)}
                         </span>
+                        {reg.address && (
+                          <div className="text-[11px] text-muted-foreground max-w-[200px] truncate">{reg.address}</div>
+                        )}
                       </TableCell>
-                      <TableCell className="hidden xl:table-cell">{formatDetailsLabel(reg)}</TableCell>
+                      <TableCell className="hidden xl:table-cell max-w-[260px] whitespace-normal">{formatDetailsLabel(reg)}</TableCell>
                       <TableCell>
                         {reg.createdAt ? format(new Date(reg.createdAt), 'PPp') : 'N/A'}
                       </TableCell>
